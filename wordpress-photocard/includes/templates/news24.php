@@ -1,16 +1,7 @@
 <?php
 /**
- * News24 Template - Uses actual background image
- * 
- * Layout:
- * - Background image (news24-bg.png) with world map pattern at bottom
- * - Post image fills top ~60% area (white area of bg)
- * - Logo at top corner
- * - Dark gradient merges image into the bg pattern
- * - Date badge above title
- * - Title: Golden/Yellow bold text
- * - ">> বিস্তারিত কমেন্টে <<" below title
- * - Social bar at bottom
+ * News24 Template - Background image handles all decorative elements
+ * Just position: image, logo, date, title, details, social links
  */
 if (!defined('ABSPATH')) exit;
 
@@ -21,13 +12,13 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #0a0a14;">
     
-    <!-- Background Template Image (world map pattern) -->
-    <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
+    <!-- Post Featured Image - behind the background -->
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 65%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
 
-    <!-- Post Featured Image - fills the white/top area -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 65%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
+    <!-- Background Template Image (world map pattern) - on top -->
+    <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
 
-    <!-- Gradient to blend post image into background pattern -->
+    <!-- Gradient to blend post image into background -->
     <div style="position: absolute; top: 0; left: 0; right: 0; height: 65%; background: linear-gradient(to top, rgba(80,0,10,0.95) 0%, rgba(60,0,10,0.7) 8%, rgba(40,0,5,0.4) 20%, transparent 40%); z-index: 3;"></div>
 
     <!-- Logo -->

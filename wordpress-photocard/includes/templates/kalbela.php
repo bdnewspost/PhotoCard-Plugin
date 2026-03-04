@@ -1,15 +1,7 @@
 <?php
 /**
- * Kalbela Template - Uses actual background image
- * 
- * Layout:
- * - Background image (kalbela-bg.png) with red angular shapes and world map pattern
- * - Post image fills the white/center area
- * - Logo at top corner on the red angular area
- * - Date on opposite side
- * - Title: Large WHITE bold text on the red/map area below image
- * - "❮❮ নিউজ লিংক কমেন্টে ❯❯" golden text
- * - Social links at bottom
+ * Kalbela Template - Background image handles all decorative elements
+ * Just position: image, logo, date, title, details, social links
  */
 if (!defined('ABSPATH')) exit;
 
@@ -19,70 +11,27 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: <?php echo esc_attr($kalbela_bg); ?>;">
     
-    <!-- Background Template Image (angular shapes + world map) -->
-    <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
+    <!-- Post Featured Image - behind the background frame -->
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 62%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
 
-    <!-- Post Featured Image - positioned in the white/center area -->
-    <!-- Based on the bg: white area is roughly top:5% to 55%, left:5% to 92% (accounting for angular cuts) -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 58%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
+    <!-- Background Template Image (angular frame + world map) - on top to frame the image -->
+    <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
 
-    <!-- The angular red shapes from the background image will naturally overlay because the bg image is on top layer for edges -->
-    <!-- We need to re-create the angular mask effect so the bg angular shapes show over the post image -->
-    
-    <!-- Top-left angular red shape overlay -->
-    <div style="position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none;">
-        <svg width="380" height="350" viewBox="0 0 380 350" style="display: block;">
-            <polygon points="0,0 0,350 320,0" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-        </svg>
+    <!-- Date - Top Left -->
+    <?php if ($enable_date): ?>
+    <div style="position: absolute; top: 25px; left: 30px; z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+        <?php echo esc_html($formatted_date); ?>
     </div>
-
-    <!-- Top-right angular red shape overlay -->
-    <div style="position: absolute; top: 0; right: 0; z-index: 3; pointer-events: none;">
-        <svg width="200" height="180" viewBox="0 0 200 180" style="display: block;">
-            <polygon points="40,0 200,0 200,180" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-        </svg>
-    </div>
-
-    <!-- Bottom-left angular red shape (transition to map area) -->
-    <div style="position: absolute; bottom: 420; left: 0; z-index: 3; pointer-events: none;">
-        <svg width="120" height="100" viewBox="0 0 120 100" style="display: block;">
-            <polygon points="0,0 0,100 120,100" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-        </svg>
-    </div>
-
-    <!-- Bottom-right angular red shape (transition to map area) -->
-    <div style="position: absolute; right: 0; z-index: 3; pointer-events: none; top: 520px;">
-        <svg width="120" height="100" viewBox="0 0 120 100" style="display: block;">
-            <polygon points="120,0 0,100 120,100" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-        </svg>
-    </div>
-
-    <!-- Logo positioned over the red angular area -->
-    <?php if ($logo_position === 'right'): ?>
-        <?php if ($enable_date): ?>
-        <div style="position: absolute; top: 25px; left: 30px; z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
-            <?php echo esc_html($formatted_date); ?>
-        </div>
-        <?php endif; ?>
-        <?php if ($enable_logo && !empty($watermark_logo)): ?>
-        <div style="position: absolute; top: 20px; right: 25px; z-index: 10;">
-            <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 90px; width: auto; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));" crossorigin="anonymous">
-        </div>
-        <?php endif; ?>
-    <?php else: ?>
-        <?php if ($enable_logo && !empty($watermark_logo)): ?>
-        <div style="position: absolute; top: 20px; left: 25px; z-index: 10;">
-            <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 90px; width: auto; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));" crossorigin="anonymous">
-        </div>
-        <?php endif; ?>
-        <?php if ($enable_date): ?>
-        <div style="position: absolute; top: 25px; right: 30px; z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
-            <?php echo esc_html($formatted_date); ?>
-        </div>
-        <?php endif; ?>
     <?php endif; ?>
 
-    <!-- Bottom Content: Title + Details + Social (over the world map area) -->
+    <!-- Logo - Top Right -->
+    <?php if ($enable_logo && !empty($watermark_logo)): ?>
+    <div style="position: absolute; top: 20px; <?php echo ($logo_position === 'left') ? 'left: 25px;' : (($logo_position === 'center') ? 'left: 50%; transform: translateX(-50%);' : 'right: 25px;'); ?> z-index: 10;">
+        <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 90px; width: auto; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));" crossorigin="anonymous">
+    </div>
+    <?php endif; ?>
+
+    <!-- Bottom Content Area -->
     <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column;">
 
         <!-- Title -->
