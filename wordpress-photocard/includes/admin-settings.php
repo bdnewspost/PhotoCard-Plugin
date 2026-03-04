@@ -5,11 +5,27 @@ if (!defined('ABSPATH')) {
 
 add_action('admin_menu', 'pcd_add_admin_menu');
 
+function pcd_get_settings_capability() {
+    $options = get_option('pcd_settings');
+    $role = isset($options['settings_access_role']) ? $options['settings_access_role'] : 'admin';
+
+    switch ($role) {
+        case 'author':
+            return 'publish_posts';
+        case 'editor':
+            return 'edit_others_posts';
+        case 'admin':
+        default:
+            return 'manage_options';
+    }
+}
+
 function pcd_add_admin_menu() {
+    $capability = pcd_get_settings_capability();
     add_options_page(
         'Photocard Generator Settings',
         'Photocard Generator',
-        'manage_options',
+        $capability,
         'photocard-downloader',
         'pcd_settings_page'
     );
