@@ -670,7 +670,7 @@ function pcd_settings_page() {
         $('#photocard_template').on('change', function() {
             var template = $(this).val();
             if (template !== 'custom') {
-                var names = {'classic':'ক্লাসিক','modern':'মডার্ন','elegant':'এলিগ্যান্ট','minimal':'মিনিমাল','news24':'News24'};
+                var names = {'classic':'ক্লাসিক','modern':'মডার্ন','elegant':'এলিগ্যান্ট','minimal':'মিনিমাল','kalbela':'কালবেলা','news24':'News24'};
                 if (!confirm(names[template] + ' টেমপ্লেট নির্বাচন করেছেন। এগিয়ে যেতে চান?')) {
                     $(this).val($(this).data('previous-value'));
                 }
