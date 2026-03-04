@@ -3,7 +3,7 @@
  * Plugin Name: Photocard Generator
  * Plugin URI: https://hostercube.com
  * Description: এই প্লাগইন যা পোস্টের থাম্বনেইল থেকে ফটোকার্ড ডাউনলোড করার সুবিধা দেয়
- * Version: 1.1.0
+ * Version: 1.0.2
  * Author: HosterCube Ltd.
  * Author URI: https://hostercube.com
  * License: GPL v2 or later
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('PCD_VERSION', '1.1.0');
+define('PCD_VERSION', '1.0.2');
 define('PCD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PCD_PLUGIN_URL', plugin_dir_url(__FILE__));
 
@@ -179,9 +179,7 @@ add_action('wp_enqueue_scripts', 'pcd_frontend_enqueue_scripts');
 
 function pcd_frontend_enqueue_scripts() {
     if (is_single() || (isset($_GET['pcd_editor']) && $_GET['pcd_editor'] == '1')) {
-        // FIX: Load ALL available Google Fonts, not just Noto Sans Bengali
-        $google_fonts_url = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla:wght@400;700&display=swap';
-        wp_enqueue_style('pcd-google-fonts', $google_fonts_url, array(), PCD_VERSION);
+        wp_enqueue_style('pcd-google-fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap', array(), PCD_VERSION);
 
         wp_enqueue_style('pcd-frontend-style', PCD_PLUGIN_URL . 'assets/css/frontend-style.css', array(), PCD_VERSION);
         wp_enqueue_script('html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', array(), '1.4.1', true);

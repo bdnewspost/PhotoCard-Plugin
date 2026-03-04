@@ -7,9 +7,6 @@ add_action('template_redirect', 'pcd_handle_editor_page');
 
 function pcd_handle_editor_page() {
     if (isset($_GET['pcd_editor']) && $_GET['pcd_editor'] == '1' && isset($_GET['post_id'])) {
-        if (!pcd_can_user_download()) {
-            wp_die('আপনার এই ফটোকার্ড দেখার অনুমতি নেই।', 'অ্যাক্সেস নিষেধ', array('response' => 403));
-        }
         pcd_load_editor_template();
         exit;
     }

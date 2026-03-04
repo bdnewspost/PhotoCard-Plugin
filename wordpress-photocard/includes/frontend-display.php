@@ -49,10 +49,6 @@ function pcd_add_download_button($content) {
     return $content;
 }
 
-/**
- * FIX: Check if user has permission to download/view photocard
- * Now also used in editor page for access control
- */
 function pcd_can_user_download() {
     $options = get_option('pcd_settings');
     $permission = isset($options['download_permission']) ? $options['download_permission'] : 'everyone';
@@ -64,13 +60,8 @@ function pcd_can_user_download() {
         case 'logged_in':
             return is_user_logged_in();
 
-        case 'author':
-            // FIX: Added author level - minimum Author role
-            return current_user_can('publish_posts');
-
         case 'editor':
-            // FIX: Changed to edit_others_posts which is Editor+ only (not Author)
-            return current_user_can('edit_others_posts');
+            return current_user_can('edit_posts');
 
         case 'admin':
             return current_user_can('manage_options');
