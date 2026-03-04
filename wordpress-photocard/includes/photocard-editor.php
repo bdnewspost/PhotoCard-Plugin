@@ -22,6 +22,7 @@ function pcd_load_editor_template() {
 
     $options = get_option('pcd_settings');
     $post_title = get_the_title($post_id);
+    $post_date = get_the_date('', $post_id);
     $current_date_obj = get_the_date('Y-m-d', $post_id);
     $day_of_week = date_i18n('l', strtotime($current_date_obj));
     $current_date = date_i18n('d F Y', strtotime($current_date_obj));
@@ -31,16 +32,17 @@ function pcd_load_editor_template() {
     $template = isset($options['photocard_template']) ? $options['photocard_template'] : 'custom';
     $language = isset($options['photocard_language']) ? $options['photocard_language'] : 'bengali';
 
-    // All settings
     $thumbnail_border_radius_top_left = isset($options['thumbnail_border_radius_top_left']) ? $options['thumbnail_border_radius_top_left'] : 5;
     $thumbnail_border_radius_top_right = isset($options['thumbnail_border_radius_top_right']) ? $options['thumbnail_border_radius_top_right'] : 5;
     $thumbnail_border_radius_bottom_left = isset($options['thumbnail_border_radius_bottom_left']) ? $options['thumbnail_border_radius_bottom_left'] : 5;
     $thumbnail_border_radius_bottom_right = isset($options['thumbnail_border_radius_bottom_right']) ? $options['thumbnail_border_radius_bottom_right'] : 5;
+
     $thumbnail_border_width_top = isset($options['thumbnail_border_width_top']) ? $options['thumbnail_border_width_top'] : 3;
     $thumbnail_border_width_right = isset($options['thumbnail_border_width_right']) ? $options['thumbnail_border_width_right'] : 3;
     $thumbnail_border_width_bottom = isset($options['thumbnail_border_width_bottom']) ? $options['thumbnail_border_width_bottom'] : 3;
     $thumbnail_border_width_left = isset($options['thumbnail_border_width_left']) ? $options['thumbnail_border_width_left'] : 3;
     $thumbnail_border_color = isset($options['thumbnail_border_color']) ? $options['thumbnail_border_color'] : '#ffffff';
+
     $thumbnail_shadow = isset($options['thumbnail_shadow']) ? $options['thumbnail_shadow'] : 'medium';
     $card_padding = isset($options['card_padding']) ? $options['card_padding'] : 0;
     $image_quality = isset($options['image_quality']) ? $options['image_quality'] : 4;
@@ -69,7 +71,7 @@ function pcd_load_editor_template() {
         $button_text_color = $template_defaults['button_text_color'];
         $gradient_color_1 = $template_defaults['gradient_color_1'];
         $gradient_color_2 = $template_defaults['gradient_color_2'];
-        $enable_gradient = isset($template_defaults['enable_gradient']) ? $template_defaults['enable_gradient'] : false;
+        $enable_gradient = false;
     } else {
         $frame_color = isset($options['frame_color']) ? $options['frame_color'] : $template_defaults['frame_color'];
         $text_color = isset($options['text_color']) ? $options['text_color'] : $template_defaults['text_color'];
@@ -89,7 +91,8 @@ function pcd_load_editor_template() {
     $show_details_button = isset($options['show_details_button']) ? $options['show_details_button'] : true;
     $details_button_text = isset($options['details_button_text']) ? $options['details_button_text'] : 'বিস্তারিত কমেন্ট';
     $default_font_size = isset($options['default_font_size']) ? $options['default_font_size'] : 42;
-    $default_line_height = isset($options['default_line_height']) ? $options['default_line_height'] : 1.3;
+    $default_line_height = isset($options['default_line_height']) ? $options['default_line_height'] : 1.5;
+
     $show_border = isset($options['show_border']) ? $options['show_border'] : true;
     $gradient_direction = isset($options['gradient_direction']) ? $options['gradient_direction'] : 'to right';
     $logo_position = isset($options['logo_position']) ? $options['logo_position'] : 'left';
@@ -125,12 +128,43 @@ function pcd_load_editor_template() {
 
     $formatted_date = pcd_format_date_by_language($current_date, $day_of_week, $language);
 
+    $background_style = ($template === 'custom' && $enable_gradient)
+        ? "background: linear-gradient({$gradient_direction}, {$gradient_color_1}, {$gradient_color_2});"
+        : "background: {$bg_color};";
+
     $template_class = 'pcd-template-' . $template;
 
     // Determine if this is a special template
     $is_kalbela = ($template === 'kalbela');
     $is_news24 = ($template === 'news24');
     $is_special_template = ($is_kalbela || $is_news24);
+
+    // Image container style for generic templates
+    $image_container_style = "flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;";
+    $image_container_style .= " box-shadow: {$thumbnail_shadow_style};";
+    $image_container_style .= " border-radius: {$thumbnail_border_radius_top_left}px {$thumbnail_border_radius_top_right}px {$thumbnail_border_radius_bottom_right}px {$thumbnail_border_radius_bottom_left}px;";
+    $image_container_style .= " background: white;";
+    $image_container_style .= " padding: {$thumbnail_padding}px;";
+    $image_container_style .= " min-height: 0;";
+
+    if ($thumbnail_border_width_top > 0 || $thumbnail_border_width_right > 0 || $thumbnail_border_width_bottom > 0 || $thumbnail_border_width_left > 0) {
+        $image_container_style .= " border-style: solid;";
+        $image_container_style .= " border-color: {$thumbnail_border_color};";
+        $image_container_style .= " border-top-width: {$thumbnail_border_width_top}px;";
+        $image_container_style .= " border-right-width: {$thumbnail_border_width_right}px;";
+        $image_container_style .= " border-bottom-width: {$thumbnail_border_width_bottom}px;";
+        $image_container_style .= " border-left-width: {$thumbnail_border_width_left}px;";
+    }
+    $image_container_style .= " box-sizing: border-box;";
+
+    $main_image_style = "max-width: 100%; max-height: 100%; width: 100%; height: 100%; display: block; object-fit: cover;";
+    $main_image_style .= " border-radius: " . max(0, $thumbnail_border_radius_top_left - $thumbnail_padding) . "px ";
+    $main_image_style .= max(0, $thumbnail_border_radius_top_right - $thumbnail_padding) . "px ";
+    $main_image_style .= max(0, $thumbnail_border_radius_bottom_right - $thumbnail_padding) . "px ";
+    $main_image_style .= max(0, $thumbnail_border_radius_bottom_left - $thumbnail_padding) . "px;";
+
+    // Default title alignment
+    $title_alignment = isset($options['title_alignment']) ? $options['title_alignment'] : 'center';
 
     ?>
     <!DOCTYPE html>
@@ -139,23 +173,23 @@ function pcd_load_editor_template() {
         <meta charset="<?php bloginfo('charset'); ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Automatic Photocard - <?php echo esc_html($post_title); ?></title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla:wght@400;700&display=swap" rel="stylesheet">
         <?php if (!empty($custom_css)): ?>
-        <style><?php echo wp_strip_all_tags($custom_css); ?></style>
+        <style>
+            <?php echo $custom_css; ?>
+        </style>
         <?php endif; ?>
         <?php wp_head(); ?>
     </head>
     <body class="pcd-editor-page">
         <div class="pcd-editor-container">
             <h1 class="pcd-editor-title">Automatic Photocard</h1>
+
             <div class="pcd-editor-content">
                 <div id="pcd-photocard-preview" class="pcd-photocard-wrapper">
                     <div class="pcd-photocard-with-border <?php echo esc_attr($template_class); ?>" style="position: relative; width: 1080px; height: 1080px;">
 
                         <?php if ($show_border && !empty($background_image) && !$is_special_template): ?>
-                            <img src="<?php echo esc_url($background_image); ?>" alt="Background" class="pcd-border-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;" crossorigin="anonymous">
+                            <img src="<?php echo esc_url($background_image); ?>" alt="Background" class="pcd-border-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;" crossorigin="anonymous">
                         <?php endif; ?>
 
                         <?php if ($is_kalbela): ?>
@@ -177,7 +211,7 @@ function pcd_load_editor_template() {
                                 </div>
 
                                 <!-- White Image Area -->
-                                <div style="flex: 1; background: #ffffff; padding: 20px 25px; display: flex; align-items: center; justify-content: center; min-height: 0; overflow: hidden;">
+                                <div class="pcd-image-area" style="flex: 1; background: #ffffff; padding: 20px 25px; display: flex; align-items: center; justify-content: center; min-height: 0; overflow: hidden;">
                                     <div class="pcd-image" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                                         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="max-width: 100%; max-height: 100%; width: 100%; height: 100%; object-fit: cover; border-radius: 8px; box-shadow: 5px 5px 20px rgba(0,0,0,0.2);" crossorigin="anonymous">
                                     </div>
@@ -185,7 +219,7 @@ function pcd_load_editor_template() {
 
                                 <!-- Red Title Section -->
                                 <div class="pcd-title-section" style="background: <?php echo esc_attr($frame_color); ?>; padding: 25px 30px 12px 30px; flex-shrink: 0;">
-                                    <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; background: transparent; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 800; text-align: center; padding: 0; border-radius: 0; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
+                                    <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; background: transparent; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 800; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0; border-radius: 0; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
                                         <?php echo esc_html($post_title); ?>
                                     </div>
 
@@ -211,12 +245,12 @@ function pcd_load_editor_template() {
                             <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: #000000; padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
                                 
                                 <!-- Full Bleed Image -->
-                                <div class="pcd-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+                                <div class="pcd-full-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
                                     <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: cover;" crossorigin="anonymous">
                                 </div>
 
                                 <!-- Dark Gradient Overlay -->
-                                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 65%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 100%); z-index: 2; pointer-events: none;"></div>
+                                <div class="pcd-gradient-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 65%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 100%); z-index: 2; pointer-events: none;"></div>
 
                                 <!-- World Map Texture Overlay -->
                                 <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 50%; z-index: 3; pointer-events: none; opacity: 0.08; background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 500%22><circle cx=%22200%22 cy=%22200%22 r=%22150%22 fill=%22white%22 opacity=%220.3%22/><circle cx=%22500%22 cy=%22250%22 r=%22180%22 fill=%22white%22 opacity=%220.2%22/><circle cx=%22800%22 cy=%22200%22 r=%22120%22 fill=%22white%22 opacity=%220.25%22/></svg>'); background-size: cover;"></div>
@@ -236,14 +270,14 @@ function pcd_load_editor_template() {
                                     <!-- Date -->
                                     <?php if ($enable_date): ?>
                                     <div class="pcd-date" style="text-align: right; margin-bottom: 10px;">
-                                        <span style="color: #ffffff; font-size: 22px; font-weight: 600; background: rgba(0,0,0,0.5); padding: 4px 14px; border-radius: 4px; font-family: 'Noto Sans Bengali', sans-serif;">
+                                        <span class="pcd-date-badge" style="color: #ffffff; font-size: 22px; font-weight: 600; background: rgba(0,0,0,0.5); padding: 4px 14px; border-radius: 4px; font-family: 'Noto Sans Bengali', sans-serif;">
                                             <?php echo esc_html($formatted_date); ?>
                                         </span>
                                     </div>
                                     <?php endif; ?>
 
                                     <!-- Title -->
-                                    <div id="pcd-adjustable-title" class="pcd-title" style="color: #FFD700; background: transparent; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: left; padding: 0; border-radius: 0; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">
+                                    <div id="pcd-adjustable-title" class="pcd-title" style="color: #FFD700; background: transparent; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0; border-radius: 0; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">
                                         <?php echo esc_html($post_title); ?>
                                     </div>
 
@@ -283,31 +317,6 @@ function pcd_load_editor_template() {
 
                         <?php else: ?>
                             <!-- ========== GENERIC/CUSTOM TEMPLATE ========== -->
-                            <?php
-                            // Background style
-                            if ($template === 'custom' && $enable_gradient) {
-                                $background_style = "background: linear-gradient({$gradient_direction}, {$gradient_color_1}, {$gradient_color_2});";
-                            } else {
-                                $background_style = "background: {$bg_color};";
-                            }
-
-                            $image_container_style = "flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;";
-                            $image_container_style .= " box-shadow: {$thumbnail_shadow_style};";
-                            $image_container_style .= " border-radius: {$thumbnail_border_radius_top_left}px {$thumbnail_border_radius_top_right}px {$thumbnail_border_radius_bottom_right}px {$thumbnail_border_radius_bottom_left}px;";
-                            $image_container_style .= " background: white; padding: {$thumbnail_padding}px; min-height: 0; box-sizing: border-box;";
-
-                            if ($thumbnail_border_width_top > 0 || $thumbnail_border_width_right > 0 || $thumbnail_border_width_bottom > 0 || $thumbnail_border_width_left > 0) {
-                                $image_container_style .= " border-style: solid; border-color: {$thumbnail_border_color};";
-                                $image_container_style .= " border-top-width: {$thumbnail_border_width_top}px; border-right-width: {$thumbnail_border_width_right}px;";
-                                $image_container_style .= " border-bottom-width: {$thumbnail_border_width_bottom}px; border-left-width: {$thumbnail_border_width_left}px;";
-                            }
-
-                            $main_image_style = "max-width: 100%; max-height: 100%; width: 100%; height: 100%; display: block; object-fit: cover;";
-                            $main_image_style .= " border-radius: " . max(0, $thumbnail_border_radius_top_left - $thumbnail_padding) . "px ";
-                            $main_image_style .= max(0, $thumbnail_border_radius_top_right - $thumbnail_padding) . "px ";
-                            $main_image_style .= max(0, $thumbnail_border_radius_bottom_right - $thumbnail_padding) . "px ";
-                            $main_image_style .= max(0, $thumbnail_border_radius_bottom_left - $thumbnail_padding) . "px;";
-                            ?>
                             <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; <?php echo $background_style; ?> padding: <?php echo esc_attr($card_padding); ?>px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; box-sizing: border-box;">
 
                                 <!-- Header -->
@@ -373,7 +382,7 @@ function pcd_load_editor_template() {
 
                                 <!-- Title -->
                                 <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; z-index: 2;">
-                                    <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($title_text_color); ?>; background: <?php echo esc_attr($title_background_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: bold; text-align: center; padding: 7px 8px; border-radius: <?php echo esc_attr($title_border_radius); ?>px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
+                                    <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($title_text_color); ?>; background: <?php echo esc_attr($title_background_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: bold; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 7px 8px; border-radius: <?php echo esc_attr($title_border_radius); ?>px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
                                         <?php echo esc_html($post_title); ?>
                                     </div>
 
@@ -431,6 +440,25 @@ function pcd_load_editor_template() {
                         <textarea id="pcd-title-editor" class="pcd-title-editor-textarea" rows="3"><?php echo esc_textarea($post_title); ?></textarea>
                     </div>
 
+                    <!-- Title Alignment -->
+                    <div class="pcd-control-group">
+                        <label>টাইটেল এলাইনমেন্ট</label>
+                        <div class="pcd-align-buttons">
+                            <button type="button" class="pcd-align-btn <?php echo $title_alignment === 'left' ? 'active' : ''; ?>" data-align="left" title="বাম পাশে">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+                            </button>
+                            <button type="button" class="pcd-align-btn <?php echo $title_alignment === 'center' ? 'active' : ''; ?>" data-align="center" title="মাঝখানে">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm-3 4h18v2H3v-2zm3 4h12v2H6v-2zm-3 4h18v2H3v-2z"/></svg>
+                            </button>
+                            <button type="button" class="pcd-align-btn <?php echo $title_alignment === 'right' ? 'active' : ''; ?>" data-align="right" title="ডান পাশে">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm6 4h12v2H9V7zm-6 4h18v2H3v-2zm6 4h12v2H9v-2zm-6 4h18v2H3v-2z"/></svg>
+                            </button>
+                            <button type="button" class="pcd-align-btn <?php echo $title_alignment === 'justify' ? 'active' : ''; ?>" data-align="justify" title="জাস্টিফাই">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Line Colors -->
                     <div class="pcd-control-group">
                         <label>লাইন কালার</label>
@@ -441,17 +469,17 @@ function pcd_load_editor_template() {
                     <!-- Font Size -->
                     <div class="pcd-control-group">
                         <label>ফন্ট সাইজ <span id="pcd-font-size-value" class="pcd-slider-value"><?php echo esc_html($default_font_size); ?>px</span></label>
-                        <input type="range" id="pcd-font-size-slider" class="pcd-slider" min="20" max="70" value="<?php echo esc_attr($default_font_size); ?>">
+                        <input type="range" id="pcd-font-size-slider" min="20" max="70" value="<?php echo esc_attr($default_font_size); ?>">
                     </div>
 
                     <!-- Line Height -->
                     <div class="pcd-control-group">
                         <label>লাইন হাইট <span id="pcd-line-height-value" class="pcd-slider-value"><?php echo esc_html($default_line_height); ?></span></label>
-                        <input type="range" id="pcd-line-height-slider" class="pcd-slider" min="0.8" max="2.5" step="0.05" value="<?php echo esc_attr($default_line_height); ?>">
+                        <input type="range" id="pcd-line-height-slider" min="0.8" max="2.5" step="0.05" value="<?php echo esc_attr($default_line_height); ?>">
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="pcd-action-buttons">
+                    <div class="pcd-editor-actions">
                         <button id="pcd-back-button" class="pcd-btn pcd-btn-secondary" onclick="window.history.back()">Back</button>
                         <button id="pcd-download-button" class="pcd-btn pcd-btn-primary">Download</button>
                     </div>
@@ -560,7 +588,6 @@ function pcd_get_template_defaults($template) {
             'title_font_family' => 'Noto Sans Bengali',
             'title_border_radius' => 6,
         ),
-        // Kalbela: Red header/footer, white middle, like daily newspaper
         'kalbela' => array(
             'frame_color' => '#cc0000',
             'text_color' => '#ffffff',
@@ -572,7 +599,6 @@ function pcd_get_template_defaults($template) {
             'title_font_family' => 'Noto Sans Bengali',
             'title_border_radius' => 0,
         ),
-        // News24: Full-bleed image with dark gradient, yellow title
         'news24' => array(
             'frame_color' => '#c41e3a',
             'text_color' => '#ffffff',
@@ -651,11 +677,9 @@ function pcd_format_date_by_language($date_string, $day_of_week, $language) {
             $month = isset($hindi_months[$month]) ? $hindi_months[$month] : $month;
             $year = strtr($year, $hindi_numbers);
 
-            return $day . ' ' . $month . ' ' . $year;
+            return $day . ' ' . $month . ', ' . $year;
 
-        case 'english':
         default:
-            return $day_of_week . ', ' . $day . ' ' . $month . ' ' . $year;
+            return $day . ' ' . $month . ', ' . $year;
     }
 }
-?>
