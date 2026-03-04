@@ -89,6 +89,7 @@ function pcd_activate_plugin() {
         'download_button_bg_color' => '#22c55e',
         'download_button_text_color' => '#ffffff',
         'download_permission' => 'everyone',
+        'settings_access_role' => 'admin',
         'thumbnail_shadow' => 'medium',
         'card_padding' => 0,
         'image_quality' => 4,

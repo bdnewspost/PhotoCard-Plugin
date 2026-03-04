@@ -60,8 +60,11 @@ function pcd_can_user_download() {
         case 'logged_in':
             return is_user_logged_in();
 
+        case 'author':
+            return current_user_can('publish_posts');
+
         case 'editor':
-            return current_user_can('edit_posts');
+            return current_user_can('edit_others_posts');
 
         case 'admin':
             return current_user_can('manage_options');
