@@ -1,68 +1,86 @@
 <?php
 /**
- * Samakal Template
- * Orange/Maroon elegant newspaper style
- * Style: Dark maroon header, elegant serif feel, orange accents
+ * Samakal (সমকাল) Template - Based on real Samakal branding
+ * 
+ * Brand: Orange (#FF6600) + Dark grey, modern Bengali daily
+ * Layout: Full bleed image, orange gradient from bottom,
+ * logo top-left, white title on orange gradient,
+ * dark footer bar with social links
+ * Modern, bold, dynamic feel
  */
 if (!defined('ABSPATH')) exit;
 
-$sm_accent = isset($options['samakal_accent_color']) ? $options['samakal_accent_color'] : '#8b1a1a';
-$sm_highlight = '#e65100';
+$sm_orange = '#FF6600';
+$sm_dark = '#1a1a1a';
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: #faf8f5; padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: #000; padding: 0; position: relative; overflow: hidden; box-sizing: border-box;">
     
-    <!-- Maroon Header -->
-    <div style="background: <?php echo esc_attr($sm_accent); ?>; padding: 18px 35px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
-        <?php if ($enable_logo && !empty($watermark_logo)): ?>
-        <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 70px; width: auto; display: block;" crossorigin="anonymous">
-        <?php endif; ?>
-        <?php if ($enable_date): ?>
-        <div style="color: #ffffff; font-size: 24px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif;">
-            <?php echo esc_html($formatted_date); ?>
-        </div>
+    <!-- Full Bleed Background Image -->
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
+
+    <!-- Orange gradient overlay from bottom -->
+    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: linear-gradient(to top, <?php echo esc_attr($sm_orange); ?> 0%, <?php echo esc_attr($sm_orange); ?>dd 20%, <?php echo esc_attr($sm_orange); ?>66 50%, transparent 100%); z-index: 2;"></div>
+
+    <!-- Top: Logo + Date with subtle dark gradient -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 10; background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%); padding: 20px 30px 50px; display: flex; justify-content: space-between; align-items: flex-start;">
+        <?php if ($logo_position === 'right'): ?>
+            <?php if ($enable_date): ?>
+            <div style="color: #ffffff; font-size: 24px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', sans-serif; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+                <?php echo esc_html($formatted_date); ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($enable_logo && !empty($watermark_logo)): ?>
+            <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 70px; width: auto;" crossorigin="anonymous">
+            <?php endif; ?>
+        <?php else: ?>
+            <?php if ($enable_logo && !empty($watermark_logo)): ?>
+            <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 70px; width: auto;" crossorigin="anonymous">
+            <?php endif; ?>
+            <?php if ($enable_date): ?>
+            <div style="color: #ffffff; font-size: 24px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', sans-serif; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+                <?php echo esc_html($formatted_date); ?>
+            </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 
-    <!-- Orange accent line -->
-    <div style="height: 4px; background: <?php echo esc_attr($sm_highlight); ?>; flex-shrink: 0;"></div>
-
-    <!-- Image Area with border -->
-    <div style="flex: 1; background: #faf8f5; padding: 22px 35px; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: cover; border: 3px solid <?php echo esc_attr($sm_accent); ?>; border-radius: 4px;" crossorigin="anonymous">
-    </div>
-
-    <!-- Title -->
-    <div style="background: #faf8f5; padding: 15px 40px 8px; flex-shrink: 0;">
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($sm_accent); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
+    <!-- Bottom content on orange gradient -->
+    <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column;">
+        
+        <!-- Title -->
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 35px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">
             <?php echo esc_html($post_title); ?>
         </div>
+
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; margin-top: 8px;">
-            <span style="color: <?php echo esc_attr($sm_highlight); ?>; font-size: 20px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif;">
+        <div style="text-align: center; padding: 12px 35px 5px;">
+            <span style="color: rgba(255,255,255,0.95); font-size: 22px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.4);">
                 ❯❯ <?php echo esc_html($details_button_text); ?> ❮❮
             </span>
         </div>
         <?php endif; ?>
-    </div>
 
-    <!-- Maroon Footer -->
-    <div style="background: <?php echo esc_attr($sm_accent); ?>; padding: 12px 25px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; gap: 20px;">
-        <?php if ($show_facebook && !empty($facebook_text)): ?>
-        <div style="display: flex; align-items: center; gap: 5px; color: white; font-size: 14px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            <span><?php echo esc_html($facebook_text); ?></span>
-        </div>
-        <?php endif; ?>
-        <?php if ($show_youtube && !empty($youtube_text)): ?>
-        <div style="display: flex; align-items: center; gap: 5px; color: white; font-size: 14px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/></svg>
-            <span><?php echo esc_html($youtube_text); ?></span>
-        </div>
-        <?php endif; ?>
-        <?php if ($show_website && !empty($website_text)): ?>
-        <div style="display: flex; align-items: center; gap: 5px; color: white; font-size: 14px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>
-            <span><?php echo esc_html($website_text); ?></span>
+        <!-- Dark footer social bar -->
+        <?php if ($show_facebook || $show_youtube || $show_website): ?>
+        <div style="background: <?php echo esc_attr($sm_dark); ?>; padding: 12px 25px; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 25px;">
+            <?php if ($show_facebook && !empty($facebook_text)): ?>
+            <div style="display: flex; align-items: center; gap: 6px; color: white; font-size: 15px; font-weight: 500;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span><?php echo esc_html($facebook_text); ?></span>
+            </div>
+            <?php endif; ?>
+            <?php if ($show_youtube && !empty($youtube_text)): ?>
+            <div style="display: flex; align-items: center; gap: 6px; color: white; font-size: 15px; font-weight: 500;">
+                <svg width="16" height="16" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="red"/><path d="M10 8.5v7l5.5-3.5L10 8.5z" fill="white"/></svg>
+                <span><?php echo esc_html($youtube_text); ?></span>
+            </div>
+            <?php endif; ?>
+            <?php if ($show_website && !empty($website_text)): ?>
+            <div style="display: flex; align-items: center; gap: 6px; color: <?php echo esc_attr($sm_orange); ?>; font-size: 15px; font-weight: 600;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="<?php echo esc_attr($sm_orange); ?>"><circle cx="12" cy="12" r="10"/></svg>
+                <span><?php echo esc_html($website_text); ?></span>
+            </div>
+            <?php endif; ?>
         </div>
         <?php endif; ?>
     </div>
