@@ -23,13 +23,19 @@
         $("#pcd-line-height-value").text(lineHeight)
       })
 
-      // FIX: NEW - Title Editor (editable title text)
+      // Title alignment buttons
+      $(".pcd-align-btn").on("click", function () {
+        const align = $(this).data("align")
+        $(".pcd-align-btn").removeClass("active")
+        $(this).addClass("active")
+        $("#pcd-adjustable-title").css("text-align", align)
+      })
+
+      // Title Editor (editable title text)
       $("#pcd-title-editor").on("input", function () {
         const newTitle = $(this).val()
         const $title = $("#pcd-adjustable-title")
-        // Preserve HTML spans for line colors if they exist
         if ($title.find("span").length > 0) {
-          // Reset to plain text when editing
           $title.text(newTitle)
           updateLineColorInputs()
         } else {
@@ -38,7 +44,7 @@
         }
       })
 
-      // FIX: NEW - Line-wise color system
+      // Line-wise color system
       function updateLineColorInputs() {
         const titleText = $("#pcd-title-editor").val()
         const lines = titleText.split("\n").filter((l) => l.trim() !== "")
@@ -158,7 +164,6 @@
       })
 
       async function capturePhotocard() {
-        // Wait for all fonts to be loaded
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready
         }

@@ -1,590 +1,967 @@
-/* ===================================
-   Photocard Generator - Frontend Styles
-   =================================== */
+/* Photocard Download Button Styles */
+.pcd-download-button-wrapper {
+  margin: 20px 0;
+  text-align: center;
+}
 
-/* Editor Page Base */
+.pcd-download-button {
+  display: inline-block;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+}
+
+.pcd-download-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  color: white;
+  opacity: 0.9;
+}
+
+.pcd-download-button:active {
+  transform: translateY(0);
+}
+
+.pcd-download-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Editor Page Styles */
 .pcd-editor-page {
-    margin: 0;
-    padding: 0;
-    background: #f0f2f5;
-    font-family: 'Noto Sans Bengali', 'Hind Siliguri', Arial, sans-serif;
-    min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+  font-family: "Noto Sans Bengali", "SolaimanLipi", Arial, sans-serif;
 }
 
-/* Editor Container */
 .pcd-editor-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-/* Editor Title */
 .pcd-editor-title {
-    text-align: center;
-    color: #1a1a2e;
-    font-size: 28px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 40px;
 }
 
-/* Editor Content Layout */
 .pcd-editor-content {
-    display: flex;
-    gap: 25px;
-    align-items: flex-start;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* Photocard Preview Wrapper */
+/* Updated photocard wrapper to properly display 1080x1080 photocard with scaling */
 .pcd-photocard-wrapper {
-    flex-shrink: 0;
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    overflow: hidden;
+  background: transparent;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: none;
+  flex: 1;
+  max-width: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
 }
 
-/* Photocard With Border */
-.pcd-photocard-with-border {
-    position: relative;
-    width: 1080px;
-    height: 1080px;
-    overflow: hidden;
-}
-
-/* Border Overlay */
-.pcd-border-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 5;
-}
-
-/* Main Photocard */
 .pcd-photocard {
-    width: 1080px;
-    height: 1080px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+  font-family: "Noto Sans Bengali", "SolaimanLipi", Arial, sans-serif;
+}
+
+/* Scale down photocard for preview while maintaining 1080x1080 for download */
+.pcd-photocard-with-border {
+  width: 1080px;
+  height: 1080px;
+  transform: scale(0.58);
+  transform-origin: center center;
+  margin: -226px;
+}
+
+.pcd-editor-controls {
+  flex: 1;
+  min-width: 300px;
+  max-width: 450px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pcd-control-group {
+  margin-bottom: 30px;
+}
+
+.pcd-control-group label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.pcd-control-group input[type="range"] {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.pcd-control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+}
+
+.pcd-control-group input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+}
+
+.pcd-control-group span {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+.pcd-share-section {
+  padding: 15px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.pcd-share-section label {
+  color: #2c3e50;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.pcd-share-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pcd-btn-sm {
+  padding: 8px;
+  font-size: 0;
+}
+
+.pcd-btn-sm svg {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.pcd-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease, background 0.3s ease, color 0.3s ease;
+  background: #6c757d;
+  color: white;
+}
+
+.pcd-btn-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pcd-btn-facebook {
+  background: #1877f2;
+}
+
+.pcd-btn-facebook:hover {
+  background: #145dbf;
+}
+
+.pcd-btn-instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.pcd-btn-instagram:hover {
+  background: linear-gradient(45deg, #d87b2a 0%, #c95a33 25%, #b91f38 50%, #a91d5a 75%, #991577 100%);
+}
+
+.pcd-btn-twitter {
+  background: #1da1f2;
+}
+
+.pcd-btn-twitter:hover {
+  background: #0d8bd9;
+}
+
+.pcd-btn-linkedin {
+  background: #0077b5;
+}
+
+.pcd-btn-linkedin:hover {
+  background: #005885;
+}
+
+.pcd-btn-whatsapp {
+  background: #25d366;
+}
+
+.pcd-btn-whatsapp:hover {
+  background: #1da851;
+}
+
+.pcd-editor-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.pcd-btn {
+  flex: 1;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pcd-btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.pcd-btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+}
+
+.pcd-btn-primary {
+  background: #28a745;
+  color: white;
+}
+
+.pcd-btn-primary:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.pcd-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pcd-footer-credit {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+}
+
+.pcd-loading {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: pcd-spin 1s ease-in-out infinite;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+@keyframes pcd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Font family definitions */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap");
+
+.pcd-title {
+  font-family: "Noto Sans Bengali", "SolaimanLipi", "Kalpurush", "Hind Siliguri", "Mukti", Arial, sans-serif;
+}
+
+/* Template-specific styles */
+.pcd-template-custom .pcd-photocard {
+  /* Uses inline styles from admin settings */
+}
+
+.pcd-template-custom .pcd-title {
+  /* Font family is applied via inline style from settings */
+}
+
+/* Background overlay fix */
+.pcd-border-overlay {
+  z-index: -1 !important;
+  position: absolute !important;
+}
+
+.pcd-image {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Classic Template - Red/Crimson theme */
+.pcd-template-classic .pcd-photocard {
+  box-shadow: 0 10px 30px rgba(196, 30, 58, 0.3);
+}
+
+.pcd-template-classic .pcd-bottom-dots div {
+  background: #c41e3a;
+  animation: pcd-pulse 2s ease-in-out infinite;
+}
+
+.pcd-template-classic .pcd-date {
+  color: #000000;
+}
+
+.pcd-template-classic .pcd-footer-button > div:first-child,
+.pcd-template-classic .pcd-footer-button > div:last-child {
+  background: #c41e3a;
+}
+
+.pcd-template-classic .pcd-footer-button > div:nth-child(2) {
+  background: #c41e3a;
+  color: #ffffff;
+}
+
+.pcd-template-classic .pcd-social-links {
+  background: #c41e3a;
+}
+
+/* Modern Template - Blue theme */
+.pcd-template-modern .pcd-photocard {
+  background: #f8fafc;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  border: 2px solid rgba(59, 130, 246, 0.1);
+}
+
+.pcd-template-modern .pcd-image {
+  border-radius: 15px;
+}
+
+.pcd-template-modern .pcd-bottom-dots div {
+  background: #3b82f6;
+}
+
+.pcd-template-modern .pcd-date {
+  color: #1e293b;
+}
+
+.pcd-template-modern .pcd-footer-button > div:first-child,
+.pcd-template-modern .pcd-footer-button > div:last-child {
+  background: #3b82f6;
+}
+
+.pcd-template-modern .pcd-footer-button > div:nth-child(2) {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.pcd-template-modern .pcd-social-links {
+  background: #3b82f6;
+}
+
+/* Elegant Template - Gold theme */
+.pcd-template-elegant .pcd-photocard {
+  background: #fefefe;
+  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+  border: 3px solid rgba(212, 175, 55, 0.2);
+}
+
+.pcd-template-elegant .pcd-title {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.pcd-template-elegant .pcd-bottom-dots div {
+  background: #d4af37;
+}
+
+.pcd-template-elegant .pcd-footer-button > div:first-child,
+.pcd-template-elegant .pcd-footer-button > div:last-child {
+  background: #d4af37;
+}
+
+.pcd-template-elegant .pcd-footer-button > div:nth-child(2) {
+  background: #d4af37;
+  color: #1a1a1a;
+}
+
+.pcd-template-elegant .pcd-social-links {
+  background: #d4af37;
+}
+
+/* Minimal Template - Black & White theme */
+.pcd-template-minimal .pcd-photocard {
+  background: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+}
+
+.pcd-template-minimal .pcd-image {
+  border-radius: 0;
+}
+
+.pcd-template-minimal .pcd-date {
+  color: #000000;
+}
+
+.pcd-template-minimal .pcd-bottom-dots div {
+  background: #000000;
+}
+
+.pcd-template-minimal .pcd-footer-button > div:first-child,
+.pcd-template-minimal .pcd-footer-button > div:last-child {
+  background: #000000;
+}
+
+.pcd-template-minimal .pcd-footer-button > div:nth-child(2) {
+  background: #000000;
+  color: #ffffff;
+}
+
+.pcd-template-minimal .pcd-social-links {
+  background: #000000;
 }
 
 /* ===================================
-   KALBELA TEMPLATE
+   KALBELA TEMPLATE - Exact newspaper design
    =================================== */
 .pcd-template-kalbela .pcd-photocard {
-    background: #ffffff;
-    padding: 0;
+  background: #ffffff !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .pcd-template-kalbela .pcd-header {
-    background: #cc0000;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 2;
+  background: #cc0000 !important;
+  padding: 15px 25px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  z-index: 2;
 }
 
 .pcd-template-kalbela .pcd-logo img {
-    height: 80px !important;
-    width: auto !important;
+  height: 85px !important;
+  width: auto !important;
 }
 
 .pcd-template-kalbela .pcd-date {
-    color: #ffffff !important;
-    font-size: 26px !important;
-    font-weight: 700 !important;
-    font-family: 'Noto Sans Bengali', sans-serif !important;
+  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  font-family: 'Noto Sans Bengali', sans-serif !important;
 }
 
-.pcd-template-kalbela .pcd-image {
-    padding: 20px 25px !important;
-    background: white !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
+.pcd-template-kalbela .pcd-image-area {
+  background: #ffffff !important;
+  padding: 20px 25px !important;
 }
 
 .pcd-template-kalbela .pcd-image img {
-    border-radius: 8px !important;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 5px 5px 20px rgba(0,0,0,0.2) !important;
 }
 
 .pcd-template-kalbela .pcd-title-section {
-    background: #cc0000;
-    padding: 25px 30px 15px 30px;
-    flex-shrink: 0;
+  background: #cc0000 !important;
+  padding: 25px 30px 12px 30px !important;
 }
 
 .pcd-template-kalbela .pcd-title {
-    color: #ffffff !important;
-    background: transparent !important;
-    font-size: 46px !important;
-    line-height: 1.25 !important;
-    font-weight: 800 !important;
-    text-align: center !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    text-shadow: none !important;
-}
-
-.pcd-template-kalbela .pcd-footer-button {
-    margin-top: 12px;
+  color: #ffffff !important;
+  background: transparent !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
 }
 
 .pcd-template-kalbela .pcd-footer-button > div:nth-child(2) {
-    background: rgba(255,255,255,0.15) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(255,255,255,0.3);
-    font-size: 22px !important;
-    padding: 8px 25px !important;
+  background: rgba(255,255,255,0.15) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
 }
 
 .pcd-template-kalbela .pcd-footer-button > div:first-child,
 .pcd-template-kalbela .pcd-footer-button > div:last-child {
-    background: rgba(255,255,255,0.3) !important;
+  background: rgba(255,255,255,0.3) !important;
 }
 
 .pcd-template-kalbela .pcd-bottom-dots {
-    display: none !important;
+  display: none !important;
 }
 
 .pcd-template-kalbela .pcd-social-links {
-    background: #990000 !important;
-    border-radius: 0 !important;
-    padding: 10px 15px !important;
+  background: #990000 !important;
+  border-radius: 0 !important;
+  padding: 10px 15px !important;
 }
 
 /* ===================================
-   NEWS24 TEMPLATE
+   NEWS24 TEMPLATE - Exact newspaper design
+   Full bleed image with dark gradient overlay
    =================================== */
 .pcd-template-news24 .pcd-photocard {
-    padding: 0 !important;
-    background: transparent !important;
+  padding: 0 !important;
+  background: #000000 !important;
+  box-shadow: none !important;
+  border: none !important;
+  overflow: hidden !important;
 }
 
 .pcd-template-news24 .pcd-header {
-    position: absolute !important;
-    top: 0;
-    right: 0;
-    left: auto;
-    z-index: 10;
-    padding: 15px 20px !important;
-    background: transparent !important;
+  position: absolute !important;
+  top: 15px !important;
+  right: 20px !important;
+  left: auto !important;
+  z-index: 10 !important;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
 .pcd-template-news24 .pcd-logo {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .pcd-template-news24 .pcd-logo img {
-    height: 65px !important;
-    width: auto !important;
+  height: 70px !important;
+  width: auto !important;
 }
 
-.pcd-template-news24 .pcd-date {
-    position: absolute !important;
-    bottom: auto;
-    right: 25px;
-    color: #ffffff !important;
-    font-size: 22px !important;
-    font-weight: 600 !important;
-    background: rgba(0,0,0,0.5);
-    padding: 4px 12px;
-    border-radius: 4px;
-    z-index: 10;
+.pcd-template-news24 .pcd-full-image {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
 }
 
-.pcd-template-news24 .pcd-image {
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    background: transparent !important;
-    z-index: 1;
+.pcd-template-news24 .pcd-full-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
 }
 
-.pcd-template-news24 .pcd-image img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 0 !important;
+.pcd-template-news24 .pcd-gradient-overlay {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 65% !important;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 100%) !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
 }
 
 .pcd-template-news24 .pcd-title-section {
-    position: absolute !important;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.0) 100%) !important;
-    padding: 120px 25px 15px 25px !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 5 !important;
+  padding: 0 25px 12px 25px !important;
+  background: transparent !important;
+}
+
+.pcd-template-news24 .pcd-date-badge {
+  color: #ffffff !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  background: rgba(0,0,0,0.5) !important;
+  padding: 4px 14px !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  margin-bottom: 10px !important;
 }
 
 .pcd-template-news24 .pcd-title {
-    color: #FFD700 !important;
-    background: transparent !important;
-    font-size: 48px !important;
-    line-height: 1.2 !important;
-    font-weight: 900 !important;
-    text-align: left !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.9) !important;
+  color: #FFD700 !important;
+  background: transparent !important;
+  font-weight: 900 !important;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.9) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
 }
 
-.pcd-template-news24 .pcd-footer-button {
-    margin-top: 10px;
-}
-
-.pcd-template-news24 .pcd-footer-button > div:nth-child(2) {
-    background: transparent !important;
-    color: #ffffff !important;
-    border: none !important;
-    font-size: 22px !important;
-    padding: 5px 0 !important;
-    box-shadow: none !important;
+.pcd-template-news24 .pcd-footer-button > div {
+  color: #ffffff !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 5px 0 !important;
 }
 
 .pcd-template-news24 .pcd-footer-button > div:first-child,
 .pcd-template-news24 .pcd-footer-button > div:last-child {
-    background: transparent !important;
-    height: 0 !important;
+  background: transparent !important;
+  height: 0 !important;
 }
 
 .pcd-template-news24 .pcd-bottom-dots {
-    display: none !important;
+  display: none !important;
 }
 
 .pcd-template-news24 .pcd-social-links {
-    background: rgba(0,0,0,0.8) !important;
-    border-radius: 0 !important;
-    padding: 10px 15px !important;
-    position: relative;
-    z-index: 6;
-}
-
-/* News24 world map overlay */
-.pcd-template-news24 .pcd-photocard::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: 
-        radial-gradient(circle at 30% 70%, rgba(255,255,255,0.03) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.02) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: 3;
+  background: rgba(0,0,0,0.7) !important;
+  border-radius: 0 !important;
+  padding: 10px 15px !important;
 }
 
 /* ===================================
-   EDITOR CONTROLS
+   TITLE ALIGNMENT BUTTONS
    =================================== */
-.pcd-editor-controls {
-    flex: 1;
-    min-width: 280px;
-    max-width: 350px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 20px;
-    max-height: calc(100vh - 40px);
-    overflow-y: auto;
+.pcd-align-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
 }
 
-/* Control Groups */
-.pcd-control-group {
-    margin-bottom: 18px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e9ecef;
+.pcd-align-btn {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.pcd-control-group:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
+.pcd-align-btn:hover {
+  border-color: #667eea;
+  background: #f0f0ff;
 }
 
-.pcd-control-group label {
-    display: block;
-    font-weight: 700;
-    color: #1a1a2e;
-    margin-bottom: 8px;
-    font-size: 14px;
+.pcd-align-btn.active {
+  border-color: #667eea;
+  background: #667eea;
+  color: white;
 }
 
-/* Sliders */
-.pcd-slider {
-    width: 100%;
-    height: 6px;
-    -webkit-appearance: none;
-    appearance: none;
-    background: #e2e8f0;
-    border-radius: 3px;
-    outline: none;
-    cursor: pointer;
+.pcd-align-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
-.pcd-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #667eea;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(102,126,234,0.3);
-}
-
-.pcd-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #667eea;
-    cursor: pointer;
-    border: none;
-}
-
-.pcd-slider-value {
-    display: inline-block;
-    background: #667eea;
-    color: white;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-left: 8px;
-}
-
-/* Title Editor */
+/* Title Editor Textarea */
 .pcd-title-editor-textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 10px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-family: 'Noto Sans Bengali', sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    resize: vertical;
-    transition: border-color 0.3s;
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .pcd-title-editor-textarea:focus {
-    border-color: #667eea;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
 }
 
 /* Line Colors */
 #pcd-line-colors-container {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 8px;
-}
-
-.pcd-line-color {
-    cursor: pointer;
-}
-
-/* Buttons */
-.pcd-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Noto Sans Bengali', sans-serif;
-}
-
-.pcd-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.pcd-btn-primary {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    box-shadow: 0 4px 12px rgba(102,126,234,0.3);
-    width: 100%;
-}
-
-.pcd-btn-primary:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(102,126,234,0.4);
-}
-
-.pcd-btn-secondary {
-    background: #f1f5f9;
-    color: #475569;
-    width: 100%;
-}
-
-.pcd-btn-secondary:hover:not(:disabled) {
-    background: #e2e8f0;
-}
-
-.pcd-btn-sm {
-    padding: 6px 10px;
-    font-size: 12px;
-}
-
-.pcd-btn-icon {
-    padding: 8px;
-    border-radius: 8px;
-    background: #f1f5f9;
-    color: #475569;
-    border: 1px solid #e2e8f0;
-}
-
-.pcd-btn-icon:hover {
-    background: #e2e8f0;
-}
-
-/* Social Share Buttons */
-.pcd-share-buttons {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.pcd-btn-facebook { background: #1877f2; color: white; border: none; }
-.pcd-btn-facebook:hover { background: #1565c0; }
-.pcd-btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border: none; }
-.pcd-btn-twitter { background: #1da1f2; color: white; border: none; }
-.pcd-btn-twitter:hover { background: #1a91da; }
-.pcd-btn-whatsapp { background: #25d366; color: white; border: none; }
-.pcd-btn-whatsapp:hover { background: #20bd5a; }
-.pcd-btn-linkedin { background: #0077b5; color: white; border: none; }
-.pcd-btn-linkedin:hover { background: #006097; }
-
-/* Action Buttons */
-.pcd-action-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-/* Loading Spinner */
-.pcd-loading {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: pcd-spin 0.6s linear infinite;
-}
-
-@keyframes pcd-spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Footer Credit */
-.pcd-footer-credit {
-    text-align: center;
-    padding: 12px;
-    font-size: 12px;
-    color: #999;
-    margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 /* Apply Line Colors Button */
 #pcd-apply-line-colors {
-    background: #667eea;
-    color: white;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 6px;
-    font-size: 13px;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.3s;
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.3s;
+  font-weight: 600;
 }
 
 #pcd-apply-line-colors:hover {
-    background: #5a6fd6;
+  background: #5a6fd6;
 }
 
-/* ===================================
-   DOWNLOAD BUTTON (on single post)
-   =================================== */
-.pcd-download-btn-wrapper {
-    text-align: center;
-    margin: 15px 0;
+/* Slider value badge */
+.pcd-slider-value {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
 }
 
-.pcd-download-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    font-family: 'Noto Sans Bengali', sans-serif;
-}
-
-.pcd-download-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-    text-decoration: none;
-}
-
-.pcd-download-button svg {
-    flex-shrink: 0;
-}
-
-/* ===================================
-   RESPONSIVE
-   =================================== */
-@media (max-width: 1400px) {
-    .pcd-photocard-wrapper {
-        transform: scale(0.5);
-        transform-origin: top left;
-    }
+@keyframes pcd-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
 
 @media (max-width: 768px) {
-    .pcd-editor-content {
-        flex-direction: column;
-    }
+  .pcd-editor-container {
+    padding: 20px 10px;
+  }
 
-    .pcd-editor-controls {
-        max-width: 100%;
-        position: static;
-    }
+  .pcd-editor-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 
-    .pcd-photocard-wrapper {
-        transform: scale(0.35);
-        transform-origin: top left;
-        height: 400px;
-    }
+  .pcd-editor-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pcd-photocard-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .pcd-photocard-with-border {
+    transform: scale(0.32);
+    margin: -367px;
+  }
+
+  .pcd-editor-controls {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pcd-share-section {
+    padding: 15px;
+  }
+
+  .pcd-share-section label {
+    font-size: 15px;
+  }
+
+  .pcd-share-buttons {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .pcd-btn-sm {
+    padding: 10px;
+  }
+
+  .pcd-btn-sm svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .pcd-control-group {
+    margin-bottom: 25px;
+  }
+
+  .pcd-control-group label {
+    font-size: 15px;
+  }
+
+  .pcd-editor-actions {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .pcd-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  .pcd-download-button {
+    width: 100%;
+    padding: 15px 20px;
+  }
+
+  .pcd-footer-credit {
+    font-size: 13px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pcd-editor-container {
+    padding: 15px 8px;
+  }
+
+  .pcd-editor-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .pcd-photocard-wrapper {
+    padding: 8px;
+    background: transparent;
+  }
+
+  .pcd-photocard-with-border {
+    transform: scale(0.28);
+    margin: -388px;
+  }
+
+  .pcd-editor-controls {
+    padding: 15px;
+  }
+
+  .pcd-share-section {
+    padding: 12px;
+  }
+
+  .pcd-share-section label {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .pcd-share-buttons {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .pcd-btn-sm {
+    padding: 8px;
+  }
+
+  .pcd-btn-sm svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pcd-control-group {
+    margin-bottom: 20px;
+  }
+
+  .pcd-control-group label {
+    font-size: 14px;
+  }
+
+  .pcd-control-group span {
+    font-size: 13px;
+  }
+
+  .pcd-btn {
+    font-size: 14px;
+    padding: 12px 15px;
+  }
+
+  .pcd-editor-actions {
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  .pcd-footer-credit {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pcd-editor-container {
+    padding: 10px 5px;
+  }
+
+  .pcd-editor-title {
+    font-size: 18px;
+  }
+
+  .pcd-photocard-wrapper {
+    padding: 5px;
+    background: transparent;
+  }
+
+  .pcd-photocard-with-border {
+    transform: scale(0.25);
+    margin: -405px;
+  }
+
+  .pcd-editor-controls {
+    padding: 12px;
+  }
+
+  .pcd-share-section {
+    padding: 10px;
+  }
+
+  .pcd-share-buttons {
+    gap: 5px;
+  }
+
+  .pcd-btn-sm {
+    padding: 7px;
+  }
+
+  .pcd-control-group {
+    margin-bottom: 18px;
+  }
+
+  .pcd-btn {
+    font-size: 13px;
+    padding: 11px 12px;
+  }
 }
