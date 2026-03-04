@@ -54,6 +54,7 @@ function pcd_sanitize_settings($input) {
     $sanitized['button_position'] = isset($input['button_position']) ? sanitize_text_field($input['button_position']) : 'above';
     $sanitized['button_text'] = isset($input['button_text']) ? sanitize_text_field($input['button_text']) : 'ডাউনলোড ফটোকার্ড';
     $sanitized['download_permission'] = isset($input['download_permission']) ? sanitize_text_field($input['download_permission']) : 'everyone';
+    $sanitized['settings_access_role'] = isset($input['settings_access_role']) ? sanitize_text_field($input['settings_access_role']) : 'admin';
     $sanitized['download_button_bg_color'] = isset($input['download_button_bg_color']) ? sanitize_hex_color($input['download_button_bg_color']) : '#22c55e';
     $sanitized['download_button_text_color'] = isset($input['download_button_text_color']) ? sanitize_hex_color($input['download_button_text_color']) : '#ffffff';
 
@@ -105,7 +106,8 @@ function pcd_sanitize_settings($input) {
 }
 
 function pcd_settings_page() {
-    if (!current_user_can('manage_options')) {
+    $capability = pcd_get_settings_capability();
+    if (!current_user_can($capability)) {
         return;
     }
 
@@ -141,6 +143,7 @@ function pcd_settings_page() {
         'button_position' => 'above',
         'button_text' => 'ডাউনলোড ফটোকার্ড',
         'download_permission' => 'everyone',
+        'settings_access_role' => 'admin',
         'download_button_bg_color' => '#22c55e',
         'download_button_text_color' => '#ffffff',
         'photocard_template' => 'news24',
@@ -366,9 +369,21 @@ function pcd_settings_page() {
                             <select name="pcd_settings[download_permission]" id="download_permission" class="regular-text">
                                 <option value="everyone" <?php selected($options['download_permission'], 'everyone'); ?>>সবাই</option>
                                 <option value="logged_in" <?php selected($options['download_permission'], 'logged_in'); ?>>লগইন ইউজার</option>
+                                <option value="author" <?php selected($options['download_permission'], 'author'); ?>>Author+</option>
                                 <option value="editor" <?php selected($options['download_permission'], 'editor'); ?>>Editor+</option>
                                 <option value="admin" <?php selected($options['download_permission'], 'admin'); ?>>Admin</option>
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="settings_access_role">সেটিংস অ্যাক্সেস রোল</label></th>
+                        <td>
+                            <select name="pcd_settings[settings_access_role]" id="settings_access_role" class="regular-text" <?php echo !current_user_can('manage_options') ? 'disabled' : ''; ?>>
+                                <option value="admin" <?php selected($options['settings_access_role'], 'admin'); ?>>Admin — শুধু অ্যাডমিন</option>
+                                <option value="editor" <?php selected($options['settings_access_role'], 'editor'); ?>>Editor+ — এডিটর ও তার উপরে</option>
+                                <option value="author" <?php selected($options['settings_access_role'], 'author'); ?>>Author+ — অথর ও তার উপরে</option>
+                            </select>
+                            <p class="description">কোন রোলের ইউজাররা ফটোকার্ড সেটিংস পেজ অ্যাক্সেস করতে পারবে। শুধু Admin এই সেটিং পরিবর্তন করতে পারবে।</p>
                         </td>
                     </tr>
                 </table>
