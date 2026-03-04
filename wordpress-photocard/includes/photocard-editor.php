@@ -58,7 +58,7 @@ function pcd_load_editor_template() {
 
     // Template colors
     $kalbela_bg_color = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color'] : '#cc0000';
-    $news24_title_color = isset($options['news24_title_color']) ? $options['news24_title_color'] : '#000000';
+    $news24_title_color = isset($options['news24_text_color']) ? $options['news24_text_color'] : '#FFD700';
 
     $formatted_date = pcd_format_date_by_language($current_date, $day_of_week, $language);
 
