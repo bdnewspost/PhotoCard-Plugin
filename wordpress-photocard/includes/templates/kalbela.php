@@ -9,10 +9,10 @@ $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color']
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
 $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: <?php echo esc_attr($kalbela_bg); ?>;">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #8b0000;">
     
     <!-- Post Featured Image -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 62%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 68%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
 
     <!-- Background Template Image -->
     <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
