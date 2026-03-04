@@ -1,0 +1,590 @@
+/* ===================================
+   Photocard Generator - Frontend Styles
+   =================================== */
+
+/* Editor Page Base */
+.pcd-editor-page {
+    margin: 0;
+    padding: 0;
+    background: #f0f2f5;
+    font-family: 'Noto Sans Bengali', 'Hind Siliguri', Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* Editor Container */
+.pcd-editor-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Editor Title */
+.pcd-editor-title {
+    text-align: center;
+    color: #1a1a2e;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Editor Content Layout */
+.pcd-editor-content {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+/* Photocard Preview Wrapper */
+.pcd-photocard-wrapper {
+    flex-shrink: 0;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Photocard With Border */
+.pcd-photocard-with-border {
+    position: relative;
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+}
+
+/* Border Overlay */
+.pcd-border-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Main Photocard */
+.pcd-photocard {
+    width: 1080px;
+    height: 1080px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* ===================================
+   KALBELA TEMPLATE
+   =================================== */
+.pcd-template-kalbela .pcd-photocard {
+    background: #ffffff;
+    padding: 0;
+}
+
+.pcd-template-kalbela .pcd-header {
+    background: #cc0000;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+.pcd-template-kalbela .pcd-logo img {
+    height: 80px !important;
+    width: auto !important;
+}
+
+.pcd-template-kalbela .pcd-date {
+    color: #ffffff !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    font-family: 'Noto Sans Bengali', sans-serif !important;
+}
+
+.pcd-template-kalbela .pcd-image {
+    padding: 20px 25px !important;
+    background: white !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.pcd-template-kalbela .pcd-image img {
+    border-radius: 8px !important;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2) !important;
+}
+
+.pcd-template-kalbela .pcd-title-section {
+    background: #cc0000;
+    padding: 25px 30px 15px 30px;
+    flex-shrink: 0;
+}
+
+.pcd-template-kalbela .pcd-title {
+    color: #ffffff !important;
+    background: transparent !important;
+    font-size: 46px !important;
+    line-height: 1.25 !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    text-shadow: none !important;
+}
+
+.pcd-template-kalbela .pcd-footer-button {
+    margin-top: 12px;
+}
+
+.pcd-template-kalbela .pcd-footer-button > div:nth-child(2) {
+    background: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 22px !important;
+    padding: 8px 25px !important;
+}
+
+.pcd-template-kalbela .pcd-footer-button > div:first-child,
+.pcd-template-kalbela .pcd-footer-button > div:last-child {
+    background: rgba(255,255,255,0.3) !important;
+}
+
+.pcd-template-kalbela .pcd-bottom-dots {
+    display: none !important;
+}
+
+.pcd-template-kalbela .pcd-social-links {
+    background: #990000 !important;
+    border-radius: 0 !important;
+    padding: 10px 15px !important;
+}
+
+/* ===================================
+   NEWS24 TEMPLATE
+   =================================== */
+.pcd-template-news24 .pcd-photocard {
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.pcd-template-news24 .pcd-header {
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    left: auto;
+    z-index: 10;
+    padding: 15px 20px !important;
+    background: transparent !important;
+}
+
+.pcd-template-news24 .pcd-logo {
+    margin-left: auto;
+}
+
+.pcd-template-news24 .pcd-logo img {
+    height: 65px !important;
+    width: auto !important;
+}
+
+.pcd-template-news24 .pcd-date {
+    position: absolute !important;
+    bottom: auto;
+    right: 25px;
+    color: #ffffff !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    background: rgba(0,0,0,0.5);
+    padding: 4px 12px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.pcd-template-news24 .pcd-image {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    z-index: 1;
+}
+
+.pcd-template-news24 .pcd-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+}
+
+.pcd-template-news24 .pcd-title-section {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.0) 100%) !important;
+    padding: 120px 25px 15px 25px !important;
+}
+
+.pcd-template-news24 .pcd-title {
+    color: #FFD700 !important;
+    background: transparent !important;
+    font-size: 48px !important;
+    line-height: 1.2 !important;
+    font-weight: 900 !important;
+    text-align: left !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.9) !important;
+}
+
+.pcd-template-news24 .pcd-footer-button {
+    margin-top: 10px;
+}
+
+.pcd-template-news24 .pcd-footer-button > div:nth-child(2) {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 22px !important;
+    padding: 5px 0 !important;
+    box-shadow: none !important;
+}
+
+.pcd-template-news24 .pcd-footer-button > div:first-child,
+.pcd-template-news24 .pcd-footer-button > div:last-child {
+    background: transparent !important;
+    height: 0 !important;
+}
+
+.pcd-template-news24 .pcd-bottom-dots {
+    display: none !important;
+}
+
+.pcd-template-news24 .pcd-social-links {
+    background: rgba(0,0,0,0.8) !important;
+    border-radius: 0 !important;
+    padding: 10px 15px !important;
+    position: relative;
+    z-index: 6;
+}
+
+/* News24 world map overlay */
+.pcd-template-news24 .pcd-photocard::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: 
+        radial-gradient(circle at 30% 70%, rgba(255,255,255,0.03) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.02) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* ===================================
+   EDITOR CONTROLS
+   =================================== */
+.pcd-editor-controls {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+/* Control Groups */
+.pcd-control-group {
+    margin-bottom: 18px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.pcd-control-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.pcd-control-group label {
+    display: block;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Sliders */
+.pcd-slider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.pcd-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(102,126,234,0.3);
+}
+
+.pcd-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+}
+
+.pcd-slider-value {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* Title Editor */
+.pcd-title-editor-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+.pcd-title-editor-textarea:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+/* Line Colors */
+#pcd-line-colors-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.pcd-line-color {
+    cursor: pointer;
+}
+
+/* Buttons */
+.pcd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+.pcd-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pcd-btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    width: 100%;
+}
+
+.pcd-btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(102,126,234,0.4);
+}
+
+.pcd-btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    width: 100%;
+}
+
+.pcd-btn-secondary:hover:not(:disabled) {
+    background: #e2e8f0;
+}
+
+.pcd-btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.pcd-btn-icon {
+    padding: 8px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.pcd-btn-icon:hover {
+    background: #e2e8f0;
+}
+
+/* Social Share Buttons */
+.pcd-share-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pcd-btn-facebook { background: #1877f2; color: white; border: none; }
+.pcd-btn-facebook:hover { background: #1565c0; }
+.pcd-btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border: none; }
+.pcd-btn-twitter { background: #1da1f2; color: white; border: none; }
+.pcd-btn-twitter:hover { background: #1a91da; }
+.pcd-btn-whatsapp { background: #25d366; color: white; border: none; }
+.pcd-btn-whatsapp:hover { background: #20bd5a; }
+.pcd-btn-linkedin { background: #0077b5; color: white; border: none; }
+.pcd-btn-linkedin:hover { background: #006097; }
+
+/* Action Buttons */
+.pcd-action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Loading Spinner */
+.pcd-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: pcd-spin 0.6s linear infinite;
+}
+
+@keyframes pcd-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Footer Credit */
+.pcd-footer-credit {
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
+    color: #999;
+    margin-top: 15px;
+}
+
+/* Apply Line Colors Button */
+#pcd-apply-line-colors {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.3s;
+}
+
+#pcd-apply-line-colors:hover {
+    background: #5a6fd6;
+}
+
+/* ===================================
+   DOWNLOAD BUTTON (on single post)
+   =================================== */
+.pcd-download-btn-wrapper {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.pcd-download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+.pcd-download-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+
+.pcd-download-button svg {
+    flex-shrink: 0;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 1400px) {
+    .pcd-photocard-wrapper {
+        transform: scale(0.5);
+        transform-origin: top left;
+    }
+}
+
+@media (max-width: 768px) {
+    .pcd-editor-content {
+        flex-direction: column;
+    }
+
+    .pcd-editor-controls {
+        max-width: 100%;
+        position: static;
+    }
+
+    .pcd-photocard-wrapper {
+        transform: scale(0.35);
+        transform-origin: top left;
+        height: 400px;
+    }
+}
