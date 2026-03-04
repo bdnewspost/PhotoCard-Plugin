@@ -13,7 +13,7 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: transparent;">
     
     <!-- Post Featured Image -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 65%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 65%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
 
     <!-- Background Template Image -->
     <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
@@ -25,17 +25,17 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
     </div>
     <?php endif; ?>
 
+    <!-- Date Badge - positioned absolutely on right side -->
+    <?php if ($enable_date): ?>
+    <div style="position: absolute; right: 30px; top: 58%; z-index: 10; transform: translateY(-50%);">
+        <span style="display: inline-block; color: #ffffff; font-size: 26px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 8px 22px; border-radius: 4px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px;">
+            <?php echo esc_html($formatted_date); ?>
+        </span>
+    </div>
+    <?php endif; ?>
+
     <!-- Bottom Content Area -->
     <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column;">
-        
-        <!-- Date Badge -->
-        <?php if ($enable_date): ?>
-        <div style="text-align: <?php echo esc_attr($date_position); ?>; padding: 0 40px; margin-bottom: 12px;">
-            <span style="display: inline-block; color: #ffffff; font-size: 28px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 10px 28px; border-radius: 4px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px;">
-                <?php echo esc_html($formatted_date); ?>
-            </span>
-        </div>
-        <?php endif; ?>
 
         <!-- Title -->
         <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($news24_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 40px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
