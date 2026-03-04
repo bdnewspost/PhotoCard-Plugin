@@ -11,23 +11,23 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: <?php echo esc_attr($kalbela_bg); ?>;">
     
-    <!-- Post Featured Image - behind the background frame -->
+    <!-- Post Featured Image -->
     <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 62%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
 
-    <!-- Background Template Image (angular frame + world map) - on top to frame the image -->
+    <!-- Background Template Image -->
     <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
-
-    <!-- Date -->
-    <?php if ($enable_date): ?>
-    <div style="position: absolute; top: 25px; <?php echo ($date_position === 'right') ? 'right: 30px;' : (($date_position === 'center') ? 'left: 50%; transform: translateX(-50%);' : 'left: 30px;'); ?> z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
-        <?php echo esc_html($formatted_date); ?>
-    </div>
-    <?php endif; ?>
 
     <!-- Logo -->
     <?php if ($enable_logo && !empty($watermark_logo)): ?>
     <div style="position: absolute; top: 20px; <?php echo ($logo_position === 'left') ? 'left: 25px;' : (($logo_position === 'center') ? 'left: 50%; transform: translateX(-50%);' : 'right: 25px;'); ?> z-index: 10;">
         <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 90px; width: auto; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));" crossorigin="anonymous">
+    </div>
+    <?php endif; ?>
+
+    <!-- Date -->
+    <?php if ($enable_date): ?>
+    <div style="position: absolute; top: 25px; <?php echo ($date_position === 'right') ? 'right: 30px;' : (($date_position === 'center') ? 'left: 50%; transform: translateX(-50%);' : 'left: 30px;'); ?> z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+        <?php echo esc_html($formatted_date); ?>
     </div>
     <?php endif; ?>
 
@@ -43,16 +43,16 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 8px 35px 22px;">
+        <div style="text-align: center; padding: 8px 35px 15px;">
             <span style="color: #FFD700; font-size: 30px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
-                ❮❮ <?php echo esc_html($details_button_text); ?> ❯❯
+                &laquo; <?php echo esc_html($details_button_text); ?> &raquo;
             </span>
         </div>
         <?php endif; ?>
 
         <!-- Social Links -->
         <?php if ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin): ?>
-        <div style="background: rgba(0,0,0,0.3); padding: 12px 25px; display: flex; justify-content: center; align-items: center; gap: 25px; flex-wrap: wrap;">
+        <div style="padding: 12px 25px 18px; display: flex; justify-content: center; align-items: center; gap: 25px; flex-wrap: wrap;">
             <?php if ($show_facebook && !empty($facebook_text)): ?>
             <div style="display: flex; align-items: center; gap: 6px; color: white; font-size: 16px; font-weight: 500;">
                 <svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877f2"/><path d="M16.5 12.5h-2.5v7h-3v-7h-2v-2.5h2v-1.5c0-2.2 1-3.5 3.5-3.5h2v2.5h-1.5c-.8 0-1 .3-1 1v1.5h2.5l-.5 2.5z" fill="white"/></svg>
