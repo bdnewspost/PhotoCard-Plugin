@@ -5,8 +5,9 @@
  * Reference analysis:
  * - FULL RED background (entire 1080x1080)
  * - Logo at top-left, Date at top-right (white text on red)
- * - Featured image centered with PROMINENT angular red triangular cuts at all 4 corners
- * - The red shapes create a trapezoid/octagonal frame effect
+ * - Featured image centered with LARGE decorative angular/arrow shapes on LEFT and RIGHT sides
+ * - These are big prominent red angular cuts creating a stylish diamond/octagonal frame
+ * - The shapes extend significantly into the image area (not small corner triangles)
  * - Title: Large WHITE bold text on red background below image
  * - "❮❮ নিউজ লিংক কমেন্টে ❯❯" in golden/yellow at bottom
  */
@@ -39,51 +40,59 @@ $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color']
         <?php endif; ?>
     </div>
 
-    <!-- Featured Image Area with Decorative Angular Frame -->
+    <!-- Featured Image Area with Large Decorative Angular Frame -->
     <div style="flex: 1; position: relative; margin: 0 30px; min-height: 0; overflow: hidden;">
         
         <!-- The Image (fills the container) -->
         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;" crossorigin="anonymous">
         
-        <!-- Top-Left Corner Triangle -->
-        <div style="position: absolute; top: 0; left: 0; z-index: 3;">
-            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
-                <polygon points="0,0 80,0 0,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-        
-        <!-- Top-Right Corner Triangle -->
-        <div style="position: absolute; top: 0; right: 0; z-index: 3;">
-            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
-                <polygon points="0,0 80,0 80,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-        
-        <!-- Bottom-Left Corner Triangle -->
-        <div style="position: absolute; bottom: 0; left: 0; z-index: 3;">
-            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
-                <polygon points="0,0 0,80 80,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-        
-        <!-- Bottom-Right Corner Triangle -->
-        <div style="position: absolute; bottom: 0; right: 0; z-index: 3;">
-            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
-                <polygon points="80,0 0,80 80,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+        <!-- LEFT Side - Large Angular Decorative Shape (arrow/chevron pointing right) -->
+        <div style="position: absolute; top: 0; left: 0; bottom: 0; z-index: 3; pointer-events: none;">
+            <svg width="140" height="100%" viewBox="0 0 140 600" preserveAspectRatio="none" style="display: block; height: 100%;">
+                <!-- Main large angular shape - top triangle -->
+                <polygon points="0,0 140,0 0,120" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Left edge bar -->
+                <rect x="0" y="0" width="12" height="600" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Middle decorative diamond/arrow pointing inward -->
+                <polygon points="0,180 65,300 0,420" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Bottom triangle -->
+                <polygon points="0,480 140,600 0,600" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Small accent triangles -->
+                <polygon points="0,140 30,180 0,180" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <polygon points="0,420 30,420 0,460" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
             </svg>
         </div>
 
-        <!-- Left Side Decorative Stripe -->
-        <div style="position: absolute; left: 0; top: 80px; bottom: 80px; width: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
-        
-        <!-- Right Side Decorative Stripe -->
-        <div style="position: absolute; right: 0; top: 80px; bottom: 80px; width: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
-        
-        <!-- Top Edge Stripe -->
-        <div style="position: absolute; top: 0; left: 80px; right: 80px; height: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
-        
-        <!-- Bottom Edge Stripe -->
-        <div style="position: absolute; bottom: 0; left: 80px; right: 80px; height: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
+        <!-- RIGHT Side - Large Angular Decorative Shape (mirror of left) -->
+        <div style="position: absolute; top: 0; right: 0; bottom: 0; z-index: 3; pointer-events: none;">
+            <svg width="140" height="100%" viewBox="0 0 140 600" preserveAspectRatio="none" style="display: block; height: 100%;">
+                <!-- Main large angular shape - top triangle -->
+                <polygon points="0,0 140,0 140,120" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Right edge bar -->
+                <rect x="128" y="0" width="12" height="600" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Middle decorative diamond/arrow pointing inward -->
+                <polygon points="140,180 75,300 140,420" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Bottom triangle -->
+                <polygon points="0,600 140,480 140,600" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <!-- Small accent triangles -->
+                <polygon points="140,140 110,180 140,180" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+                <polygon points="140,420 110,420 140,460" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
+
+        <!-- TOP Edge - Decorative bar with center notch -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 4; pointer-events: none;">
+            <svg width="100%" height="14" viewBox="0 0 1020 14" preserveAspectRatio="none" style="display: block;">
+                <rect x="0" y="0" width="1020" height="10" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
+
+        <!-- BOTTOM Edge - Decorative bar -->
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 4; pointer-events: none;">
+            <svg width="100%" height="14" viewBox="0 0 1020 14" preserveAspectRatio="none" style="display: block;">
+                <rect x="0" y="4" width="1020" height="10" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
     </div>
 
     <!-- Title Section on Red Background -->
