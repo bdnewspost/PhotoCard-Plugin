@@ -34,7 +34,7 @@ function pcd_handle_reset_to_default() {
 function pcd_sanitize_settings($input) {
     $sanitized = array();
 
-    // Basic settings
+    // Basic
     $sanitized['button_position'] = isset($input['button_position']) ? sanitize_text_field($input['button_position']) : 'above';
     $sanitized['button_text'] = isset($input['button_text']) ? sanitize_text_field($input['button_text']) : 'ডাউনলোড ফটোকার্ড';
     $sanitized['download_permission'] = isset($input['download_permission']) ? sanitize_text_field($input['download_permission']) : 'everyone';
@@ -65,29 +65,25 @@ function pcd_sanitize_settings($input) {
     $sanitized['default_line_height'] = isset($input['default_line_height']) ? floatval($input['default_line_height']) : 1.3;
     $sanitized['image_quality'] = isset($input['image_quality']) ? absint($input['image_quality']) : 4;
 
-    // Social links
-    $sanitized['facebook_link'] = isset($input['facebook_link']) ? esc_url_raw($input['facebook_link']) : '';
+    // Social
     $sanitized['facebook_text'] = isset($input['facebook_text']) ? sanitize_text_field($input['facebook_text']) : '';
     $sanitized['show_facebook'] = !empty($input['show_facebook']) ? true : false;
-    $sanitized['youtube_link'] = isset($input['youtube_link']) ? esc_url_raw($input['youtube_link']) : '';
     $sanitized['youtube_text'] = isset($input['youtube_text']) ? sanitize_text_field($input['youtube_text']) : '';
     $sanitized['show_youtube'] = !empty($input['show_youtube']) ? true : false;
-    $sanitized['website_link'] = isset($input['website_link']) ? esc_url_raw($input['website_link']) : '';
     $sanitized['website_text'] = isset($input['website_text']) ? sanitize_text_field($input['website_text']) : '';
     $sanitized['show_website'] = !empty($input['show_website']) ? true : false;
-    $sanitized['instagram_link'] = isset($input['instagram_link']) ? esc_url_raw($input['instagram_link']) : '';
     $sanitized['instagram_text'] = isset($input['instagram_text']) ? sanitize_text_field($input['instagram_text']) : '';
     $sanitized['show_instagram'] = !empty($input['show_instagram']) ? true : false;
-    $sanitized['linkedin_link'] = isset($input['linkedin_link']) ? esc_url_raw($input['linkedin_link']) : '';
     $sanitized['linkedin_text'] = isset($input['linkedin_text']) ? sanitize_text_field($input['linkedin_text']) : '';
     $sanitized['show_linkedin'] = !empty($input['show_linkedin']) ? true : false;
 
-    // Kalbela specific
+    // Kalbela
     $sanitized['kalbela_bg_color'] = isset($input['kalbela_bg_color']) ? sanitize_hex_color($input['kalbela_bg_color']) : '#cc0000';
 
-    // News24 specific  
-    $sanitized['news24_title_color'] = isset($input['news24_title_color']) ? sanitize_hex_color($input['news24_title_color']) : '#FFD700';
-    $sanitized['news24_gradient_opacity'] = isset($input['news24_gradient_opacity']) ? floatval($input['news24_gradient_opacity']) : 0.85;
+    // News24
+    $sanitized['news24_bg_color'] = isset($input['news24_bg_color']) ? sanitize_hex_color($input['news24_bg_color']) : '#FFD700';
+    $sanitized['news24_text_color'] = isset($input['news24_text_color']) ? sanitize_hex_color($input['news24_text_color']) : '#000000';
+    $sanitized['news24_date_bg'] = isset($input['news24_date_bg']) ? sanitize_hex_color($input['news24_date_bg']) : '#1a5fb4';
 
     return $sanitized;
 }
@@ -144,27 +140,33 @@ function pcd_settings_page() {
         'default_font_size' => 48,
         'default_line_height' => 1.3,
         'image_quality' => 4,
-        'facebook_link' => '',
         'facebook_text' => '',
         'show_facebook' => false,
-        'youtube_link' => '',
         'youtube_text' => '',
         'show_youtube' => false,
-        'website_link' => '',
         'website_text' => '',
         'show_website' => false,
-        'instagram_link' => '',
         'instagram_text' => '',
         'show_instagram' => false,
-        'linkedin_link' => '',
         'linkedin_text' => '',
         'show_linkedin' => false,
         'kalbela_bg_color' => '#cc0000',
-        'news24_title_color' => '#FFD700',
-        'news24_gradient_opacity' => 0.85,
+        'news24_bg_color' => '#FFD700',
+        'news24_text_color' => '#000000',
+        'news24_date_bg' => '#1a5fb4',
     );
 
     $options = wp_parse_args($options, $defaults);
+
+    // Get available templates
+    $template_dir = plugin_dir_path(dirname(__FILE__)) . 'includes/templates/';
+    $available_templates = array();
+    if (is_dir($template_dir)) {
+        foreach (glob($template_dir . '*.php') as $file) {
+            $name = basename($file, '.php');
+            $available_templates[$name] = $name;
+        }
+    }
     ?>
     <div class="wrap pcd-admin-wrap">
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
@@ -175,17 +177,26 @@ function pcd_settings_page() {
         <form method="post" action="options.php" id="pcd-settings-form">
             <?php settings_fields('pcd_settings_group'); ?>
 
-            <!-- Template & Basic -->
+            <!-- Template Selection -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">📍 টেমপ্লেট ও মূল সেটিংস</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">📍 টেমপ্লেট সিলেক্ট করুন</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row"><label for="photocard_template">ফটোকার্ড টেমপ্লেট</label></th>
                         <td>
                             <select name="pcd_settings[photocard_template]" id="photocard_template" class="regular-text">
-                                <option value="news24" <?php selected($options['photocard_template'], 'news24'); ?>>News24 - ফুল ইমেজ ডার্ক গ্রেডিয়েন্ট স্টাইল</option>
-                                <option value="kalbela" <?php selected($options['photocard_template'], 'kalbela'); ?>>কালবেলা - রেড হেডার/ফুটার নিউজপেপার স্টাইল</option>
+                                <option value="news24" <?php selected($options['photocard_template'], 'news24'); ?>>News24 - হলুদ বার স্টাইল</option>
+                                <option value="kalbela" <?php selected($options['photocard_template'], 'kalbela'); ?>>কালবেলা - রেড হেডার/ফুটার স্টাইল</option>
+                                <?php
+                                // Show any additional templates found in templates folder
+                                foreach ($available_templates as $tpl_key => $tpl_name) {
+                                    if (!in_array($tpl_key, array('news24', 'kalbela'))) {
+                                        echo '<option value="' . esc_attr($tpl_key) . '" ' . selected($options['photocard_template'], $tpl_key, false) . '>' . esc_html(ucfirst($tpl_name)) . '</option>';
+                                    }
+                                }
+                                ?>
                             </select>
+                            <p class="description">includes/templates/ ফোল্ডারে নতুন .php ফাইল রাখলে অটো দেখাবে।</p>
                         </td>
                     </tr>
                     <tr>
@@ -195,38 +206,6 @@ function pcd_settings_page() {
                                 <option value="bengali" <?php selected($options['photocard_language'], 'bengali'); ?>>বাংলা</option>
                                 <option value="english" <?php selected($options['photocard_language'], 'english'); ?>>English</option>
                                 <option value="hindi" <?php selected($options['photocard_language'], 'hindi'); ?>>हिन्दी</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="button_position">ডাউনলোড বাটন পজিশন</label></th>
-                        <td>
-                            <select name="pcd_settings[button_position]" id="button_position" class="regular-text">
-                                <option value="above" <?php selected($options['button_position'], 'above'); ?>>ইমেজের উপরে</option>
-                                <option value="below" <?php selected($options['button_position'], 'below'); ?>>ইমেজের নিচে</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="button_text">বাটন টেক্সট</label></th>
-                        <td><input type="text" name="pcd_settings[button_text]" id="button_text" value="<?php echo esc_attr($options['button_text']); ?>" class="regular-text"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="download_button_bg_color">বাটন ব্যাকগ্রাউন্ড কালার</label></th>
-                        <td><input type="text" name="pcd_settings[download_button_bg_color]" id="download_button_bg_color" value="<?php echo esc_attr($options['download_button_bg_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="download_button_text_color">বাটন টেক্সট কালার</label></th>
-                        <td><input type="text" name="pcd_settings[download_button_text_color]" id="download_button_text_color" value="<?php echo esc_attr($options['download_button_text_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="download_permission">ডাউনলোড পারমিশন</label></th>
-                        <td>
-                            <select name="pcd_settings[download_permission]" id="download_permission" class="regular-text">
-                                <option value="everyone" <?php selected($options['download_permission'], 'everyone'); ?>>সবাই</option>
-                                <option value="logged_in" <?php selected($options['download_permission'], 'logged_in'); ?>>লগইন ইউজার</option>
-                                <option value="editor" <?php selected($options['download_permission'], 'editor'); ?>>Editor+</option>
-                                <option value="admin" <?php selected($options['download_permission'], 'admin'); ?>>Admin</option>
                             </select>
                         </td>
                     </tr>
@@ -304,11 +283,11 @@ function pcd_settings_page() {
                     </tr>
                     <tr>
                         <th scope="row"><label for="default_font_size">ডিফল্ট ফন্ট সাইজ</label></th>
-                        <td><input type="number" name="pcd_settings[default_font_size]" id="default_font_size" value="<?php echo esc_attr($options['default_font_size']); ?>" min="20" max="70" class="small-text"> px</td>
+                        <td><input type="number" name="pcd_settings[default_font_size]" id="default_font_size" value="<?php echo esc_attr($options['default_font_size']); ?>" min="20" max="80" class="small-text"> px</td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="default_line_height">লাইন হাইট</label></th>
-                        <td><input type="number" name="pcd_settings[default_line_height]" id="default_line_height" value="<?php echo esc_attr($options['default_line_height']); ?>" min="1" max="2.5" step="0.1" class="small-text"></td>
+                        <td><input type="number" name="pcd_settings[default_line_height]" id="default_line_height" value="<?php echo esc_attr($options['default_line_height']); ?>" min="0.8" max="2.5" step="0.1" class="small-text"></td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="image_quality">ইমেজ কোয়ালিটি</label></th>
@@ -335,24 +314,77 @@ function pcd_settings_page() {
                 </table>
             </div>
 
-            <!-- Template-specific colors -->
+            <!-- Download Button -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🎨 টেমপ্লেট কালার</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">⬇️ ডাউনলোড বাটন</h2>
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><label for="kalbela_bg_color">কালবেলা ব্যাকগ্রাউন্ড কালার</label></th>
+                        <th scope="row"><label for="button_position">বাটন পজিশন</label></th>
+                        <td>
+                            <select name="pcd_settings[button_position]" id="button_position" class="regular-text">
+                                <option value="above" <?php selected($options['button_position'], 'above'); ?>>ইমেজের উপরে</option>
+                                <option value="below" <?php selected($options['button_position'], 'below'); ?>>ইমেজের নিচে</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="button_text">বাটন টেক্সট</label></th>
+                        <td><input type="text" name="pcd_settings[button_text]" id="button_text" value="<?php echo esc_attr($options['button_text']); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="download_button_bg_color">বাটন ব্যাকগ্রাউন্ড কালার</label></th>
+                        <td><input type="text" name="pcd_settings[download_button_bg_color]" id="download_button_bg_color" value="<?php echo esc_attr($options['download_button_bg_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="download_button_text_color">বাটন টেক্সট কালার</label></th>
+                        <td><input type="text" name="pcd_settings[download_button_text_color]" id="download_button_text_color" value="<?php echo esc_attr($options['download_button_text_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="download_permission">ডাউনলোড পারমিশন</label></th>
+                        <td>
+                            <select name="pcd_settings[download_permission]" id="download_permission" class="regular-text">
+                                <option value="everyone" <?php selected($options['download_permission'], 'everyone'); ?>>সবাই</option>
+                                <option value="logged_in" <?php selected($options['download_permission'], 'logged_in'); ?>>লগইন ইউজার</option>
+                                <option value="editor" <?php selected($options['download_permission'], 'editor'); ?>>Editor+</option>
+                                <option value="admin" <?php selected($options['download_permission'], 'admin'); ?>>Admin</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Template Colors -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🎨 টেমপ্লেট কালার কাস্টমাইজ</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row" colspan="2"><strong>— কালবেলা টেমপ্লেট —</strong></th>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="kalbela_bg_color">হেডার/ফুটার কালার</label></th>
                         <td><input type="text" name="pcd_settings[kalbela_bg_color]" id="kalbela_bg_color" value="<?php echo esc_attr($options['kalbela_bg_color']); ?>" class="pcd-color-picker"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="news24_title_color">News24 টাইটেল কালার</label></th>
-                        <td><input type="text" name="pcd_settings[news24_title_color]" id="news24_title_color" value="<?php echo esc_attr($options['news24_title_color']); ?>" class="pcd-color-picker"></td>
+                        <th scope="row" colspan="2"><strong>— News24 টেমপ্লেট —</strong></th>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="news24_bg_color">টাইটেল বার কালার</label></th>
+                        <td><input type="text" name="pcd_settings[news24_bg_color]" id="news24_bg_color" value="<?php echo esc_attr($options['news24_bg_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="news24_text_color">টাইটেল টেক্সট কালার</label></th>
+                        <td><input type="text" name="pcd_settings[news24_text_color]" id="news24_text_color" value="<?php echo esc_attr($options['news24_text_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="news24_date_bg">তারিখ ব্যাজ কালার</label></th>
+                        <td><input type="text" name="pcd_settings[news24_date_bg]" id="news24_date_bg" value="<?php echo esc_attr($options['news24_date_bg']); ?>" class="pcd-color-picker"></td>
                     </tr>
                 </table>
             </div>
 
             <!-- Social Media -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">📱 সোশ্যাল মিডিয়া লিংক</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">📱 সোশ্যাল মিডিয়া</h2>
                 <table class="form-table">
                     <?php foreach (array(
                         'facebook' => 'Facebook',
