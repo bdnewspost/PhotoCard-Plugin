@@ -3,11 +3,11 @@
  * Kalbela Template - EXACT match to reference
  * 
  * Reference analysis:
- * - FULL RED background (entire 1080x1080 is red)
- * - Logo at top-left corner on red bg
- * - Date at top-right on red bg (white text)
- * - Featured image centered with decorative angular red shapes on LEFT and RIGHT sides
- * - Title: Large WHITE bold text on red background at bottom
+ * - FULL RED background (entire 1080x1080)
+ * - Logo at top-left, Date at top-right (white text on red)
+ * - Featured image centered with PROMINENT angular red triangular cuts at all 4 corners
+ * - The red shapes create a trapezoid/octagonal frame effect
+ * - Title: Large WHITE bold text on red background below image
  * - "❮❮ নিউজ লিংক কমেন্টে ❯❯" in golden/yellow at bottom
  */
 if (!defined('ABSPATH')) exit;
@@ -17,10 +17,10 @@ $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color']
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: <?php echo esc_attr($kalbela_bg); ?>; padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
     
     <!-- Red Header Bar with Logo + Date -->
-    <div style="padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; min-height: 100px;">
+    <div style="padding: 20px 30px 10px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; min-height: 90px;">
         <?php if ($logo_position === 'right'): ?>
             <?php if ($enable_date): ?>
-            <div style="color: #ffffff; font-size: 32px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+            <div style="color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
                 <?php echo esc_html($formatted_date); ?>
             </div>
             <?php endif; ?>
@@ -32,50 +32,62 @@ $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color']
             <img src="<?php echo esc_url($watermark_logo); ?>" alt="Logo" style="height: 90px; width: auto; display: block; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));" crossorigin="anonymous">
             <?php endif; ?>
             <?php if ($enable_date): ?>
-            <div style="color: #ffffff; font-size: 32px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+            <div style="color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
                 <?php echo esc_html($formatted_date); ?>
             </div>
             <?php endif; ?>
         <?php endif; ?>
     </div>
 
-    <!-- Featured Image Area with Decorative Side Shapes -->
-    <div style="flex: 1; padding: 0 0; min-height: 0; overflow: hidden; position: relative;">
+    <!-- Featured Image Area with Decorative Angular Frame -->
+    <div style="flex: 1; position: relative; margin: 0 30px; min-height: 0; overflow: hidden;">
         
-        <!-- Left Decorative Angular Shape (red triangle pointing right) -->
-        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 45px; z-index: 3; overflow: hidden;">
-            <svg width="45" height="100%" viewBox="0 0 45 600" preserveAspectRatio="none" style="display: block; height: 100%; width: 100%;">
-                <polygon points="0,0 45,30 45,570 0,600" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-        
-        <!-- Right Decorative Angular Shape (red triangle pointing left) -->
-        <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 45px; z-index: 3; overflow: hidden;">
-            <svg width="45" height="100%" viewBox="0 0 45 600" preserveAspectRatio="none" style="display: block; height: 100%; width: 100%;">
-                <polygon points="0,30 45,0 45,600 0,570" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-
-        <!-- Top Decorative Angle -->
-        <div style="position: absolute; top: 0; left: 0; right: 0; height: 30px; z-index: 3; overflow: hidden;">
-            <svg width="100%" height="30" viewBox="0 0 1080 30" preserveAspectRatio="none" style="display: block;">
-                <polygon points="0,0 45,30 1035,30 1080,0" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-
-        <!-- Bottom Decorative Angle -->
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 30px; z-index: 3; overflow: hidden;">
-            <svg width="100%" height="30" viewBox="0 0 1080 30" preserveAspectRatio="none" style="display: block;">
-                <polygon points="45,0 0,30 1080,30 1035,0" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
-            </svg>
-        </div>
-
-        <!-- The Image -->
+        <!-- The Image (fills the container) -->
         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;" crossorigin="anonymous">
+        
+        <!-- Top-Left Corner Triangle -->
+        <div style="position: absolute; top: 0; left: 0; z-index: 3;">
+            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
+                <polygon points="0,0 80,0 0,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
+        
+        <!-- Top-Right Corner Triangle -->
+        <div style="position: absolute; top: 0; right: 0; z-index: 3;">
+            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
+                <polygon points="0,0 80,0 80,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
+        
+        <!-- Bottom-Left Corner Triangle -->
+        <div style="position: absolute; bottom: 0; left: 0; z-index: 3;">
+            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
+                <polygon points="0,0 0,80 80,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
+        
+        <!-- Bottom-Right Corner Triangle -->
+        <div style="position: absolute; bottom: 0; right: 0; z-index: 3;">
+            <svg width="80" height="80" viewBox="0 0 80 80" style="display: block;">
+                <polygon points="80,0 0,80 80,80" fill="<?php echo esc_attr($kalbela_bg); ?>"/>
+            </svg>
+        </div>
+
+        <!-- Left Side Decorative Stripe -->
+        <div style="position: absolute; left: 0; top: 80px; bottom: 80px; width: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
+        
+        <!-- Right Side Decorative Stripe -->
+        <div style="position: absolute; right: 0; top: 80px; bottom: 80px; width: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
+        
+        <!-- Top Edge Stripe -->
+        <div style="position: absolute; top: 0; left: 80px; right: 80px; height: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
+        
+        <!-- Bottom Edge Stripe -->
+        <div style="position: absolute; bottom: 0; left: 80px; right: 80px; height: 8px; z-index: 3; background: <?php echo esc_attr($kalbela_bg); ?>;"></div>
     </div>
 
     <!-- Title Section on Red Background -->
-    <div style="padding: 20px 40px 8px; flex-shrink: 0;">
+    <div style="padding: 22px 40px 8px; flex-shrink: 0;">
         <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.4);">
             <?php echo esc_html($post_title); ?>
         </div>
@@ -83,8 +95,8 @@ $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color']
 
     <!-- Details Button with decorative chevrons - golden/yellow style -->
     <?php if ($show_details_button): ?>
-    <div style="text-align: center; padding: 10px 35px 20px; flex-shrink: 0;">
-        <span style="color: #FFD700; font-size: 28px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
+    <div style="text-align: center; padding: 8px 35px 22px; flex-shrink: 0;">
+        <span style="color: #FFD700; font-size: 30px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
             ❮❮ <?php echo esc_html($details_button_text); ?> ❯❯
         </span>
     </div>
