@@ -24,12 +24,6 @@ function pcd_generate_photocard_ajax() {
         return;
     }
 
-    // FIX: Check permission before generating
-    if (!pcd_can_user_download()) {
-        wp_send_json_error(array('message' => 'আপনার এই ফটোকার্ড ডাউনলোড করার অনুমতি নেই'));
-        return;
-    }
-
     // Return success - actual generation happens on frontend with html2canvas
     wp_send_json_success(array(
         'message' => 'Photocard data ready',

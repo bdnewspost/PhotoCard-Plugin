@@ -1,7 +1,10 @@
 {
   "name": "photocard-generator",
-  "version": "1.1.0",
+  "version": "1.0.2",
   "private": true,
   "description": "Photocard Generator WordPress Plugin",
-  "scripts": {}
+  "scripts": {
+    "build:dev": "echo 'WordPress plugin - no build needed'",
+    "build": "echo 'WordPress plugin - no build needed'"
+  }
 }
