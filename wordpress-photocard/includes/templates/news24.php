@@ -10,10 +10,10 @@ $news24_date_bg = isset($options['news24_date_bg']) ? $options['news24_date_bg']
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
 $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0a0a;">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #0d0000;">
     
     <!-- Post Featured Image -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 70%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 75%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
 
     <!-- Background Template Image -->
     <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
@@ -25,9 +25,9 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
     </div>
     <?php endif; ?>
 
-    <!-- Date Badge - positioned absolutely on right side -->
+    <!-- Date Badge - positioned on right side near image bottom edge -->
     <?php if ($enable_date): ?>
-    <div style="position: absolute; right: 30px; top: 58%; z-index: 10; transform: translateY(-50%);">
+    <div style="position: absolute; right: 30px; top: 62%; z-index: 10;">
         <span style="display: inline-block; color: #ffffff; font-size: 26px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 8px 22px; border-radius: 4px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px;">
             <?php echo esc_html($formatted_date); ?>
         </span>
@@ -44,7 +44,7 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
 
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 15px 35px 8px;">
+        <div style="text-align: center; padding: 5px 35px 0;">
             <span style="color: #FFD700; font-size: 28px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px;">
                 &raquo; <?php echo esc_html($details_button_text); ?> &laquo;
             </span>
