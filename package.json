@@ -4,7 +4,7 @@
   "private": true,
   "description": "Photocard Generator WordPress Plugin",
   "scripts": {
-    "build:dev": "echo 'WordPress plugin - no build needed'",
-    "build": "echo 'WordPress plugin - no build needed'"
+    "build": "mkdir -p dist && cp index.html dist/index.html",
+    "dev": "echo 'WordPress plugin - open in WordPress admin'"
   }
 }

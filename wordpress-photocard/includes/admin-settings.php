@@ -187,10 +187,15 @@ function pcd_settings_page() {
                             <select name="pcd_settings[photocard_template]" id="photocard_template" class="regular-text">
                                 <option value="news24" <?php selected($options['photocard_template'], 'news24'); ?>>News24 - হলুদ বার স্টাইল</option>
                                 <option value="kalbela" <?php selected($options['photocard_template'], 'kalbela'); ?>>কালবেলা - রেড হেডার/ফুটার স্টাইল</option>
+                                <option value="prothomalo" <?php selected($options['photocard_template'], 'prothomalo'); ?>>প্রথম আলো - ব্লু অ্যাকসেন্ট ক্লিন স্টাইল</option>
+                                <option value="dailystar" <?php selected($options['photocard_template'], 'dailystar'); ?>>Daily Star - ডার্ক নেভি প্রফেশনাল স্টাইল</option>
+                                <option value="jugantor" <?php selected($options['photocard_template'], 'jugantor'); ?>>যুগান্তর - গ্রিন অ্যাকসেন্ট স্টাইল</option>
+                                <option value="samakal" <?php selected($options['photocard_template'], 'samakal'); ?>>সমকাল - মেরুন এলিগ্যান্ট স্টাইল</option>
                                 <?php
-                                // Show any additional templates found in templates folder
+                                // Auto-detect any additional templates
+                                $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal');
                                 foreach ($available_templates as $tpl_key => $tpl_name) {
-                                    if (!in_array($tpl_key, array('news24', 'kalbela'))) {
+                                    if (!in_array($tpl_key, $known)) {
                                         echo '<option value="' . esc_attr($tpl_key) . '" ' . selected($options['photocard_template'], $tpl_key, false) . '>' . esc_html(ucfirst($tpl_name)) . '</option>';
                                     }
                                 }
