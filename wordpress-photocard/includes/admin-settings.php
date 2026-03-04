@@ -306,6 +306,7 @@ function pcd_settings_page() {
                                 <option value="modern" <?php selected($options['photocard_template'], 'modern'); ?>>মডার্ন - নীল গ্রেডিয়েন্ট স্টাইল</option>
                                 <option value="elegant" <?php selected($options['photocard_template'], 'elegant'); ?>>এলিগ্যান্ট - সোনালী এবং সাদা ডিজাইন</option>
                                 <option value="minimal" <?php selected($options['photocard_template'], 'minimal'); ?>>মিনিমাল - সাদা এবং কালো সিম্পল ডিজাইন</option>
+                                <option value="kalbela" <?php selected($options['photocard_template'], 'kalbela'); ?>>কালবেলা - লাল হেডার/ফুটার নিউজপেপার স্টাইল</option>
                                 <option value="news24" <?php selected($options['photocard_template'], 'news24'); ?>>News24 - ডার্ক গ্রেডিয়েন্ট সোনালী টাইটেল ডিজাইন</option>
                             </select>
                             <p class="description">

@@ -1,0 +1,215 @@
+/* ===================================
+   Photocard Generator - Admin Styles
+   =================================== */
+
+/* Admin Wrap */
+.pcd-admin-wrap {
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Section Titles */
+.pcd-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+/* Form Table Enhancements */
+.pcd-admin-wrap .form-table th {
+    padding: 15px 10px 15px 0;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.pcd-admin-wrap .form-table td {
+    padding: 10px;
+}
+
+.pcd-admin-wrap .form-table input.regular-text,
+.pcd-admin-wrap .form-table select.regular-text {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Toggle Labels */
+.pcd-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.pcd-toggle-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Logo Preview */
+.pcd-logo-preview {
+    margin-top: 10px;
+}
+
+.pcd-logo-preview img {
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px;
+    background: #f9f9f9;
+}
+
+/* Background Preview */
+.pcd-background-preview {
+    margin-top: 10px;
+}
+
+.pcd-background-preview img {
+    max-width: 300px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Ad Preview */
+.pcd-ad-preview img {
+    max-width: 300px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Color Picker Container */
+.wp-picker-container {
+    display: inline-block;
+}
+
+/* Upload Buttons */
+.pcd-upload-logo,
+.pcd-upload-background,
+.pcd-upload-ad-image {
+    margin-left: 5px !important;
+}
+
+/* Template Selector */
+.pcd-template-selector {
+    font-size: 14px;
+    padding: 8px 12px;
+    min-height: 40px;
+}
+
+/* Border Radius Inputs */
+.pcd-admin-wrap input.small-text {
+    width: 70px;
+}
+
+/* Social Link Groups */
+.pcd-social-group {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #e9ecef;
+}
+
+/* Ad Section Toggle */
+.pcd-ad-toggle {
+    background: #fff8e1;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #ffecb3;
+    margin-bottom: 8px;
+}
+
+/* Submit Button Enhancement */
+.pcd-admin-wrap .submit .button-primary {
+    padding: 8px 30px;
+    font-size: 15px;
+    height: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.pcd-admin-wrap .submit .button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Reset Button */
+.pcd-reset-button {
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 20px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pcd-reset-button:hover {
+    background: #c82333 !important;
+}
+
+/* Description Enhancement */
+.pcd-admin-wrap .description {
+    font-style: normal;
+    color: #6c757d;
+    margin-top: 6px;
+}
+
+/* Thumbnail Border Inputs Grid */
+.pcd-border-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 300px;
+}
+
+.pcd-border-grid label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+/* Custom CSS Textarea */
+.pcd-custom-css-editor {
+    width: 100%;
+    max-width: 600px;
+    min-height: 150px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .pcd-admin-wrap {
+        margin: 10px;
+    }
+
+    .pcd-admin-wrap .form-table th,
+    .pcd-admin-wrap .form-table td {
+        display: block;
+        padding: 5px 0;
+    }
+
+    .pcd-admin-wrap .form-table th {
+        padding-top: 15px;
+    }
+
+    .pcd-border-grid {
+        grid-template-columns: 1fr;
+    }
+}
