@@ -5,7 +5,7 @@
  */
 if (!defined('ABSPATH')) exit;
 
-$news24_title_color = isset($options['news24_title_color']) ? $options['news24_title_color'] : '#FFD700';
+$news24_title_color = isset($options['news24_text_color']) ? $options['news24_text_color'] : '#FFD700';
 $news24_date_bg = isset($options['news24_date_bg']) ? $options['news24_date_bg'] : '#1a3a5c';
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
 $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
@@ -15,11 +15,8 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
     <!-- Post Featured Image - behind the background -->
     <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 65%; object-fit: cover; z-index: 1;" crossorigin="anonymous">
 
-    <!-- Background Template Image (world map pattern) - on top -->
+    <!-- Background Template Image - on top as frame -->
     <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
-
-    <!-- Gradient to blend post image into background -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; height: 65%; background: linear-gradient(to top, rgba(80,0,10,0.95) 0%, rgba(60,0,10,0.7) 8%, rgba(40,0,5,0.4) 20%, transparent 40%); z-index: 3;"></div>
 
     <!-- Logo -->
     <?php if ($enable_logo && !empty($watermark_logo)): ?>
@@ -48,7 +45,7 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
         <div style="text-align: center; padding: 18px 35px 8px;">
-            <span style="color: #ffffff; font-size: 28px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px;">
+            <span style="color: #FFD700; font-size: 28px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px;">
                 ❯❯ <?php echo esc_html($details_button_text); ?> ❮❮
             </span>
         </div>
@@ -63,10 +60,22 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
                 <span><?php echo esc_html($facebook_text); ?></span>
             </div>
             <?php endif; ?>
+            <?php if ($show_instagram && !empty($instagram_text)): ?>
+            <div style="display: flex; align-items: center; gap: 10px; color: white; font-size: 18px; font-weight: 500;">
+                <svg width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="url(#ig-grad-n24)"/><circle cx="12" cy="12" r="5" stroke="white" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="white"/><defs><linearGradient id="ig-grad-n24" x1="0" y1="24" x2="24" y2="0"><stop offset="0%" stop-color="#feda75"/><stop offset="25%" stop-color="#fa7e1e"/><stop offset="50%" stop-color="#d62976"/><stop offset="75%" stop-color="#962fbf"/><stop offset="100%" stop-color="#4f5bd5"/></linearGradient></defs></svg>
+                <span><?php echo esc_html($instagram_text); ?></span>
+            </div>
+            <?php endif; ?>
             <?php if ($show_youtube && !empty($youtube_text)): ?>
             <div style="display: flex; align-items: center; gap: 10px; color: white; font-size: 18px; font-weight: 500;">
                 <svg width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FF0000"/><path d="M10 8.5v7l5.5-3.5L10 8.5z" fill="white"/></svg>
                 <span><?php echo esc_html($youtube_text); ?></span>
+            </div>
+            <?php endif; ?>
+            <?php if ($show_linkedin && !empty($linkedin_text)): ?>
+            <div style="display: flex; align-items: center; gap: 10px; color: white; font-size: 18px; font-weight: 500;">
+                <svg width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#0077B5"/><path d="M8 10v7H5.5v-7H8zm-1.25-1.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM19 17h-2.5v-3.5c0-1-.4-1.7-1.3-1.7-.7 0-1.1.5-1.3 1-.1.1-.1.3-.1.5V17H11.5s0-6.5 0-7h2.3l.2 1c.5-.7 1.2-1.2 2.3-1.2 1.7 0 2.7 1.1 2.7 3.5V17z" fill="white"/></svg>
+                <span><?php echo esc_html($linkedin_text); ?></span>
             </div>
             <?php endif; ?>
             <?php if ($show_website && !empty($website_text)): ?>
