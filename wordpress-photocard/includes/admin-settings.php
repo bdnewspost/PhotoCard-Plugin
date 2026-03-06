@@ -75,6 +75,8 @@ function pcd_sanitize_settings($input) {
     $sanitized['enable_logo'] = !empty($input['enable_logo']) ? true : false;
     $sanitized['show_details_button'] = !empty($input['show_details_button']) ? true : false;
     $sanitized['details_button_text'] = isset($input['details_button_text']) ? sanitize_text_field($input['details_button_text']) : 'বিস্তারিত কমেন্টে';
+    $sanitized['title_top_offset'] = isset($input['title_top_offset']) ? intval($input['title_top_offset']) : 0;
+    $sanitized['details_bottom_offset'] = isset($input['details_bottom_offset']) ? intval($input['details_bottom_offset']) : 0;
 
     // Font
     $sanitized['title_font_family'] = isset($input['title_font_family']) ? sanitize_text_field($input['title_font_family']) : 'Noto Sans Bengali';
@@ -155,6 +157,8 @@ function pcd_settings_page() {
         'enable_logo' => true,
         'show_details_button' => true,
         'details_button_text' => 'বিস্তারিত কমেন্টে',
+        'title_top_offset' => 0,
+        'details_bottom_offset' => 0,
         'title_font_family' => 'Noto Sans Bengali',
         'default_font_size' => 48,
         'default_line_height' => 1.3,
@@ -333,6 +337,20 @@ function pcd_settings_page() {
                             </label>
                             <br><br>
                             <input type="text" name="pcd_settings[details_button_text]" value="<?php echo esc_attr($options['details_button_text']); ?>" class="regular-text" placeholder="বাটন টেক্সট">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="title_top_offset">টাইটেল পজিশন অফসেট (px)</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[title_top_offset]" id="title_top_offset" value="<?php echo esc_attr($options['title_top_offset']); ?>" min="-200" max="200" class="small-text"> px
+                            <p class="description">ধনাত্মক মান = নিচে, ঋণাত্মক মান = উপরে। ডিফল্ট: 0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="details_bottom_offset">বিস্তারিত পজিশন অফসেট (px)</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[details_bottom_offset]" id="details_bottom_offset" value="<?php echo esc_attr($options['details_bottom_offset']); ?>" min="-200" max="200" class="small-text"> px
+                            <p class="description">ধনাত্মক মান = নিচে, ঋণাত্মক মান = উপরে। ডিফল্ট: 0</p>
                         </td>
                     </tr>
                 </table>
