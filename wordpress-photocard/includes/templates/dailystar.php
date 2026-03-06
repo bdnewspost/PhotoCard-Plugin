@@ -7,6 +7,8 @@ if (!defined('ABSPATH')) exit;
 
 $ds_navy = '#003366';
 $ds_red = '#cc0000';
+$_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
+$_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: <?php echo esc_attr($ds_navy); ?>; padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
     
@@ -45,7 +47,7 @@ $ds_red = '#cc0000';
     <div style="height: 5px; background: <?php echo esc_attr($ds_red); ?>; flex-shrink: 0;"></div>
 
     <!-- Navy Title Footer -->
-    <div style="background: <?php echo esc_attr($ds_navy); ?>; padding: 22px 35px 10px; flex-shrink: 0;">
+    <div style="background: <?php echo esc_attr($ds_navy); ?>; padding: <?php echo (22 - $_title_offset); ?>px 35px <?php echo (10 + $_details_offset); ?>px; flex-shrink: 0;">
         <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 800; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
             <?php echo esc_html($post_title); ?>
         </div>

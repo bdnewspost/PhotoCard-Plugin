@@ -10,6 +10,9 @@ $news24_title_color = isset($options['news24_text_color']) ? $options['news24_te
 $news24_date_bg = isset($options['news24_date_bg']) ? $options['news24_date_bg'] : '#1a3a5c';
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
 $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
+$_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
+$_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
+$_content_top = 540 + $_title_offset;
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0505;">
     
@@ -36,7 +39,7 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
     <?php endif; ?>
 
     <!-- Bottom Content Area -->
-    <div style="position: absolute; top: 540px; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 30px;">
+    <div style="position: absolute; top: <?php echo $_content_top; ?>px; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 30px;">
 
         <!-- Title -->
         <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($news24_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 50px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
@@ -48,7 +51,7 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
 
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 0 35px 12px;">
+        <div style="text-align: center; padding: 0 35px <?php echo (12 + $_details_offset); ?>px;">
             <span style="color: #FFD700; font-size: 28px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px;">
                 &raquo;&raquo; <?php echo esc_html($details_button_text); ?> &laquo;&laquo;
             </span>
