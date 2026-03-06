@@ -9,10 +9,10 @@ $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color']
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
 $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #8b0000;">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #6b0000;">
     
     <!-- Post Featured Image -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 75%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 70%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
 
     <!-- Background Template Image -->
     <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
@@ -32,7 +32,7 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
     <?php endif; ?>
 
     <!-- Bottom Content Area -->
-    <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column;">
+    <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: <?php echo ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin) ? '0' : '20px'; ?>;">
 
         <!-- Title -->
         <div style="padding: 10px 40px 0;">
@@ -43,7 +43,7 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 5px 35px 0;">
+        <div style="text-align: center; padding: 8px 35px 5px;">
             <span style="color: #FFD700; font-size: 30px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
                 &laquo; <?php echo esc_html($details_button_text); ?> &raquo;
             </span>
