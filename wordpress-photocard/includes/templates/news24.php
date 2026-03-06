@@ -31,7 +31,7 @@ $_content_top = 540 + $_title_offset;
 
     <!-- Date Badge - right side, at bottom edge of image area -->
     <?php if ($enable_date): ?>
-    <div style="position: absolute; right: 30px; bottom: 390px; z-index: 10;">
+    <div style="position: absolute; right: 0px; bottom: 350px; z-index: 10;">
         <span style="display: inline-block; color: #ffffff; font-size: 28px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 10px 24px; border-radius: 5px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px;">
             <?php echo esc_html($formatted_date); ?>
         </span>
