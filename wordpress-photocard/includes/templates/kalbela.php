@@ -8,6 +8,8 @@ if (!defined('ABSPATH')) exit;
 $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color'] : '#cc0000';
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
 $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
+$_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
+$_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #6b0000;">
     
@@ -35,7 +37,7 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
     <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: <?php echo ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin) ? '0' : '20px'; ?>;">
 
         <!-- Title -->
-        <div style="padding: 10px 40px 0;">
+        <div style="padding: <?php echo (10 - $_title_offset); ?>px 40px 0;">
             <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.4);">
                 <?php echo esc_html($post_title); ?>
             </div>
@@ -43,7 +45,7 @@ $bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
 
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 8px 35px 5px;">
+        <div style="text-align: center; padding: 8px 35px <?php echo (5 + $_details_offset); ?>px;">
             <span style="color: #FFD700; font-size: 30px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
                 &laquo; <?php echo esc_html($details_button_text); ?> &raquo;
             </span>

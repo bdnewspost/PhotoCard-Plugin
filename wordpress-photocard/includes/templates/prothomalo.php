@@ -6,6 +6,8 @@
 if (!defined('ABSPATH')) exit;
 
 $pa_red = '#e42313';
+$_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
+$_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: #000; padding: 0; position: relative; overflow: hidden; box-sizing: border-box;">
     
@@ -39,15 +41,15 @@ $pa_red = '#e42313';
     <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 55%; background: linear-gradient(to top, <?php echo esc_attr($pa_red); ?> 0%, <?php echo esc_attr($pa_red); ?>ee 25%, <?php echo esc_attr($pa_red); ?>88 50%, transparent 100%); z-index: 2;"></div>
 
     <!-- Bottom content -->
-    <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; padding-bottom: <?php echo ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin) ? '0' : '20px'; ?>;">
+    <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; padding-bottom: <?php echo ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin) ? '0' : (20 + $_details_offset) . 'px'; ?>;">
         
         <!-- Title -->
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 35px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 35px; margin-top: <?php echo -$_title_offset; ?>px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
             <?php echo esc_html($post_title); ?>
         </div>
 
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 10px 35px 5px;">
+        <div style="text-align: center; padding: 10px 35px <?php echo (5 + $_details_offset); ?>px;">
             <span style="color: rgba(255,255,255,0.9); font-size: 22px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', sans-serif;">
                 ❯❯ <?php echo esc_html($details_button_text); ?> ❮❮
             </span>

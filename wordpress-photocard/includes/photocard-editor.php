@@ -43,6 +43,8 @@ function pcd_load_editor_template() {
     $title_font_family = isset($options['title_font_family']) && !empty($options['title_font_family']) ? $options['title_font_family'] : 'Noto Sans Bengali';
     $image_quality = isset($options['image_quality']) ? $options['image_quality'] : 4;
     $title_alignment = 'center';
+    $title_top_offset = isset($options['title_top_offset']) ? intval($options['title_top_offset']) : 0;
+    $details_bottom_offset = isset($options['details_bottom_offset']) ? intval($options['details_bottom_offset']) : 0;
 
     // Social
     $show_facebook = isset($options['show_facebook']) ? $options['show_facebook'] : false;
