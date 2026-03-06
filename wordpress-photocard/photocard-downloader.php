@@ -106,6 +106,8 @@ function pcd_activate_plugin() {
         'enable_logo' => true,
         'show_details_button' => true,
         'details_button_text' => 'বিস্তারিত কমেন্ট',
+        'title_top_offset' => 0,
+        'details_bottom_offset' => 0,
         'default_font_size' => 42,
         'default_line_height' => 1.3,
         'show_border' => true,
