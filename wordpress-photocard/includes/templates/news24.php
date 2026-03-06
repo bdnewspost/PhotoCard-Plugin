@@ -28,36 +28,36 @@ $bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
 
     <!-- Date Badge - right side, at bottom edge of image area -->
     <?php if ($enable_date): ?>
-    <div style="position: absolute; right: 30px; bottom: 42%; z-index: 10;">
-        <span style="display: inline-block; color: #ffffff; font-size: 26px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 8px 22px; border-radius: 4px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px;">
+    <div style="position: absolute; right: 30px; bottom: 390px; z-index: 10;">
+        <span style="display: inline-block; color: #ffffff; font-size: 28px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 10px 24px; border-radius: 5px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px;">
             <?php echo esc_html($formatted_date); ?>
         </span>
     </div>
     <?php endif; ?>
 
-    <!-- Bottom Content Area - positioned to fill overlay area -->
-    <div style="position: absolute; top: 60%; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: center; padding-bottom: <?php echo ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin) ? '0' : '15px'; ?>;">
+    <!-- Bottom Content Area -->
+    <div style="position: absolute; top: 540px; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 30px;">
 
         <!-- Title -->
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($news24_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 40px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($news24_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 50px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
             <?php echo esc_html($post_title); ?>
         </div>
 
+        <!-- Spacer -->
+        <div style="flex: 1;"></div>
+
         <!-- Details Button -->
         <?php if ($show_details_button): ?>
-        <div style="text-align: center; padding: 8px 35px 5px;">
+        <div style="text-align: center; padding: 0 35px 12px;">
             <span style="color: #FFD700; font-size: 28px; font-weight: 600; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 2px;">
                 &raquo;&raquo; <?php echo esc_html($details_button_text); ?> &laquo;&laquo;
             </span>
         </div>
         <?php endif; ?>
 
-        <!-- Spacer to push social to bottom -->
-        <div style="flex: 1;"></div>
-
         <!-- Social Links Bar -->
         <?php if ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin): ?>
-        <div style="padding: 12px 30px; display: flex; justify-content: center; align-items: center; gap: 35px; flex-wrap: wrap;">
+        <div style="padding: 10px 30px 14px; display: flex; justify-content: center; align-items: center; gap: 35px; flex-wrap: wrap;">
             <?php if ($show_facebook && !empty($facebook_text)): ?>
             <div style="display: flex; align-items: center; gap: 8px; color: white; font-size: 17px; font-weight: 500;">
                 <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877f2"/><path d="M16.5 12.5h-2.5v7h-3v-7h-2v-2.5h2v-1.5c0-2.2 1-3.5 3.5-3.5h2v2.5h-1.5c-.8 0-1 .3-1 1v1.5h2.5l-.5 2.5z" fill="white"/></svg>
