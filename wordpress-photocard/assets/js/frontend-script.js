@@ -143,10 +143,29 @@
         await document.fonts.ready
       }
 
-      const $photocardWrapper = $(".pcd-photocard-with-border")[0]
+      const $card = $(".pcd-photocard-with-border")
+      const $wrapper = $(".pcd-photocard-wrapper")
+      const el = $card[0]
       const quality = Number.parseInt($(".pcd-photocard").attr("data-quality")) || 4
 
-      return html2canvas($photocardWrapper, {
+      // Save current scale state
+      const currentScale = $card.css("--pcd-scale") || "0.55"
+      const currentWrapperHeight = $wrapper.css("height")
+
+      // Reset to full size for capture
+      $card.css({
+        "--pcd-scale": "1",
+        "transform": "scale(1)"
+      })
+      $wrapper.css({
+        "height": "1080px",
+        "overflow": "visible"
+      })
+
+      // Wait for reflow
+      await new Promise(r => setTimeout(r, 100))
+
+      const canvas = await html2canvas(el, {
         scale: quality,
         useCORS: true,
         allowTaint: false,
@@ -154,9 +173,23 @@
         logging: false,
         imageTimeout: 0,
         removeContainer: true,
+        width: 1080,
+        height: 1080,
         windowWidth: 1080,
         windowHeight: 1080,
       })
+
+      // Restore scale
+      $card.css({
+        "--pcd-scale": currentScale,
+        "transform": "scale(var(--pcd-scale, 0.55))"
+      })
+      $wrapper.css({
+        "height": currentWrapperHeight,
+        "overflow": "visible"
+      })
+
+      return canvas
     }
 
     // ===== SHARE =====
