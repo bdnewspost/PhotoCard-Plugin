@@ -34,138 +34,159 @@
   cursor: not-allowed;
 }
 
-/* Editor Page Styles */
+/* ===================================
+   EDITOR PAGE - RESPONSIVE LAYOUT
+   =================================== */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap");
+
 .pcd-editor-page {
   margin: 0;
   padding: 0;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #f0f2f5 0%, #e8ecf1 100%);
   font-family: "Noto Sans Bengali", "SolaimanLipi", Arial, sans-serif;
+  min-height: 100vh;
 }
 
 .pcd-editor-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 30px 20px;
 }
 
 .pcd-editor-title {
   text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 40px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  letter-spacing: -0.5px;
 }
 
 .pcd-editor-content {
   display: flex;
-  gap: 40px;
+  gap: 30px;
   align-items: flex-start;
-  flex-wrap: wrap;
   justify-content: center;
 }
 
-/* Updated photocard wrapper to properly display 1080x1080 photocard with scaling */
+/* ===================================
+   PHOTOCARD PREVIEW - DYNAMIC SCALING
+   =================================== */
 .pcd-photocard-wrapper {
   background: transparent;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: none;
+  padding: 0;
+  border-radius: 12px;
   flex: 1;
-  max-width: 700px;
+  max-width: 650px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow: visible;
+  align-items: flex-start;
+  overflow: hidden;
 }
 
 .pcd-photocard {
   font-family: "Noto Sans Bengali", "SolaimanLipi", Arial, sans-serif;
 }
 
-/* Scale down photocard for preview while maintaining 1080x1080 for download */
+/* The photocard is always 1080x1080 internally. 
+   We scale it via JS (--pcd-scale CSS variable) to fit the container. */
 .pcd-photocard-with-border {
   width: 1080px;
   height: 1080px;
-  transform: scale(0.58);
-  transform-origin: center center;
-  margin: -226px;
+  transform: scale(var(--pcd-scale, 0.55));
+  transform-origin: top left;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
 
+.pcd-title {
+  font-family: "Noto Sans Bengali", "SolaimanLipi", "Kalpurush", "Hind Siliguri", "Mukti", Arial, sans-serif;
+}
+
+/* ===================================
+   EDITOR CONTROLS
+   =================================== */
 .pcd-editor-controls {
   flex: 1;
-  min-width: 300px;
-  max-width: 450px;
+  min-width: 280px;
+  max-width: 420px;
   background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0,0,0,0.04);
 }
 
 .pcd-control-group {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .pcd-control-group label {
   display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
 }
 
 .pcd-control-group input[type="range"] {
   width: 100%;
-  height: 8px;
+  height: 6px;
   border-radius: 5px;
-  background: #e0e0e0;
+  background: #e2e8f0;
   outline: none;
   -webkit-appearance: none;
+  cursor: pointer;
 }
 
 .pcd-control-group input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #667eea;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(102,126,234,0.4);
 }
 
 .pcd-control-group input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #667eea;
   cursor: pointer;
   border: none;
+  box-shadow: 0 2px 6px rgba(102,126,234,0.4);
 }
 
 .pcd-control-group span {
   display: inline-block;
-  margin-top: 5px;
-  font-size: 14px;
-  color: #666;
+  margin-top: 4px;
+  font-size: 13px;
+  color: #64748b;
   font-weight: 600;
 }
 
+/* Share Section */
 .pcd-share-section {
-  padding: 15px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 10px;
-  margin-bottom: 25px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
 }
 
 .pcd-share-section label {
-  color: #2c3e50;
-  font-size: 16px;
+  color: #1e293b;
+  font-size: 15px;
   margin-bottom: 12px;
 }
 
 .pcd-share-buttons {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
 }
 
 .pcd-btn-sm {
@@ -174,8 +195,8 @@
 }
 
 .pcd-btn-sm svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin: 0;
 }
 
@@ -186,8 +207,8 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease, background 0.3s ease, color 0.3s ease;
-  background: #6c757d;
+  transition: all 0.2s ease;
+  background: #94a3b8;
   color: white;
 }
 
@@ -196,97 +217,79 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.pcd-btn-facebook {
-  background: #1877f2;
-}
+.pcd-btn-facebook { background: #1877f2; }
+.pcd-btn-facebook:hover { background: #145dbf; }
+.pcd-btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.pcd-btn-instagram:hover { opacity: 0.9; }
+.pcd-btn-twitter { background: #1da1f2; }
+.pcd-btn-twitter:hover { background: #0d8bd9; }
+.pcd-btn-linkedin { background: #0077b5; }
+.pcd-btn-linkedin:hover { background: #005885; }
+.pcd-btn-whatsapp { background: #25d366; }
+.pcd-btn-whatsapp:hover { background: #1da851; }
 
-.pcd-btn-facebook:hover {
-  background: #145dbf;
-}
-
-.pcd-btn-instagram {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-}
-
-.pcd-btn-instagram:hover {
-  background: linear-gradient(45deg, #d87b2a 0%, #c95a33 25%, #b91f38 50%, #a91d5a 75%, #991577 100%);
-}
-
-.pcd-btn-twitter {
-  background: #1da1f2;
-}
-
-.pcd-btn-twitter:hover {
-  background: #0d8bd9;
-}
-
-.pcd-btn-linkedin {
-  background: #0077b5;
-}
-
-.pcd-btn-linkedin:hover {
-  background: #005885;
-}
-
-.pcd-btn-whatsapp {
-  background: #25d366;
-}
-
-.pcd-btn-whatsapp:hover {
-  background: #1da851;
-}
-
+/* Action Buttons */
 .pcd-editor-actions {
   display: flex;
-  gap: 15px;
-  margin-top: 40px;
+  gap: 12px;
+  margin-top: 30px;
 }
 
 .pcd-btn {
   flex: 1;
-  padding: 15px 20px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  text-align: center;
 }
 
 .pcd-btn-secondary {
-  background: #6c757d;
+  background: #64748b;
   color: white;
 }
 
 .pcd-btn-secondary:hover {
-  background: #5a6268;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+  background: #475569;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
 }
 
 .pcd-btn-primary {
-  background: #28a745;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
 }
 
 .pcd-btn-primary:hover {
-  background: #218838;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
 }
 
 .pcd-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
+  transform: none !important;
 }
 
 .pcd-footer-credit {
   text-align: center;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #e0e0e0;
-  font-size: 14px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+.pcd-footer-credit a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.pcd-footer-credit a:hover {
+  color: #667eea;
 }
 
 .pcd-loading {
@@ -296,357 +299,13 @@
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: white;
-  animation: pcd-spin 1s ease-in-out infinite;
-  margin-left: 10px;
+  animation: pcd-spin 0.8s linear infinite;
+  margin-left: 8px;
   vertical-align: middle;
 }
 
 @keyframes pcd-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Font family definitions */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap");
-
-.pcd-title {
-  font-family: "Noto Sans Bengali", "SolaimanLipi", "Kalpurush", "Hind Siliguri", "Mukti", Arial, sans-serif;
-}
-
-/* Template-specific styles */
-.pcd-template-custom .pcd-photocard {
-  /* Uses inline styles from admin settings */
-}
-
-.pcd-template-custom .pcd-title {
-  /* Font family is applied via inline style from settings */
-}
-
-/* Background overlay fix */
-.pcd-border-overlay {
-  z-index: -1 !important;
-  position: absolute !important;
-}
-
-.pcd-image {
-  width: 100%;
-  max-width: 100%;
-  flex: 1;
-  min-width: 0;
-}
-
-/* Classic Template - Red/Crimson theme */
-.pcd-template-classic .pcd-photocard {
-  box-shadow: 0 10px 30px rgba(196, 30, 58, 0.3);
-}
-
-.pcd-template-classic .pcd-bottom-dots div {
-  background: #c41e3a;
-  animation: pcd-pulse 2s ease-in-out infinite;
-}
-
-.pcd-template-classic .pcd-date {
-  color: #000000;
-}
-
-.pcd-template-classic .pcd-footer-button > div:first-child,
-.pcd-template-classic .pcd-footer-button > div:last-child {
-  background: #c41e3a;
-}
-
-.pcd-template-classic .pcd-footer-button > div:nth-child(2) {
-  background: #c41e3a;
-  color: #ffffff;
-}
-
-.pcd-template-classic .pcd-social-links {
-  background: #c41e3a;
-}
-
-/* Modern Template - Blue theme */
-.pcd-template-modern .pcd-photocard {
-  background: #f8fafc;
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-  border: 2px solid rgba(59, 130, 246, 0.1);
-}
-
-.pcd-template-modern .pcd-image {
-  border-radius: 15px;
-}
-
-.pcd-template-modern .pcd-bottom-dots div {
-  background: #3b82f6;
-}
-
-.pcd-template-modern .pcd-date {
-  color: #1e293b;
-}
-
-.pcd-template-modern .pcd-footer-button > div:first-child,
-.pcd-template-modern .pcd-footer-button > div:last-child {
-  background: #3b82f6;
-}
-
-.pcd-template-modern .pcd-footer-button > div:nth-child(2) {
-  background: #3b82f6;
-  color: #ffffff;
-}
-
-.pcd-template-modern .pcd-social-links {
-  background: #3b82f6;
-}
-
-/* Elegant Template - Gold theme */
-.pcd-template-elegant .pcd-photocard {
-  background: #fefefe;
-  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
-  border: 3px solid rgba(212, 175, 55, 0.2);
-}
-
-.pcd-template-elegant .pcd-title {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.5px;
-}
-
-.pcd-template-elegant .pcd-bottom-dots div {
-  background: #d4af37;
-}
-
-.pcd-template-elegant .pcd-footer-button > div:first-child,
-.pcd-template-elegant .pcd-footer-button > div:last-child {
-  background: #d4af37;
-}
-
-.pcd-template-elegant .pcd-footer-button > div:nth-child(2) {
-  background: #d4af37;
-  color: #1a1a1a;
-}
-
-.pcd-template-elegant .pcd-social-links {
-  background: #d4af37;
-}
-
-/* Minimal Template - Black & White theme */
-.pcd-template-minimal .pcd-photocard {
-  background: #ffffff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e5e5;
-}
-
-.pcd-template-minimal .pcd-image {
-  border-radius: 0;
-}
-
-.pcd-template-minimal .pcd-date {
-  color: #000000;
-}
-
-.pcd-template-minimal .pcd-bottom-dots div {
-  background: #000000;
-}
-
-.pcd-template-minimal .pcd-footer-button > div:first-child,
-.pcd-template-minimal .pcd-footer-button > div:last-child {
-  background: #000000;
-}
-
-.pcd-template-minimal .pcd-footer-button > div:nth-child(2) {
-  background: #000000;
-  color: #ffffff;
-}
-
-.pcd-template-minimal .pcd-social-links {
-  background: #000000;
-}
-
-/* ===================================
-   KALBELA TEMPLATE - Exact newspaper design
-   =================================== */
-.pcd-template-kalbela .pcd-photocard {
-  background: #ffffff !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.pcd-template-kalbela .pcd-header {
-  background: #cc0000 !important;
-  padding: 15px 25px !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  z-index: 2;
-}
-
-.pcd-template-kalbela .pcd-logo img {
-  height: 85px !important;
-  width: auto !important;
-}
-
-.pcd-template-kalbela .pcd-date {
-  color: #ffffff !important;
-  font-size: 28px !important;
-  font-weight: 700 !important;
-  font-family: 'Noto Sans Bengali', sans-serif !important;
-}
-
-.pcd-template-kalbela .pcd-image-area {
-  background: #ffffff !important;
-  padding: 20px 25px !important;
-}
-
-.pcd-template-kalbela .pcd-image img {
-  border-radius: 8px !important;
-  box-shadow: 5px 5px 20px rgba(0,0,0,0.2) !important;
-}
-
-.pcd-template-kalbela .pcd-title-section {
-  background: #cc0000 !important;
-  padding: 25px 30px 12px 30px !important;
-}
-
-.pcd-template-kalbela .pcd-title {
-  color: #ffffff !important;
-  background: transparent !important;
-  font-weight: 800 !important;
-  text-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-}
-
-.pcd-template-kalbela .pcd-footer-button > div:nth-child(2) {
-  background: rgba(255,255,255,0.15) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255,255,255,0.3) !important;
-}
-
-.pcd-template-kalbela .pcd-footer-button > div:first-child,
-.pcd-template-kalbela .pcd-footer-button > div:last-child {
-  background: rgba(255,255,255,0.3) !important;
-}
-
-.pcd-template-kalbela .pcd-bottom-dots {
-  display: none !important;
-}
-
-.pcd-template-kalbela .pcd-social-links {
-  background: #990000 !important;
-  border-radius: 0 !important;
-  padding: 10px 15px !important;
-}
-
-/* ===================================
-   NEWS24 TEMPLATE - Exact newspaper design
-   Full bleed image with dark gradient overlay
-   =================================== */
-.pcd-template-news24 .pcd-photocard {
-  padding: 0 !important;
-  background: #000000 !important;
-  box-shadow: none !important;
-  border: none !important;
-  overflow: hidden !important;
-}
-
-.pcd-template-news24 .pcd-header {
-  position: absolute !important;
-  top: 15px !important;
-  right: 20px !important;
-  left: auto !important;
-  z-index: 10 !important;
-  padding: 0 !important;
-  background: transparent !important;
-}
-
-.pcd-template-news24 .pcd-logo {
-  margin-left: auto;
-}
-
-.pcd-template-news24 .pcd-logo img {
-  height: 70px !important;
-  width: auto !important;
-}
-
-.pcd-template-news24 .pcd-full-image {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 1 !important;
-}
-
-.pcd-template-news24 .pcd-full-image img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-.pcd-template-news24 .pcd-gradient-overlay {
-  position: absolute !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 65% !important;
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 100%) !important;
-  z-index: 2 !important;
-  pointer-events: none !important;
-}
-
-.pcd-template-news24 .pcd-title-section {
-  position: absolute !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 5 !important;
-  padding: 0 25px 12px 25px !important;
-  background: transparent !important;
-}
-
-.pcd-template-news24 .pcd-date-badge {
-  color: #ffffff !important;
-  font-size: 22px !important;
-  font-weight: 600 !important;
-  background: rgba(0,0,0,0.5) !important;
-  padding: 4px 14px !important;
-  border-radius: 4px !important;
-  display: inline-block !important;
-  margin-bottom: 10px !important;
-}
-
-.pcd-template-news24 .pcd-title {
-  color: #FFD700 !important;
-  background: transparent !important;
-  font-weight: 900 !important;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.9) !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-}
-
-.pcd-template-news24 .pcd-footer-button > div {
-  color: #ffffff !important;
-  font-size: 22px !important;
-  font-weight: 600 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 5px 0 !important;
-}
-
-.pcd-template-news24 .pcd-footer-button > div:first-child,
-.pcd-template-news24 .pcd-footer-button > div:last-child {
-  background: transparent !important;
-  height: 0 !important;
-}
-
-.pcd-template-news24 .pcd-bottom-dots {
-  display: none !important;
-}
-
-.pcd-template-news24 .pcd-social-links {
-  background: rgba(0,0,0,0.7) !important;
-  border-radius: 0 !important;
-  padding: 10px 15px !important;
+  to { transform: rotate(360deg); }
 }
 
 /* ===================================
@@ -655,15 +314,15 @@
 .pcd-align-buttons {
   display: flex;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .pcd-align-btn {
   flex: 1;
   padding: 8px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  background: #f8f9fa;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -673,7 +332,7 @@
 
 .pcd-align-btn:hover {
   border-color: #667eea;
-  background: #f0f0ff;
+  background: #eef2ff;
 }
 
 .pcd-align-btn.active {
@@ -691,21 +350,23 @@
 .pcd-title-editor-textarea {
   width: 100%;
   min-height: 80px;
-  padding: 10px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
   font-family: 'Noto Sans Bengali', sans-serif;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   resize: vertical;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
+  background: #fafbfc;
 }
 
 .pcd-title-editor-textarea:focus {
   border-color: #667eea;
   outline: none;
   box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+  background: white;
 }
 
 /* Line Colors */
@@ -713,20 +374,19 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
-/* Apply Line Colors Button */
 #pcd-apply-line-colors {
   background: #667eea;
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
   margin-top: 8px;
-  transition: background 0.3s;
+  transition: background 0.2s;
   font-weight: 600;
 }
 
@@ -741,227 +401,210 @@
   color: white;
   padding: 2px 10px;
   border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   margin-left: 8px;
+  vertical-align: middle;
 }
 
+/* ===================================
+   TEMPLATE-SPECIFIC CSS CLASSES
+   (for older template structure)
+   =================================== */
+.pcd-template-custom .pcd-photocard { }
+.pcd-template-custom .pcd-title { }
+
+.pcd-border-overlay {
+  z-index: -1 !important;
+  position: absolute !important;
+}
+
+.pcd-image {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Classic */
+.pcd-template-classic .pcd-photocard { box-shadow: 0 10px 30px rgba(196, 30, 58, 0.3); }
+.pcd-template-classic .pcd-bottom-dots div { background: #c41e3a; animation: pcd-pulse 2s ease-in-out infinite; }
+.pcd-template-classic .pcd-date { color: #000000; }
+.pcd-template-classic .pcd-footer-button > div:first-child,
+.pcd-template-classic .pcd-footer-button > div:last-child { background: #c41e3a; }
+.pcd-template-classic .pcd-footer-button > div:nth-child(2) { background: #c41e3a; color: #ffffff; }
+.pcd-template-classic .pcd-social-links { background: #c41e3a; }
+
+/* Modern */
+.pcd-template-modern .pcd-photocard { background: #f8fafc; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); border: 2px solid rgba(59, 130, 246, 0.1); }
+.pcd-template-modern .pcd-image { border-radius: 15px; }
+.pcd-template-modern .pcd-bottom-dots div { background: #3b82f6; }
+.pcd-template-modern .pcd-date { color: #1e293b; }
+.pcd-template-modern .pcd-footer-button > div:first-child,
+.pcd-template-modern .pcd-footer-button > div:last-child { background: #3b82f6; }
+.pcd-template-modern .pcd-footer-button > div:nth-child(2) { background: #3b82f6; color: #ffffff; }
+.pcd-template-modern .pcd-social-links { background: #3b82f6; }
+
+/* Elegant */
+.pcd-template-elegant .pcd-photocard { background: #fefefe; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3); border: 3px solid rgba(212, 175, 55, 0.2); }
+.pcd-template-elegant .pcd-title { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); letter-spacing: 0.5px; }
+.pcd-template-elegant .pcd-bottom-dots div { background: #d4af37; }
+.pcd-template-elegant .pcd-footer-button > div:first-child,
+.pcd-template-elegant .pcd-footer-button > div:last-child { background: #d4af37; }
+.pcd-template-elegant .pcd-footer-button > div:nth-child(2) { background: #d4af37; color: #1a1a1a; }
+.pcd-template-elegant .pcd-social-links { background: #d4af37; }
+
+/* Minimal */
+.pcd-template-minimal .pcd-photocard { background: #ffffff; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); border: 1px solid #e5e5e5; }
+.pcd-template-minimal .pcd-image { border-radius: 0; }
+.pcd-template-minimal .pcd-date { color: #000000; }
+.pcd-template-minimal .pcd-bottom-dots div { background: #000000; }
+.pcd-template-minimal .pcd-footer-button > div:first-child,
+.pcd-template-minimal .pcd-footer-button > div:last-child { background: #000000; }
+.pcd-template-minimal .pcd-footer-button > div:nth-child(2) { background: #000000; color: #ffffff; }
+.pcd-template-minimal .pcd-social-links { background: #000000; }
+
+/* ===================================
+   KALBELA TEMPLATE
+   =================================== */
+.pcd-template-kalbela .pcd-photocard {
+  background: #ffffff !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.pcd-template-kalbela .pcd-header { background: #cc0000 !important; padding: 15px 25px !important; display: flex !important; justify-content: space-between !important; align-items: center !important; z-index: 2; }
+.pcd-template-kalbela .pcd-logo img { height: 85px !important; width: auto !important; }
+.pcd-template-kalbela .pcd-date { color: #ffffff !important; font-size: 28px !important; font-weight: 700 !important; font-family: 'Noto Sans Bengali', sans-serif !important; }
+.pcd-template-kalbela .pcd-image-area { background: #ffffff !important; padding: 20px 25px !important; }
+.pcd-template-kalbela .pcd-image img { border-radius: 8px !important; box-shadow: 5px 5px 20px rgba(0,0,0,0.2) !important; }
+.pcd-template-kalbela .pcd-title-section { background: #cc0000 !important; padding: 25px 30px 12px 30px !important; }
+.pcd-template-kalbela .pcd-title { color: #ffffff !important; background: transparent !important; font-weight: 800 !important; text-shadow: none !important; border-radius: 0 !important; padding: 0 !important; }
+.pcd-template-kalbela .pcd-footer-button > div:nth-child(2) { background: rgba(255,255,255,0.15) !important; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.3) !important; }
+.pcd-template-kalbela .pcd-footer-button > div:first-child,
+.pcd-template-kalbela .pcd-footer-button > div:last-child { background: rgba(255,255,255,0.3) !important; }
+.pcd-template-kalbela .pcd-bottom-dots { display: none !important; }
+.pcd-template-kalbela .pcd-social-links { background: #990000 !important; border-radius: 0 !important; padding: 10px 15px !important; }
+
+/* ===================================
+   NEWS24 TEMPLATE
+   =================================== */
+.pcd-template-news24 .pcd-photocard { padding: 0 !important; background: #000000 !important; box-shadow: none !important; border: none !important; overflow: hidden !important; }
+.pcd-template-news24 .pcd-header { position: absolute !important; top: 15px !important; right: 20px !important; left: auto !important; z-index: 10 !important; padding: 0 !important; background: transparent !important; }
+.pcd-template-news24 .pcd-logo { margin-left: auto; }
+.pcd-template-news24 .pcd-logo img { height: 70px !important; width: auto !important; }
+.pcd-template-news24 .pcd-full-image { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 1 !important; }
+.pcd-template-news24 .pcd-full-image img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+.pcd-template-news24 .pcd-gradient-overlay { position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 65% !important; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 100%) !important; z-index: 2 !important; pointer-events: none !important; }
+.pcd-template-news24 .pcd-title-section { position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important; z-index: 5 !important; padding: 0 25px 12px 25px !important; background: transparent !important; }
+.pcd-template-news24 .pcd-date-badge { color: #ffffff !important; font-size: 22px !important; font-weight: 600 !important; background: rgba(0,0,0,0.5) !important; padding: 4px 14px !important; border-radius: 4px !important; display: inline-block !important; margin-bottom: 10px !important; }
+.pcd-template-news24 .pcd-title { color: #FFD700 !important; background: transparent !important; font-weight: 900 !important; text-shadow: 2px 2px 6px rgba(0,0,0,0.9) !important; border-radius: 0 !important; padding: 0 !important; }
+.pcd-template-news24 .pcd-footer-button > div { color: #ffffff !important; font-size: 22px !important; font-weight: 600 !important; background: transparent !important; border: none !important; box-shadow: none !important; padding: 5px 0 !important; }
+.pcd-template-news24 .pcd-footer-button > div:first-child,
+.pcd-template-news24 .pcd-footer-button > div:last-child { background: transparent !important; height: 0 !important; }
+.pcd-template-news24 .pcd-bottom-dots { display: none !important; }
+.pcd-template-news24 .pcd-social-links { background: rgba(0,0,0,0.7) !important; border-radius: 0 !important; padding: 10px 15px !important; }
+
+/* ===================================
+   PULSE ANIMATION
+   =================================== */
 @keyframes pcd-pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
 }
 
-@media (max-width: 768px) {
-  .pcd-editor-container {
-    padding: 20px 10px;
-  }
-
-  .pcd-editor-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-
+/* ===================================
+   RESPONSIVE - TABLET
+   =================================== */
+@media (max-width: 900px) {
   .pcd-editor-content {
     flex-direction: column;
+    align-items: center;
     gap: 20px;
   }
 
   .pcd-photocard-wrapper {
     width: 100%;
     max-width: 100%;
-    padding: 10px;
-    overflow: visible;
-    background: transparent;
-  }
-
-  .pcd-photocard-with-border {
-    transform: scale(0.32);
-    margin: -367px;
   }
 
   .pcd-editor-controls {
     width: 100%;
     max-width: 100%;
-    padding: 20px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .pcd-share-section {
-    padding: 15px;
-  }
-
-  .pcd-share-section label {
-    font-size: 15px;
-  }
-
-  .pcd-share-buttons {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .pcd-btn-sm {
-    padding: 10px;
-  }
-
-  .pcd-btn-sm svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .pcd-control-group {
-    margin-bottom: 25px;
-  }
-
-  .pcd-control-group label {
-    font-size: 15px;
-  }
-
-  .pcd-editor-actions {
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 30px;
-  }
-
-  .pcd-btn {
-    width: 100%;
-    padding: 14px 20px;
-    font-size: 15px;
-  }
-
-  .pcd-download-button {
-    width: 100%;
-    padding: 15px 20px;
-  }
-
-  .pcd-footer-credit {
-    font-size: 13px;
-    margin-top: 20px;
   }
 }
 
-@media (max-width: 480px) {
+/* ===================================
+   RESPONSIVE - MOBILE
+   =================================== */
+@media (max-width: 768px) {
   .pcd-editor-container {
-    padding: 15px 8px;
+    padding: 16px 10px;
   }
 
   .pcd-editor-title {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  .pcd-photocard-wrapper {
-    padding: 8px;
-    background: transparent;
-  }
-
-  .pcd-photocard-with-border {
-    transform: scale(0.28);
-    margin: -388px;
+    font-size: 22px;
+    margin-bottom: 16px;
   }
 
   .pcd-editor-controls {
-    padding: 15px;
-  }
-
-  .pcd-share-section {
-    padding: 12px;
-  }
-
-  .pcd-share-section label {
-    font-size: 14px;
-    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 12px;
   }
 
   .pcd-share-buttons {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 6px;
-  }
-
-  .pcd-btn-sm {
-    padding: 8px;
-  }
-
-  .pcd-btn-sm svg {
-    width: 16px;
-    height: 16px;
   }
 
   .pcd-control-group {
     margin-bottom: 20px;
   }
 
-  .pcd-control-group label {
-    font-size: 14px;
-  }
-
-  .pcd-control-group span {
-    font-size: 13px;
+  .pcd-editor-actions {
+    flex-direction: column;
+    gap: 10px;
   }
 
   .pcd-btn {
-    font-size: 14px;
-    padding: 12px 15px;
-  }
-
-  .pcd-editor-actions {
-    gap: 10px;
-    margin-top: 25px;
-  }
-
-  .pcd-footer-credit {
-    font-size: 12px;
+    width: 100%;
+    padding: 14px;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   .pcd-editor-container {
-    padding: 10px 5px;
+    padding: 12px 6px;
   }
 
   .pcd-editor-title {
-    font-size: 18px;
-  }
-
-  .pcd-photocard-wrapper {
-    padding: 5px;
-    background: transparent;
-  }
-
-  .pcd-photocard-with-border {
-    transform: scale(0.25);
-    margin: -405px;
+    font-size: 20px;
+    margin-bottom: 12px;
   }
 
   .pcd-editor-controls {
-    padding: 12px;
-  }
-
-  .pcd-share-section {
-    padding: 10px;
+    padding: 16px;
   }
 
   .pcd-share-buttons {
+    grid-template-columns: repeat(3, 1fr);
     gap: 5px;
   }
 
   .pcd-btn-sm {
-    padding: 7px;
+    padding: 8px;
   }
 
-  .pcd-control-group {
-    margin-bottom: 18px;
+  .pcd-btn-sm svg {
+    width: 15px;
+    height: 15px;
   }
 
-  .pcd-btn {
-    font-size: 13px;
-    padding: 11px 12px;
+  .pcd-control-group label {
+    font-size: 14px;
+  }
+
+  .pcd-footer-credit {
+    font-size: 12px;
   }
 }

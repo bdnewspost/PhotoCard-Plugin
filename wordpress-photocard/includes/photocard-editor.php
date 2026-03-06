@@ -83,7 +83,7 @@ function pcd_load_editor_template() {
     </head>
     <body class="pcd-editor-page">
         <div class="pcd-editor-container">
-            <h1 class="pcd-editor-title">Automatic Photocard</h1>
+            <h1 class="pcd-editor-title">📸 Photocard Editor</h1>
 
             <div class="pcd-editor-content">
                 <div id="pcd-photocard-preview" class="pcd-photocard-wrapper">
