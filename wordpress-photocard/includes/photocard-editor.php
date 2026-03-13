@@ -33,6 +33,7 @@ function pcd_load_editor_template() {
 
     $watermark_logo = isset($options['watermark_logo']) ? $options['watermark_logo'] : '';
     $enable_date = isset($options['enable_date']) ? $options['enable_date'] : true;
+    $show_weekday = isset($options['show_weekday']) ? $options['show_weekday'] : true;
     $enable_logo = isset($options['enable_logo']) ? $options['enable_logo'] : true;
     $show_details_button = isset($options['show_details_button']) ? $options['show_details_button'] : true;
     $details_button_text = isset($options['details_button_text']) ? $options['details_button_text'] : 'বিস্তারিত কমেন্টে';

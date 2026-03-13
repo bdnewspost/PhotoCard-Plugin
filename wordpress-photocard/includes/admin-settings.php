@@ -69,6 +69,7 @@ function pcd_sanitize_settings($input) {
 
     // Date
     $sanitized['enable_date'] = !empty($input['enable_date']) ? true : false;
+    $sanitized['show_weekday'] = !empty($input['show_weekday']) ? true : false;
     $sanitized['date_position'] = isset($input['date_position']) ? sanitize_text_field($input['date_position']) : 'right';
 
     // Display
