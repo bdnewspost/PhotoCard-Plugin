@@ -12,6 +12,14 @@ $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_content_top = 540 + $_title_offset;
 
+// Background color
+$_n24_bg = '#1a0505';
+if (!empty($card_bg_color)) $_n24_bg = $card_bg_color;
+$_bg_style = 'background: ' . $_n24_bg . ';';
+if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !empty($card_bg_gradient_color2)) {
+    $_bg_style = 'background: linear-gradient(' . esc_attr($card_bg_gradient_direction) . ', ' . esc_attr($card_bg_gradient_color1) . ', ' . esc_attr($card_bg_gradient_color2) . ');';
+}
+
 // Featured image settings
 $_fi_object_fit = isset($fi_object_fit) ? $fi_object_fit : 'cover';
 $_fi_object_position = isset($fi_object_position) ? $fi_object_position : 'center center';
