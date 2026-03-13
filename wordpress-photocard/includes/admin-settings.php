@@ -225,7 +225,7 @@ function pcd_settings_page() {
                                 <option value="dailyshadhin" <?php selected($options['photocard_template'], 'dailyshadhin'); ?>>Daily Shadhin - মডার্ন বটম বার স্টাইল</option>
                                 <?php
                                 // Auto-detect any additional templates
-                                $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal');
+                                $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal', 'dailyshadhin');
                                 foreach ($available_templates as $tpl_key => $tpl_name) {
                                     if (!in_array($tpl_key, $known)) {
                                         echo '<option value="' . esc_attr($tpl_key) . '" ' . selected($options['photocard_template'], $tpl_key, false) . '>' . esc_html(ucfirst($tpl_name)) . '</option>';
