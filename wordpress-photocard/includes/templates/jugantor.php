@@ -1,11 +1,12 @@
 <?php
 /**
- * Jugantor Template - Green (#006838) + Gold/Yellow accent
+ * Jugantor Template - Green + Gold/Yellow accent
+ * Now with full featured image padding/border/radius support
  */
 if (!defined('ABSPATH')) exit;
 
-$jg_green = '#006838';
-$jg_gold = '#d4a827';
+$jg_green = isset($options['jugantor_green_color']) ? $options['jugantor_green_color'] : '#006838';
+$jg_gold = isset($options['jugantor_gold_color']) ? $options['jugantor_gold_color'] : '#d4a827';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 
@@ -14,6 +15,36 @@ $_fi_object_fit = isset($fi_object_fit) ? $fi_object_fit : 'cover';
 $_fi_object_position = isset($fi_object_position) ? $fi_object_position : 'center center';
 $_fi_zoom = isset($fi_zoom) ? intval($fi_zoom) : 100;
 $_fi_zoom_style = ($_fi_zoom != 100) ? 'transform: scale(' . ($_fi_zoom / 100) . ');' : '';
+
+// Featured image padding
+$_fi_padding_top = isset($fi_padding_top) ? intval($fi_padding_top) : 0;
+$_fi_padding_right = isset($fi_padding_right) ? intval($fi_padding_right) : 0;
+$_fi_padding_bottom = isset($fi_padding_bottom) ? intval($fi_padding_bottom) : 0;
+$_fi_padding_left = isset($fi_padding_left) ? intval($fi_padding_left) : 0;
+
+// Featured image border per side
+$_fi_border_top = isset($fi_border_top) ? intval($fi_border_top) : 0;
+$_fi_border_right = isset($fi_border_right) ? intval($fi_border_right) : 0;
+$_fi_border_bottom = isset($fi_border_bottom) ? intval($fi_border_bottom) : 0;
+$_fi_border_left = isset($fi_border_left) ? intval($fi_border_left) : 0;
+$_fi_border_color = isset($fi_border_color) ? $fi_border_color : '#ffffff';
+
+// Featured image border radius per corner
+$_fi_radius_tl = isset($fi_radius_tl) ? intval($fi_radius_tl) : 0;
+$_fi_radius_tr = isset($fi_radius_tr) ? intval($fi_radius_tr) : 0;
+$_fi_radius_bl = isset($fi_radius_bl) ? intval($fi_radius_bl) : 0;
+$_fi_radius_br = isset($fi_radius_br) ? intval($fi_radius_br) : 0;
+
+// Build featured image extra styles
+$_fi_border_style = '';
+if ($_fi_border_top > 0 || $_fi_border_right > 0 || $_fi_border_bottom > 0 || $_fi_border_left > 0) {
+    $_fi_border_style = 'border-width: ' . $_fi_border_top . 'px ' . $_fi_border_right . 'px ' . $_fi_border_bottom . 'px ' . $_fi_border_left . 'px; border-style: solid; border-color: ' . $_fi_border_color . ';';
+}
+if ($_fi_radius_tl > 0 || $_fi_radius_tr > 0 || $_fi_radius_bl > 0 || $_fi_radius_br > 0) {
+    $_fi_border_style .= 'border-radius: ' . $_fi_radius_tl . 'px ' . $_fi_radius_tr . 'px ' . $_fi_radius_br . 'px ' . $_fi_radius_bl . 'px;';
+}
+
+$_fi_has_spacing = ($_fi_padding_top > 0 || $_fi_padding_right > 0 || $_fi_padding_bottom > 0 || $_fi_padding_left > 0 || $_fi_border_top > 0 || $_fi_border_right > 0 || $_fi_border_bottom > 0 || $_fi_border_left > 0 || $_fi_radius_tl > 0 || $_fi_radius_tr > 0 || $_fi_radius_bl > 0 || $_fi_radius_br > 0);
 
 // Card border settings
 $_border_width = isset($card_border_width) ? intval($card_border_width) : 0;
@@ -27,11 +58,19 @@ if ($_border_radius > 0) {
     $_border_style .= 'border-radius: ' . $_border_radius . 'px;';
 }
 
+// Background color
+$_card_bg = '#f0efe8';
+if (!empty($card_bg_color)) $_card_bg = $card_bg_color;
+$_bg_style = 'background: ' . $_card_bg . ';';
+if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !empty($card_bg_gradient_color2)) {
+    $_bg_style = 'background: linear-gradient(' . esc_attr($card_bg_gradient_direction) . ', ' . esc_attr($card_bg_gradient_color1) . ', ' . esc_attr($card_bg_gradient_color2) . ');';
+}
+
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 15;
 $_social_icon_size = max(12, $_social_font_size + 1);
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: #f0efe8; padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; <?php echo $_border_style; ?>">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; <?php echo $_bg_style; ?> padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; <?php echo $_border_style; ?>">
     
     <!-- Green Header -->
     <div style="background: <?php echo esc_attr($jg_green); ?>; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
@@ -59,12 +98,20 @@ $_social_icon_size = max(12, $_social_font_size + 1);
     <!-- Gold accent line -->
     <div style="height: 5px; background: linear-gradient(90deg, <?php echo esc_attr($jg_gold); ?>, #f0d060, <?php echo esc_attr($jg_gold); ?>); flex-shrink: 0;"></div>
 
-    <!-- Image with green border frame -->
+    <!-- Image area -->
+    <?php if ($_fi_has_spacing): ?>
+    <div style="flex: 1; min-height: 0; overflow: hidden; padding: <?php echo (18 + $_fi_padding_top); ?>px <?php echo (25 + $_fi_padding_right); ?>px <?php echo (18 + $_fi_padding_bottom); ?>px <?php echo (25 + $_fi_padding_left); ?>px; display: flex; align-items: center; justify-content: center;">
+        <div style="width: 100%; height: 100%; border: 5px solid <?php echo esc_attr($jg_green); ?>; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); <?php echo $_fi_border_style; ?>">
+            <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; display: block; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
+        </div>
+    </div>
+    <?php else: ?>
     <div style="flex: 1; background: #f0efe8; padding: 18px 25px; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
         <div style="width: 100%; height: 100%; border: 5px solid <?php echo esc_attr($jg_green); ?>; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
             <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; display: block; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
         </div>
     </div>
+    <?php endif; ?>
 
     <!-- Title on off-white bg with green top border -->
     <div style="background: #f0efe8; padding: <?php echo (18 - $_title_offset); ?>px 35px <?php echo (8 + $_details_offset); ?>px; flex-shrink: 0; border-top: 5px solid <?php echo esc_attr($jg_green); ?>;">

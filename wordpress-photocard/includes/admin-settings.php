@@ -101,6 +101,13 @@ function pcd_sanitize_settings($input) {
     // Custom background image
     $sanitized['custom_bg_image'] = isset($input['custom_bg_image']) && !empty($input['custom_bg_image']) ? esc_url_raw($input['custom_bg_image']) : '';
 
+    // Card Background Color & Gradient
+    $sanitized['card_bg_color'] = isset($input['card_bg_color']) ? sanitize_hex_color($input['card_bg_color']) : '';
+    $sanitized['card_bg_gradient_enable'] = !empty($input['card_bg_gradient_enable']) ? true : false;
+    $sanitized['card_bg_gradient_color1'] = isset($input['card_bg_gradient_color1']) ? sanitize_hex_color($input['card_bg_gradient_color1']) : '#667eea';
+    $sanitized['card_bg_gradient_color2'] = isset($input['card_bg_gradient_color2']) ? sanitize_hex_color($input['card_bg_gradient_color2']) : '#764ba2';
+    $sanitized['card_bg_gradient_direction'] = isset($input['card_bg_gradient_direction']) ? sanitize_text_field($input['card_bg_gradient_direction']) : '135deg';
+
     // Featured Image settings
     $sanitized['fi_object_fit'] = isset($input['fi_object_fit']) ? sanitize_text_field($input['fi_object_fit']) : 'cover';
     $sanitized['fi_object_position'] = isset($input['fi_object_position']) ? sanitize_text_field($input['fi_object_position']) : 'center top';
@@ -134,6 +141,7 @@ function pcd_sanitize_settings($input) {
     // Card padding
     $sanitized['card_padding'] = isset($input['card_padding']) ? intval($input['card_padding']) : 0;
 
+    // Template-specific colors
     // Kalbela
     $sanitized['kalbela_bg_color'] = isset($input['kalbela_bg_color']) ? sanitize_hex_color($input['kalbela_bg_color']) : '#cc0000';
 
@@ -141,6 +149,24 @@ function pcd_sanitize_settings($input) {
     $sanitized['news24_bg_color'] = isset($input['news24_bg_color']) ? sanitize_hex_color($input['news24_bg_color']) : '#FFD700';
     $sanitized['news24_text_color'] = isset($input['news24_text_color']) ? sanitize_hex_color($input['news24_text_color']) : '#000000';
     $sanitized['news24_date_bg'] = isset($input['news24_date_bg']) ? sanitize_hex_color($input['news24_date_bg']) : '#1a5fb4';
+
+    // Daily Star
+    $sanitized['dailystar_navy_color'] = isset($input['dailystar_navy_color']) ? sanitize_hex_color($input['dailystar_navy_color']) : '#003366';
+    $sanitized['dailystar_accent_color'] = isset($input['dailystar_accent_color']) ? sanitize_hex_color($input['dailystar_accent_color']) : '#cc0000';
+
+    // Prothom Alo
+    $sanitized['prothomalo_primary_color'] = isset($input['prothomalo_primary_color']) ? sanitize_hex_color($input['prothomalo_primary_color']) : '#e42313';
+
+    // Jugantor
+    $sanitized['jugantor_green_color'] = isset($input['jugantor_green_color']) ? sanitize_hex_color($input['jugantor_green_color']) : '#006838';
+    $sanitized['jugantor_gold_color'] = isset($input['jugantor_gold_color']) ? sanitize_hex_color($input['jugantor_gold_color']) : '#d4a827';
+
+    // Samakal
+    $sanitized['samakal_primary_color'] = isset($input['samakal_primary_color']) ? sanitize_hex_color($input['samakal_primary_color']) : '#FF6600';
+    $sanitized['samakal_dark_color'] = isset($input['samakal_dark_color']) ? sanitize_hex_color($input['samakal_dark_color']) : '#1a1a1a';
+
+    // Daily Shadhin
+    $sanitized['dailyshadhin_bg_color'] = isset($input['dailyshadhin_bg_color']) ? sanitize_hex_color($input['dailyshadhin_bg_color']) : '#1a0a0a';
 
     return $sanitized;
 }
@@ -214,6 +240,11 @@ function pcd_settings_page() {
         'show_linkedin' => false,
         'social_icon_font_size' => 14,
         'custom_bg_image' => '',
+        'card_bg_color' => '',
+        'card_bg_gradient_enable' => false,
+        'card_bg_gradient_color1' => '#667eea',
+        'card_bg_gradient_color2' => '#764ba2',
+        'card_bg_gradient_direction' => '135deg',
         'fi_object_fit' => 'cover',
         'fi_object_position' => 'center top',
         'fi_zoom' => 100,
@@ -239,6 +270,14 @@ function pcd_settings_page() {
         'news24_bg_color' => '#FFD700',
         'news24_text_color' => '#000000',
         'news24_date_bg' => '#1a5fb4',
+        'dailystar_navy_color' => '#003366',
+        'dailystar_accent_color' => '#cc0000',
+        'prothomalo_primary_color' => '#e42313',
+        'jugantor_green_color' => '#006838',
+        'jugantor_gold_color' => '#d4a827',
+        'samakal_primary_color' => '#FF6600',
+        'samakal_dark_color' => '#1a1a1a',
+        'dailyshadhin_bg_color' => '#1a0a0a',
     );
 
     $options = wp_parse_args($options, $defaults);
@@ -272,10 +311,10 @@ function pcd_settings_page() {
                             <select name="pcd_settings[photocard_template]" id="photocard_template" class="regular-text">
                                 <option value="news24" <?php selected($options['photocard_template'], 'news24'); ?>>News24 - হলুদ বার স্টাইল</option>
                                 <option value="kalbela" <?php selected($options['photocard_template'], 'kalbela'); ?>>কালবেলা - রেড হেডার/ফুটার স্টাইল</option>
-                                <option value="prothomalo" <?php selected($options['photocard_template'], 'prothomalo'); ?>>প্রথম আলো - ব্লু অ্যাকসেন্ট ক্লিন স্টাইল</option>
-                                <option value="dailystar" <?php selected($options['photocard_template'], 'dailystar'); ?>>Daily Star - ডার্ক নেভি প্রফেশনাল স্টাইল</option>
+                                <option value="prothomalo" <?php selected($options['photocard_template'], 'prothomalo'); ?>>প্রথম আলো - রেড গ্র্যাডিয়েন্ট স্টাইল</option>
+                                <option value="dailystar" <?php selected($options['photocard_template'], 'dailystar'); ?>>Daily Star - নেভি প্রফেশনাল স্টাইল</option>
                                 <option value="jugantor" <?php selected($options['photocard_template'], 'jugantor'); ?>>যুগান্তর - গ্রিন অ্যাকসেন্ট স্টাইল</option>
-                                <option value="samakal" <?php selected($options['photocard_template'], 'samakal'); ?>>সমকাল - মেরুন এলিগ্যান্ট স্টাইল</option>
+                                <option value="samakal" <?php selected($options['photocard_template'], 'samakal'); ?>>সমকাল - অরেঞ্জ মডার্ন স্টাইল</option>
                                 <option value="dailyshadhin" <?php selected($options['photocard_template'], 'dailyshadhin'); ?>>Daily Shadhin - মডার্ন বটম বার স্টাইল</option>
                                 <?php
                                 $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal', 'dailyshadhin');
@@ -303,7 +342,7 @@ function pcd_settings_page() {
 
             <!-- Background Image Upload -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🖼️ ব্যাকগ্রাউন্ড ইমেজ</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🖼️ ব্যাকগ্রাউন্ড সেটিংস</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row"><label for="custom_bg_image">কাস্টম ব্যাকগ্রাউন্ড ইমেজ</label></th>
@@ -314,6 +353,46 @@ function pcd_settings_page() {
                             <?php if (!empty($options['custom_bg_image'])): ?>
                                 <div class="pcd-background-preview"><img src="<?php echo esc_url($options['custom_bg_image']); ?>" alt="Background Preview"></div>
                             <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_bg_color">কার্ড ব্যাকগ্রাউন্ড কালার</label></th>
+                        <td>
+                            <input type="text" name="pcd_settings[card_bg_color]" id="card_bg_color" value="<?php echo esc_attr($options['card_bg_color']); ?>" class="pcd-color-picker">
+                            <p class="description">খালি রাখলে টেমপ্লেটের ডিফল্ট কালার ব্যবহার হবে। এটি সেট করলে সব টেমপ্লেটের বেস ব্যাকগ্রাউন্ড ওভাররাইড হবে।</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">গ্র্যাডিয়েন্ট ব্যাকগ্রাউন্ড</th>
+                        <td>
+                            <label class="pcd-toggle-label">
+                                <input type="checkbox" name="pcd_settings[card_bg_gradient_enable]" value="1" <?php checked($options['card_bg_gradient_enable'], true); ?>>
+                                <strong>গ্র্যাডিয়েন্ট সক্রিয় করুন</strong>
+                            </label>
+                            <p class="description">সক্রিয় করলে সলিড কালারের পরিবর্তে গ্র্যাডিয়েন্ট ব্যবহার হবে</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_bg_gradient_color1">গ্র্যাডিয়েন্ট কালার ১</label></th>
+                        <td><input type="text" name="pcd_settings[card_bg_gradient_color1]" id="card_bg_gradient_color1" value="<?php echo esc_attr($options['card_bg_gradient_color1']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_bg_gradient_color2">গ্র্যাডিয়েন্ট কালার ২</label></th>
+                        <td><input type="text" name="pcd_settings[card_bg_gradient_color2]" id="card_bg_gradient_color2" value="<?php echo esc_attr($options['card_bg_gradient_color2']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_bg_gradient_direction">গ্র্যাডিয়েন্ট দিক</label></th>
+                        <td>
+                            <select name="pcd_settings[card_bg_gradient_direction]" id="card_bg_gradient_direction" class="regular-text">
+                                <option value="to bottom" <?php selected($options['card_bg_gradient_direction'], 'to bottom'); ?>>উপর থেকে নিচে ↓</option>
+                                <option value="to top" <?php selected($options['card_bg_gradient_direction'], 'to top'); ?>>নিচ থেকে উপরে ↑</option>
+                                <option value="to right" <?php selected($options['card_bg_gradient_direction'], 'to right'); ?>>বাম থেকে ডানে →</option>
+                                <option value="to left" <?php selected($options['card_bg_gradient_direction'], 'to left'); ?>>ডান থেকে বামে ←</option>
+                                <option value="135deg" <?php selected($options['card_bg_gradient_direction'], '135deg'); ?>>তির্যক ↘ (135°)</option>
+                                <option value="45deg" <?php selected($options['card_bg_gradient_direction'], '45deg'); ?>>তির্যক ↗ (45°)</option>
+                                <option value="225deg" <?php selected($options['card_bg_gradient_direction'], '225deg'); ?>>তির্যক ↙ (225°)</option>
+                                <option value="315deg" <?php selected($options['card_bg_gradient_direction'], '315deg'); ?>>তির্যক ↖ (315°)</option>
+                            </select>
                         </td>
                     </tr>
                 </table>
@@ -696,6 +775,7 @@ function pcd_settings_page() {
                         <th scope="row"><label for="kalbela_bg_color">হেডার/ফুটার কালার</label></th>
                         <td><input type="text" name="pcd_settings[kalbela_bg_color]" id="kalbela_bg_color" value="<?php echo esc_attr($options['kalbela_bg_color']); ?>" class="pcd-color-picker"></td>
                     </tr>
+
                     <tr><th scope="row" colspan="2"><strong>— News24 টেমপ্লেট —</strong></th></tr>
                     <tr>
                         <th scope="row"><label for="news24_bg_color">টাইটেল বার কালার</label></th>
@@ -708,6 +788,48 @@ function pcd_settings_page() {
                     <tr>
                         <th scope="row"><label for="news24_date_bg">তারিখ ব্যাজ কালার</label></th>
                         <td><input type="text" name="pcd_settings[news24_date_bg]" id="news24_date_bg" value="<?php echo esc_attr($options['news24_date_bg']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+
+                    <tr><th scope="row" colspan="2"><strong>— Daily Star টেমপ্লেট —</strong></th></tr>
+                    <tr>
+                        <th scope="row"><label for="dailystar_navy_color">নেভি কালার</label></th>
+                        <td><input type="text" name="pcd_settings[dailystar_navy_color]" id="dailystar_navy_color" value="<?php echo esc_attr($options['dailystar_navy_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="dailystar_accent_color">অ্যাকসেন্ট কালার</label></th>
+                        <td><input type="text" name="pcd_settings[dailystar_accent_color]" id="dailystar_accent_color" value="<?php echo esc_attr($options['dailystar_accent_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+
+                    <tr><th scope="row" colspan="2"><strong>— প্রথম আলো টেমপ্লেট —</strong></th></tr>
+                    <tr>
+                        <th scope="row"><label for="prothomalo_primary_color">প্রাইমারি কালার</label></th>
+                        <td><input type="text" name="pcd_settings[prothomalo_primary_color]" id="prothomalo_primary_color" value="<?php echo esc_attr($options['prothomalo_primary_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+
+                    <tr><th scope="row" colspan="2"><strong>— যুগান্তর টেমপ্লেট —</strong></th></tr>
+                    <tr>
+                        <th scope="row"><label for="jugantor_green_color">গ্রিন কালার</label></th>
+                        <td><input type="text" name="pcd_settings[jugantor_green_color]" id="jugantor_green_color" value="<?php echo esc_attr($options['jugantor_green_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="jugantor_gold_color">গোল্ড কালার</label></th>
+                        <td><input type="text" name="pcd_settings[jugantor_gold_color]" id="jugantor_gold_color" value="<?php echo esc_attr($options['jugantor_gold_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+
+                    <tr><th scope="row" colspan="2"><strong>— সমকাল টেমপ্লেট —</strong></th></tr>
+                    <tr>
+                        <th scope="row"><label for="samakal_primary_color">প্রাইমারি কালার</label></th>
+                        <td><input type="text" name="pcd_settings[samakal_primary_color]" id="samakal_primary_color" value="<?php echo esc_attr($options['samakal_primary_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="samakal_dark_color">ডার্ক কালার</label></th>
+                        <td><input type="text" name="pcd_settings[samakal_dark_color]" id="samakal_dark_color" value="<?php echo esc_attr($options['samakal_dark_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+
+                    <tr><th scope="row" colspan="2"><strong>— Daily Shadhin টেমপ্লেট —</strong></th></tr>
+                    <tr>
+                        <th scope="row"><label for="dailyshadhin_bg_color">ব্যাকগ্রাউন্ড কালার</label></th>
+                        <td><input type="text" name="pcd_settings[dailyshadhin_bg_color]" id="dailyshadhin_bg_color" value="<?php echo esc_attr($options['dailyshadhin_bg_color']); ?>" class="pcd-color-picker"></td>
                     </tr>
                 </table>
             </div>

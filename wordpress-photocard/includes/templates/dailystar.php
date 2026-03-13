@@ -1,11 +1,12 @@
 <?php
 /**
- * Daily Star Template - Navy blue (#003366) + White, professional English daily
+ * Daily Star Template - Navy blue + accent, professional English daily
+ * Now with full featured image padding/border/radius support
  */
 if (!defined('ABSPATH')) exit;
 
-$ds_navy = '#003366';
-$ds_red = '#cc0000';
+$ds_navy = isset($options['dailystar_navy_color']) ? $options['dailystar_navy_color'] : '#003366';
+$ds_red = isset($options['dailystar_accent_color']) ? $options['dailystar_accent_color'] : '#cc0000';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 
@@ -14,6 +15,36 @@ $_fi_object_fit = isset($fi_object_fit) ? $fi_object_fit : 'cover';
 $_fi_object_position = isset($fi_object_position) ? $fi_object_position : 'center center';
 $_fi_zoom = isset($fi_zoom) ? intval($fi_zoom) : 100;
 $_fi_zoom_style = ($_fi_zoom != 100) ? 'transform: scale(' . ($_fi_zoom / 100) . ');' : '';
+
+// Featured image padding
+$_fi_padding_top = isset($fi_padding_top) ? intval($fi_padding_top) : 0;
+$_fi_padding_right = isset($fi_padding_right) ? intval($fi_padding_right) : 0;
+$_fi_padding_bottom = isset($fi_padding_bottom) ? intval($fi_padding_bottom) : 0;
+$_fi_padding_left = isset($fi_padding_left) ? intval($fi_padding_left) : 0;
+
+// Featured image border per side
+$_fi_border_top = isset($fi_border_top) ? intval($fi_border_top) : 0;
+$_fi_border_right = isset($fi_border_right) ? intval($fi_border_right) : 0;
+$_fi_border_bottom = isset($fi_border_bottom) ? intval($fi_border_bottom) : 0;
+$_fi_border_left = isset($fi_border_left) ? intval($fi_border_left) : 0;
+$_fi_border_color = isset($fi_border_color) ? $fi_border_color : '#ffffff';
+
+// Featured image border radius per corner
+$_fi_radius_tl = isset($fi_radius_tl) ? intval($fi_radius_tl) : 0;
+$_fi_radius_tr = isset($fi_radius_tr) ? intval($fi_radius_tr) : 0;
+$_fi_radius_bl = isset($fi_radius_bl) ? intval($fi_radius_bl) : 0;
+$_fi_radius_br = isset($fi_radius_br) ? intval($fi_radius_br) : 0;
+
+// Build featured image extra styles
+$_fi_border_style = '';
+if ($_fi_border_top > 0 || $_fi_border_right > 0 || $_fi_border_bottom > 0 || $_fi_border_left > 0) {
+    $_fi_border_style = 'border-width: ' . $_fi_border_top . 'px ' . $_fi_border_right . 'px ' . $_fi_border_bottom . 'px ' . $_fi_border_left . 'px; border-style: solid; border-color: ' . $_fi_border_color . ';';
+}
+if ($_fi_radius_tl > 0 || $_fi_radius_tr > 0 || $_fi_radius_bl > 0 || $_fi_radius_br > 0) {
+    $_fi_border_style .= 'border-radius: ' . $_fi_radius_tl . 'px ' . $_fi_radius_tr . 'px ' . $_fi_radius_br . 'px ' . $_fi_radius_bl . 'px;';
+}
+
+$_fi_has_spacing = ($_fi_padding_top > 0 || $_fi_padding_right > 0 || $_fi_padding_bottom > 0 || $_fi_padding_left > 0 || $_fi_border_top > 0 || $_fi_border_right > 0 || $_fi_border_bottom > 0 || $_fi_border_left > 0 || $_fi_radius_tl > 0 || $_fi_radius_tr > 0 || $_fi_radius_bl > 0 || $_fi_radius_br > 0);
 
 // Card border settings
 $_border_width = isset($card_border_width) ? intval($card_border_width) : 0;
@@ -27,11 +58,19 @@ if ($_border_radius > 0) {
     $_border_style .= 'border-radius: ' . $_border_radius . 'px;';
 }
 
+// Background color
+$_card_bg = $ds_navy;
+if (!empty($card_bg_color)) $_card_bg = $card_bg_color;
+$_bg_style = 'background: ' . $_card_bg . ';';
+if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !empty($card_bg_gradient_color2)) {
+    $_bg_style = 'background: linear-gradient(' . esc_attr($card_bg_gradient_direction) . ', ' . esc_attr($card_bg_gradient_color1) . ', ' . esc_attr($card_bg_gradient_color2) . ');';
+}
+
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 15;
 $_social_icon_size = max(12, $_social_font_size + 1);
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; background: <?php echo esc_attr($ds_navy); ?>; padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; <?php echo $_border_style; ?>">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; <?php echo $_bg_style; ?> padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; <?php echo $_border_style; ?>">
     
     <!-- Navy Header -->
     <div style="background: <?php echo esc_attr($ds_navy); ?>; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
@@ -56,15 +95,23 @@ $_social_icon_size = max(12, $_social_font_size + 1);
         <?php endif; ?>
     </div>
 
-    <!-- Red accent line -->
+    <!-- Accent line -->
     <div style="height: 5px; background: <?php echo esc_attr($ds_red); ?>; flex-shrink: 0;"></div>
 
     <!-- Featured Image -->
+    <?php if ($_fi_has_spacing): ?>
+    <div style="flex: 1; min-height: 0; overflow: hidden; padding: <?php echo $_fi_padding_top; ?>px <?php echo $_fi_padding_right; ?>px <?php echo $_fi_padding_bottom; ?>px <?php echo $_fi_padding_left; ?>px;">
+        <div style="width: 100%; height: 100%; overflow: hidden; <?php echo $_fi_border_style; ?>">
+            <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; display: block; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
+        </div>
+    </div>
+    <?php else: ?>
     <div style="flex: 1; min-height: 0; overflow: hidden;">
         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; display: block; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
     </div>
+    <?php endif; ?>
 
-    <!-- Red accent line -->
+    <!-- Accent line -->
     <div style="height: 5px; background: <?php echo esc_attr($ds_red); ?>; flex-shrink: 0;"></div>
 
     <!-- Navy Title Footer -->
