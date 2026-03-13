@@ -264,11 +264,27 @@ function pcd_settings_page() {
                             <?php endif; ?>
                         </td>
                     </tr>
+                </table>
+            </div>
+
+            <!-- Domain Name (Daily Shadhin etc.) -->
+            <div id="pcd-domain-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px; display: none;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🌐 ডোমেইন/ব্র্যান্ড নাম</h2>
+                <table class="form-table">
                     <tr>
                         <th scope="row"><label for="domain_text">ডোমেইন/ওয়েবসাইট নাম</label></th>
                         <td>
                             <input type="text" name="pcd_settings[domain_text]" id="domain_text" value="<?php echo esc_attr($options['domain_text']); ?>" class="regular-text" placeholder="example.com">
-                            <p class="description">Daily Shadhin সহ কিছু টেমপ্লেটে বটমে ডোমেইন নাম দেখাবে।</p>
+                            <p class="description">Daily Shadhin টেমপ্লেটের বটম বারের মাঝখানে এই নাম দেখাবে।</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">ডোমেইন দেখান</th>
+                        <td>
+                            <label class="pcd-toggle-label">
+                                <input type="checkbox" name="pcd_settings[show_domain]" value="1" <?php checked(isset($options['show_domain']) ? $options['show_domain'] : true, true); ?>>
+                                <strong>ডোমেইন নাম দেখান</strong>
+                            </label>
                         </td>
                     </tr>
                 </table>
