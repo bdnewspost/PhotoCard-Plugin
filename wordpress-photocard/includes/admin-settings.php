@@ -182,6 +182,7 @@ function pcd_settings_page() {
         'show_linkedin' => false,
         'custom_bg_image' => '',
         'domain_text' => '',
+        'show_domain' => true,
         'kalbela_bg_color' => '#cc0000',
         'news24_bg_color' => '#FFD700',
         'news24_text_color' => '#000000',
