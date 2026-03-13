@@ -145,8 +145,6 @@ function pcd_activate_plugin() {
         'enable_ad_social_bottom' => false,
         'custom_css' => '',
         'custom_bg_image' => '',
-        'domain_text' => '',
-        'show_domain' => true,
     );
 
     if (!get_option('pcd_settings')) {

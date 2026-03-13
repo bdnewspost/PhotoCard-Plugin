@@ -46,8 +46,6 @@ function pcd_load_editor_template() {
     $title_top_offset = isset($options['title_top_offset']) ? intval($options['title_top_offset']) : 0;
     $details_bottom_offset = isset($options['details_bottom_offset']) ? intval($options['details_bottom_offset']) : 0;
     $custom_bg_image = isset($options['custom_bg_image']) ? $options['custom_bg_image'] : '';
-    $domain_text = isset($options['domain_text']) ? $options['domain_text'] : '';
-    $show_domain = isset($options['show_domain']) ? $options['show_domain'] : true;
     $title_text_color = isset($options['title_text_color']) ? $options['title_text_color'] : '#ffffff';
 
     // Featured image settings

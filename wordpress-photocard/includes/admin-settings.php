@@ -101,10 +101,6 @@ function pcd_sanitize_settings($input) {
     // Custom background image
     $sanitized['custom_bg_image'] = isset($input['custom_bg_image']) && !empty($input['custom_bg_image']) ? esc_url_raw($input['custom_bg_image']) : '';
 
-    // Domain text
-    $sanitized['domain_text'] = isset($input['domain_text']) ? sanitize_text_field($input['domain_text']) : '';
-    $sanitized['show_domain'] = !empty($input['show_domain']) ? true : false;
-
     // Featured Image settings
     $sanitized['fi_object_fit'] = isset($input['fi_object_fit']) ? sanitize_text_field($input['fi_object_fit']) : 'cover';
     $sanitized['fi_object_position'] = isset($input['fi_object_position']) ? sanitize_text_field($input['fi_object_position']) : 'center top';
@@ -218,8 +214,6 @@ function pcd_settings_page() {
         'show_linkedin' => false,
         'social_icon_font_size' => 14,
         'custom_bg_image' => '',
-        'domain_text' => '',
-        'show_domain' => true,
         'fi_object_fit' => 'cover',
         'fi_object_position' => 'center top',
         'fi_zoom' => 100,
@@ -487,28 +481,6 @@ function pcd_settings_page() {
                         <td>
                             <input type="number" name="pcd_settings[card_padding]" id="card_padding" value="<?php echo esc_attr($options['card_padding']); ?>" min="0" max="100" class="small-text"> px
                             <p class="description">কন্টেন্টের চারপাশে অতিরিক্ত স্পেস</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Domain Name -->
-            <div id="pcd-domain-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px; display: none;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🌐 ডোমেইন/ব্র্যান্ড নাম</h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row"><label for="domain_text">ডোমেইন/ওয়েবসাইট নাম</label></th>
-                        <td>
-                            <input type="text" name="pcd_settings[domain_text]" id="domain_text" value="<?php echo esc_attr($options['domain_text']); ?>" class="regular-text" placeholder="example.com">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">ডোমেইন দেখান</th>
-                        <td>
-                            <label class="pcd-toggle-label">
-                                <input type="checkbox" name="pcd_settings[show_domain]" value="1" <?php checked(isset($options['show_domain']) ? $options['show_domain'] : true, true); ?>>
-                                <strong>ডোমেইন নাম দেখান</strong>
-                            </label>
                         </td>
                     </tr>
                 </table>
@@ -818,17 +790,6 @@ function pcd_settings_page() {
             borderUploader.open();
         });
 
-        // Template-specific sections
-        function updateTemplateSections() {
-            var tpl = $('#photocard_template').val();
-            if (tpl === 'dailyshadhin') {
-                $('#pcd-domain-section').show();
-            } else {
-                $('#pcd-domain-section').hide();
-            }
-        }
-        updateTemplateSections();
-        $('#photocard_template').on('change', updateTemplateSections);
     });
     </script>
     <?php
