@@ -74,7 +74,7 @@ $_title_color = isset($title_text_color) ? $title_text_color : '#ffffff';
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 14;
 $_social_icon_size = max(12, $_social_font_size + 2);
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0a0a; <?php echo $_border_style; ?>">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; <?php echo $_bg_style; ?> <?php echo $_border_style; ?>">
     
     <!-- Post Featured Image -->
     <?php if ($_fi_has_spacing): ?>
