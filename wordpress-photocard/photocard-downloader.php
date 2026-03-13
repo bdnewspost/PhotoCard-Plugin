@@ -3,7 +3,7 @@
  * Plugin Name: Photocard Generator
  * Plugin URI: https://hostercube.com
  * Description: এই প্লাগইন যা পোস্টের থাম্বনেইল থেকে ফটোকার্ড ডাউনলোড করার সুবিধা দেয়
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: HosterCube Ltd.
  * Author URI: https://hostercube.com
  * License: GPL v2 or later
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('PCD_VERSION', '1.2.0');
+define('PCD_VERSION', '1.2.1');
 define('PCD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PCD_PLUGIN_URL', plugin_dir_url(__FILE__));
 
