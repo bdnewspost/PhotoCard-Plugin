@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
 $news24_title_color = isset($options['news24_text_color']) ? $options['news24_text_color'] : '#FFD700';
 $news24_date_bg = isset($options['news24_date_bg']) ? $options['news24_date_bg'] : '#1a3a5c';
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
-$bg_image_url = $plugin_url . 'assets/images/news24-bg.png';
+$bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : $plugin_url . 'assets/images/news24-bg.png';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_content_top = 540 + $_title_offset;

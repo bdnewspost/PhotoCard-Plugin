@@ -96,6 +96,12 @@ function pcd_sanitize_settings($input) {
     $sanitized['linkedin_text'] = isset($input['linkedin_text']) ? sanitize_text_field($input['linkedin_text']) : '';
     $sanitized['show_linkedin'] = !empty($input['show_linkedin']) ? true : false;
 
+    // Custom background image
+    $sanitized['custom_bg_image'] = isset($input['custom_bg_image']) && !empty($input['custom_bg_image']) ? esc_url_raw($input['custom_bg_image']) : '';
+
+    // Domain text for templates
+    $sanitized['domain_text'] = isset($input['domain_text']) ? sanitize_text_field($input['domain_text']) : '';
+
     // Kalbela
     $sanitized['kalbela_bg_color'] = isset($input['kalbela_bg_color']) ? sanitize_hex_color($input['kalbela_bg_color']) : '#cc0000';
 
@@ -173,6 +179,8 @@ function pcd_settings_page() {
         'show_instagram' => false,
         'linkedin_text' => '',
         'show_linkedin' => false,
+        'custom_bg_image' => '',
+        'domain_text' => '',
         'kalbela_bg_color' => '#cc0000',
         'news24_bg_color' => '#FFD700',
         'news24_text_color' => '#000000',
@@ -214,9 +222,10 @@ function pcd_settings_page() {
                                 <option value="dailystar" <?php selected($options['photocard_template'], 'dailystar'); ?>>Daily Star - ডার্ক নেভি প্রফেশনাল স্টাইল</option>
                                 <option value="jugantor" <?php selected($options['photocard_template'], 'jugantor'); ?>>যুগান্তর - গ্রিন অ্যাকসেন্ট স্টাইল</option>
                                 <option value="samakal" <?php selected($options['photocard_template'], 'samakal'); ?>>সমকাল - মেরুন এলিগ্যান্ট স্টাইল</option>
+                                <option value="dailyshadhin" <?php selected($options['photocard_template'], 'dailyshadhin'); ?>>Daily Shadhin - মডার্ন বটম বার স্টাইল</option>
                                 <?php
                                 // Auto-detect any additional templates
-                                $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal');
+                                $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal', 'dailyshadhin');
                                 foreach ($available_templates as $tpl_key => $tpl_name) {
                                     if (!in_array($tpl_key, $known)) {
                                         echo '<option value="' . esc_attr($tpl_key) . '" ' . selected($options['photocard_template'], $tpl_key, false) . '>' . esc_html(ucfirst($tpl_name)) . '</option>';
@@ -240,9 +249,34 @@ function pcd_settings_page() {
                 </table>
             </div>
 
+            <!-- Background Image Upload -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🖼️ ব্যাকগ্রাউন্ড ইমেজ</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="custom_bg_image">কাস্টম ব্যাকগ্রাউন্ড ইমেজ</label></th>
+                        <td>
+                            <input type="text" name="pcd_settings[custom_bg_image]" id="custom_bg_image" value="<?php echo esc_url($options['custom_bg_image']); ?>" class="regular-text">
+                            <button type="button" class="button pcd-upload-background">ইমেজ আপলোড করুন</button>
+                            <p class="description">একটি কাস্টম ব্যাকগ্রাউন্ড/বর্ডার ইমেজ আপলোড করুন। এটি সিলেক্ট করা টেমপ্লেটের ডিফল্ট ব্যাকগ্রাউন্ড ইমেজ রিপ্লেস করবে। (1080x1080 PNG রেকমেন্ডেড)</p>
+                            <?php if (!empty($options['custom_bg_image'])): ?>
+                                <div class="pcd-background-preview"><img src="<?php echo esc_url($options['custom_bg_image']); ?>" alt="Background Preview"></div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="domain_text">ডোমেইন/ওয়েবসাইট নাম</label></th>
+                        <td>
+                            <input type="text" name="pcd_settings[domain_text]" id="domain_text" value="<?php echo esc_attr($options['domain_text']); ?>" class="regular-text" placeholder="example.com">
+                            <p class="description">Daily Shadhin সহ কিছু টেমপ্লেটে বটমে ডোমেইন নাম দেখাবে।</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
             <!-- Logo & Date -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🖼️ লোগো ও তারিখ</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🏷️ লোগো ও তারিখ</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row"><label for="watermark_logo">লোগো আপলোড</label></th>
