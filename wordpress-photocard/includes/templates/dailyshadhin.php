@@ -78,11 +78,11 @@ $_social_icon_size = max(12, $_social_font_size + 2);
     
     <!-- Post Featured Image -->
     <?php if ($_fi_has_spacing): ?>
-    <div style="position: absolute; top: <?php echo $_fi_padding_top; ?>px; left: <?php echo $_fi_padding_left; ?>px; right: <?php echo $_fi_padding_right; ?>px; bottom: <?php echo $_fi_padding_bottom; ?>px; z-index: 1; overflow: hidden; <?php echo $_fi_border_style; ?>">
+    <div style="position: absolute; top: <?php echo $_fi_padding_top; ?>px; left: <?php echo $_fi_padding_left; ?>px; right: <?php echo $_fi_padding_right; ?>px; height: 70%; z-index: 1; overflow: hidden; <?php echo $_fi_border_style; ?>">
         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; display: block; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
     </div>
     <?php else: ?>
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; z-index: 1; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 70%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; z-index: 1; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
     <?php endif; ?>
 
     <!-- Background Template Image (full overlay) -->
