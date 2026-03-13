@@ -38,101 +38,16 @@
       }
     }
 
-    // ===== Helper: sync span styles (only specified props, preserve others) =====
+    // ===== Helper: sync span styles =====
     function syncSpanStyles(props) {
       $("#pcd-adjustable-title span").each(function() {
         const $s = $(this)
         if (props.fontSize) $s.css("font-size", props.fontSize)
         if (props.lineHeight) $s.css("line-height", props.lineHeight)
         if (props.fontFamily) $s.css("font-family", props.fontFamily)
-        // Only sync weight/style if globally toggled (not per-span overrides)
         if (props.fontWeight !== undefined) $s.css("font-weight", props.fontWeight)
         if (props.fontStyle !== undefined) $s.css("font-style", props.fontStyle)
       })
-    }
-
-    // ===== Helper: get title's plain text content =====
-    function getTitlePlainText() {
-      var $title = $("#pcd-adjustable-title")
-      // If has spans, concatenate their text
-      if ($title.find("span").length > 0) {
-        var text = ""
-        $title.contents().each(function() {
-          if (this.nodeType === 3) {
-            text += this.textContent
-          } else if (this.nodeName === "SPAN") {
-            text += $(this).text()
-          } else if (this.nodeName === "BR") {
-            text += "\n"
-          }
-        })
-        return text
-      }
-      return $title.text()
-    }
-
-    // ===== Helper: rebuild HTML preserving existing span formatting =====
-    // This is the key function that handles word-wise formatting correctly
-    function applyFormattingToSelection(start, end, propName, propValue) {
-      var textarea = document.getElementById("pcd-title-editor")
-      var fullText = textarea.value
-      var $title = $("#pcd-adjustable-title")
-      var styles = getCurrentTitleStyles()
-
-      function esc(t) { return $("<span>").text(t).html() }
-
-      // Get existing spans and their styles
-      var existingSpans = []
-      $title.contents().each(function() {
-        if (this.nodeType === 3) {
-          // text node
-          existingSpans.push({
-            text: this.textContent,
-            styles: {}
-          })
-        } else if (this.nodeName === "SPAN") {
-          var $sp = $(this)
-          existingSpans.push({
-            text: $sp.text(),
-            styles: {
-              color: $sp[0].style.color || "",
-              fontWeight: $sp[0].style.fontWeight || "",
-              fontStyle: $sp[0].style.fontStyle || ""
-            }
-          })
-        }
-      })
-
-      // If no existing spans, treat whole title as one segment
-      if (existingSpans.length === 0) {
-        existingSpans = [{ text: fullText, styles: {} }]
-      }
-
-      // Now split the text into 3 parts: before selection, selection, after
-      var beforeText = fullText.substring(0, start)
-      var selectedText = fullText.substring(start, end)
-      var afterText = fullText.substring(end)
-
-      // Build new HTML with 3 segments, each inheriting base styles
-      var baseStyle = "font-size: " + styles.fontSize + "; line-height: " + styles.lineHeight + "; font-family: " + styles.fontFamily + ";"
-      var html = ""
-
-      if (beforeText) {
-        html += '<span style="' + baseStyle + ' font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
-      }
-
-      // Selected text with the new property applied
-      var selWeight = (propName === "fontWeight") ? propValue : styles.fontWeight
-      var selStyle = (propName === "fontStyle") ? propValue : styles.fontStyle
-      var selColor = (propName === "color") ? propValue : "inherit"
-
-      html += '<span style="' + baseStyle + ' font-weight: ' + selWeight + '; font-style: ' + selStyle + '; color: ' + selColor + ';">' + esc(selectedText) + '</span>'
-
-      if (afterText) {
-        html += '<span style="' + baseStyle + ' font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
-      }
-
-      $title.html(html)
     }
 
     // ===== FONT SIZE SLIDER =====
@@ -162,7 +77,7 @@
       return false
     })
 
-    // ===== BOLD / ITALIC (global — syncs ALL spans) =====
+    // ===== BOLD / ITALIC (global) =====
     $("#pcd-bold-btn").on("click", function (e) {
       e.preventDefault()
       isBold = !isBold
@@ -187,7 +102,6 @@
       const fontStack = "'" + font + "', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif"
       $("#pcd-adjustable-title").css("font-family", fontStack)
       syncSpanStyles({ fontFamily: fontStack })
-      // Also update other card text
       $(".pcd-photocard").find("[style*='font-family']").each(function() {
         if (!$(this).is("#pcd-adjustable-title") && !$(this).closest("#pcd-adjustable-title").length) {
           $(this).css("font-family", fontStack)
@@ -202,7 +116,7 @@
       updateLineColorInputs()
     })
 
-    // ===== LINE-WISE COLOR SYSTEM =====
+    // ===== LINE-WISE COLOR + BOLD/ITALIC SYSTEM =====
     function updateLineColorInputs() {
       const titleText = $("#pcd-title-editor").val()
       const lines = titleText.split("\n").filter((l) => l.trim() !== "")
@@ -213,6 +127,8 @@
         container.html(
           '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
             '<input type="color" class="pcd-line-color" data-line="0" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
+            '<button type="button" class="pcd-line-bold-btn" data-line="0" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 900; font-size: 13px;" title="Bold">B</button>' +
+            '<button type="button" class="pcd-line-italic-btn" data-line="0" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-style: italic; font-size: 13px;" title="Italic">I</button>' +
             '<span style="font-size: 12px; color: #64748b;">টাইটেল কালার পরিবর্তন করুন</span>' +
           '</div>'
         )
@@ -222,9 +138,11 @@
       lines.forEach((line, index) => {
         const shortLine = line.length > 20 ? line.substring(0, 20) + "..." : line
         container.append(
-          '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
+          '<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">' +
             '<input type="color" class="pcd-line-color" data-line="' + index + '" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
-            '<span style="font-size: 12px; color: #64748b; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">লাইন ' + (index + 1) + ': ' + shortLine + '</span>' +
+            '<button type="button" class="pcd-line-bold-btn" data-line="' + index + '" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 900; font-size: 12px;" title="Bold">B</button>' +
+            '<button type="button" class="pcd-line-italic-btn" data-line="' + index + '" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-style: italic; font-size: 12px;" title="Italic">I</button>' +
+            '<span style="font-size: 11px; color: #64748b; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">লাইন ' + (index + 1) + ': ' + shortLine + '</span>' +
           '</div>'
         )
       })
@@ -232,21 +150,40 @@
 
     updateLineColorInputs()
 
-    // ===== APPLY LINE COLORS =====
+    // Toggle active state for line bold/italic buttons
+    $(document).on("click", ".pcd-line-bold-btn", function(e) {
+      e.preventDefault()
+      $(this).toggleClass("active")
+      $(this).css("background", $(this).hasClass("active") ? "#667eea" : "#f1f5f9")
+      $(this).css("color", $(this).hasClass("active") ? "#fff" : "#000")
+    })
+
+    $(document).on("click", ".pcd-line-italic-btn", function(e) {
+      e.preventDefault()
+      $(this).toggleClass("active")
+      $(this).css("background", $(this).hasClass("active") ? "#667eea" : "#f1f5f9")
+      $(this).css("color", $(this).hasClass("active") ? "#fff" : "#000")
+    })
+
+    // ===== APPLY LINE COLORS + BOLD/ITALIC =====
     $("#pcd-apply-line-colors").on("click", function () {
       const titleText = $("#pcd-title-editor").val()
       const lines = titleText.split("\n").filter((l) => l.trim() !== "")
       const $title = $("#pcd-adjustable-title")
       const styles = getCurrentTitleStyles()
-      var baseStyle = "font-size: " + styles.fontSize + "; line-height: " + styles.lineHeight + "; font-family: " + styles.fontFamily + "; font-weight: " + styles.fontWeight + "; font-style: " + styles.fontStyle + ";"
+      var baseStyle = "font-size: " + styles.fontSize + "; line-height: " + styles.lineHeight + "; font-family: " + styles.fontFamily + ";"
 
       function esc(t) { return $("<span>").text(t).html() }
 
       if (lines.length <= 1) {
         const colorInput = $(".pcd-line-color[data-line='0']")
         const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
+        const isBoldLine = $(".pcd-line-bold-btn[data-line='0']").hasClass("active")
+        const isItalicLine = $(".pcd-line-italic-btn[data-line='0']").hasClass("active")
+        const weight = isBoldLine ? "900" : styles.fontWeight
+        const fStyle = isItalicLine ? "italic" : styles.fontStyle
         const text = lines.length === 1 ? lines[0] : $title.text().trim()
-        $title.html('<span style="color: ' + color + '; ' + baseStyle + '">' + esc(text) + '</span>')
+        $title.html('<span style="color: ' + color + '; ' + baseStyle + ' font-weight: ' + weight + '; font-style: ' + fStyle + ';">' + esc(text) + '</span>')
         return
       }
 
@@ -254,41 +191,14 @@
       lines.forEach((line, index) => {
         const colorInput = $(`.pcd-line-color[data-line="${index}"]`)
         const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
-        html += '<span style="color: ' + color + '; ' + baseStyle + ' display: block;">' + esc(line) + "</span>"
+        const isBoldLine = $(`.pcd-line-bold-btn[data-line="${index}"]`).hasClass("active")
+        const isItalicLine = $(`.pcd-line-italic-btn[data-line="${index}"]`).hasClass("active")
+        const weight = isBoldLine ? "900" : styles.fontWeight
+        const fStyle = isItalicLine ? "italic" : styles.fontStyle
+        html += '<span style="color: ' + color + '; ' + baseStyle + ' font-weight: ' + weight + '; font-style: ' + fStyle + '; display: block;">' + esc(line) + "</span>"
       })
 
       $title.html(html)
-    })
-
-    // ===== WORD-WISE COLOR =====
-    $("#pcd-apply-word-color").on("click", function () {
-      const textarea = document.getElementById("pcd-title-editor")
-      const start = textarea.selectionStart
-      const end = textarea.selectionEnd
-      if (start === end) {
-        alert("প্রথমে টেক্সটএরিয়া থেকে ওয়ার্ড সিলেক্ট করুন।")
-        return
-      }
-      const color = $("#pcd-word-color-picker").val()
-      applyFormattingToSelection(start, end, "color", color)
-    })
-
-    // ===== WORD-WISE BOLD =====
-    $(".pcd-word-bold-btn").on("click", function () {
-      const textarea = document.getElementById("pcd-title-editor")
-      const start = textarea.selectionStart
-      const end = textarea.selectionEnd
-      if (start === end) { alert("প্রথমে ওয়ার্ড সিলেক্ট করুন।"); return }
-      applyFormattingToSelection(start, end, "fontWeight", "900")
-    })
-
-    // ===== WORD-WISE ITALIC =====
-    $(".pcd-word-italic-btn").on("click", function () {
-      const textarea = document.getElementById("pcd-title-editor")
-      const start = textarea.selectionStart
-      const end = textarea.selectionEnd
-      if (start === end) { alert("প্রথমে ওয়ার্ড সিলেক্ট করুন।"); return }
-      applyFormattingToSelection(start, end, "fontStyle", "italic")
     })
 
     // ===== COPY LINK =====
