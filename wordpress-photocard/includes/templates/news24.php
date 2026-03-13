@@ -12,6 +12,14 @@ $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_content_top = 540 + $_title_offset;
 
+// Background color
+$_n24_bg = '#1a0505';
+if (!empty($card_bg_color)) $_n24_bg = $card_bg_color;
+$_bg_style = 'background: ' . $_n24_bg . ';';
+if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !empty($card_bg_gradient_color2)) {
+    $_bg_style = 'background: linear-gradient(' . esc_attr($card_bg_gradient_direction) . ', ' . esc_attr($card_bg_gradient_color1) . ', ' . esc_attr($card_bg_gradient_color2) . ');';
+}
+
 // Featured image settings
 $_fi_object_fit = isset($fi_object_fit) ? $fi_object_fit : 'cover';
 $_fi_object_position = isset($fi_object_position) ? $fi_object_position : 'center center';
@@ -64,7 +72,7 @@ if ($_border_radius > 0) {
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 17;
 $_social_icon_size = max(14, $_social_font_size + 3);
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0505; <?php echo $_border_style; ?>">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; <?php echo $_bg_style; ?> <?php echo $_border_style; ?>">
     
     <!-- Post Featured Image -->
     <?php if ($_fi_has_spacing): ?>
