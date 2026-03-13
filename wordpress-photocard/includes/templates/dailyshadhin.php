@@ -8,7 +8,7 @@
 if (!defined('ABSPATH')) exit;
 
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
-$bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : '';
+$bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : $plugin_url . 'assets/images/dailyshadhin-bg.png';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_domain_text = isset($domain_text) ? $domain_text : '';
@@ -18,7 +18,7 @@ $_content_top = 580 + $_title_offset;
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0a0a;">
     
     <!-- Post Featured Image -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: <?php echo !empty($bg_image_url) ? '75' : '72'; ?>%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 75%; object-fit: cover; object-position: center center; z-index: 1;" crossorigin="anonymous">
 
     <?php if (!empty($bg_image_url)): ?>
     <!-- Custom Background Template Image (overrides default) -->
