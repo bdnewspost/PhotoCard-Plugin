@@ -6,6 +6,6 @@
   "scripts": {
     "build": "mkdir -p dist && cp index.html dist/index.html",
     "build:dev": "mkdir -p dist && cp index.html dist/index.html",
-    "dev": "python3 -m http.server ${PORT:-8080}"
+    "dev": "sh -c 'python3 -m http.server \"${npm_config_port:-8080}\"'"
   }
 }
