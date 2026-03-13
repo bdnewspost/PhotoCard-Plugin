@@ -988,6 +988,26 @@ function pcd_settings_page() {
             borderUploader.open();
         });
 
+        // Template-specific color show/hide
+        function showTemplateColors() {
+            var selected = $('#photocard_template').val();
+            var knownTemplates = ['kalbela','news24','dailystar','prothomalo','jugantor','samakal','dailyshadhin'];
+            
+            $('.pcd-template-colors').hide();
+            $('.pcd-template-colors-none').hide();
+            
+            var $target = $('.pcd-template-colors[data-template="' + selected + '"]');
+            if ($target.length) {
+                $target.show();
+            } else {
+                $('.pcd-template-colors-none').show();
+            }
+        }
+        
+        // Run on load and on change
+        showTemplateColors();
+        $('#photocard_template').on('change', showTemplateColors);
+
     });
     </script>
     <?php
