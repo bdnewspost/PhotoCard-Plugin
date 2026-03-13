@@ -214,8 +214,6 @@ function pcd_settings_page() {
         'show_linkedin' => false,
         'social_icon_font_size' => 14,
         'custom_bg_image' => '',
-        'domain_text' => '',
-        'show_domain' => true,
         'fi_object_fit' => 'cover',
         'fi_object_position' => 'center top',
         'fi_zoom' => 100,
