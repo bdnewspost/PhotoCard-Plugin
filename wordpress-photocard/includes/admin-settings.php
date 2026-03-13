@@ -83,6 +83,7 @@ function pcd_sanitize_settings($input) {
     $sanitized['default_font_size'] = isset($input['default_font_size']) ? absint($input['default_font_size']) : 48;
     $sanitized['default_line_height'] = isset($input['default_line_height']) ? floatval($input['default_line_height']) : 1.3;
     $sanitized['image_quality'] = isset($input['image_quality']) ? absint($input['image_quality']) : 4;
+    $sanitized['title_text_color'] = isset($input['title_text_color']) ? sanitize_hex_color($input['title_text_color']) : '#ffffff';
 
     // Social
     $sanitized['facebook_text'] = isset($input['facebook_text']) ? sanitize_text_field($input['facebook_text']) : '';
@@ -99,9 +100,23 @@ function pcd_sanitize_settings($input) {
     // Custom background image
     $sanitized['custom_bg_image'] = isset($input['custom_bg_image']) && !empty($input['custom_bg_image']) ? esc_url_raw($input['custom_bg_image']) : '';
 
-    // Domain text for templates
+    // Domain text
     $sanitized['domain_text'] = isset($input['domain_text']) ? sanitize_text_field($input['domain_text']) : '';
     $sanitized['show_domain'] = !empty($input['show_domain']) ? true : false;
+
+    // Featured Image settings
+    $sanitized['fi_object_fit'] = isset($input['fi_object_fit']) ? sanitize_text_field($input['fi_object_fit']) : 'cover';
+    $sanitized['fi_object_position'] = isset($input['fi_object_position']) ? sanitize_text_field($input['fi_object_position']) : 'center top';
+    $sanitized['fi_zoom'] = isset($input['fi_zoom']) ? intval($input['fi_zoom']) : 100;
+
+    // Card Border settings
+    $sanitized['card_border_width'] = isset($input['card_border_width']) ? intval($input['card_border_width']) : 0;
+    $sanitized['card_border_color'] = isset($input['card_border_color']) ? sanitize_hex_color($input['card_border_color']) : '#ffffff';
+    $sanitized['card_border_radius'] = isset($input['card_border_radius']) ? intval($input['card_border_radius']) : 0;
+    $sanitized['card_border_image'] = isset($input['card_border_image']) && !empty($input['card_border_image']) ? esc_url_raw($input['card_border_image']) : '';
+
+    // Card padding
+    $sanitized['card_padding'] = isset($input['card_padding']) ? intval($input['card_padding']) : 0;
 
     // Kalbela
     $sanitized['kalbela_bg_color'] = isset($input['kalbela_bg_color']) ? sanitize_hex_color($input['kalbela_bg_color']) : '#cc0000';
@@ -170,6 +185,7 @@ function pcd_settings_page() {
         'default_font_size' => 48,
         'default_line_height' => 1.3,
         'image_quality' => 4,
+        'title_text_color' => '#ffffff',
         'facebook_text' => '',
         'show_facebook' => false,
         'youtube_text' => '',
@@ -183,6 +199,14 @@ function pcd_settings_page() {
         'custom_bg_image' => '',
         'domain_text' => '',
         'show_domain' => true,
+        'fi_object_fit' => 'cover',
+        'fi_object_position' => 'center top',
+        'fi_zoom' => 100,
+        'card_border_width' => 0,
+        'card_border_color' => '#ffffff',
+        'card_border_radius' => 0,
+        'card_border_image' => '',
+        'card_padding' => 0,
         'kalbela_bg_color' => '#cc0000',
         'news24_bg_color' => '#FFD700',
         'news24_text_color' => '#000000',
@@ -226,7 +250,6 @@ function pcd_settings_page() {
                                 <option value="samakal" <?php selected($options['photocard_template'], 'samakal'); ?>>সমকাল - মেরুন এলিগ্যান্ট স্টাইল</option>
                                 <option value="dailyshadhin" <?php selected($options['photocard_template'], 'dailyshadhin'); ?>>Daily Shadhin - মডার্ন বটম বার স্টাইল</option>
                                 <?php
-                                // Auto-detect any additional templates
                                 $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal', 'dailyshadhin');
                                 foreach ($available_templates as $tpl_key => $tpl_name) {
                                     if (!in_array($tpl_key, $known)) {
@@ -235,7 +258,6 @@ function pcd_settings_page() {
                                 }
                                 ?>
                             </select>
-                            <p class="description">includes/templates/ ফোল্ডারে নতুন .php ফাইল রাখলে অটো দেখাবে।</p>
                         </td>
                     </tr>
                     <tr>
@@ -260,7 +282,7 @@ function pcd_settings_page() {
                         <td>
                             <input type="text" name="pcd_settings[custom_bg_image]" id="custom_bg_image" value="<?php echo esc_url($options['custom_bg_image']); ?>" class="regular-text">
                             <button type="button" class="button pcd-upload-background">ইমেজ আপলোড করুন</button>
-                            <p class="description">একটি কাস্টম ব্যাকগ্রাউন্ড/বর্ডার ইমেজ আপলোড করুন। এটি সিলেক্ট করা টেমপ্লেটের ডিফল্ট ব্যাকগ্রাউন্ড ইমেজ রিপ্লেস করবে। (1080x1080 PNG রেকমেন্ডেড)</p>
+                            <p class="description">কাস্টম ব্যাকগ্রাউন্ড/ওভারলে ইমেজ (1080x1080 PNG রেকমেন্ডেড, ট্রান্সপারেন্ট এরিয়া থাকলে ফিচার্ড ইমেজ দেখাবে)</p>
                             <?php if (!empty($options['custom_bg_image'])): ?>
                                 <div class="pcd-background-preview"><img src="<?php echo esc_url($options['custom_bg_image']); ?>" alt="Background Preview"></div>
                             <?php endif; ?>
@@ -269,7 +291,93 @@ function pcd_settings_page() {
                 </table>
             </div>
 
-            <!-- Domain Name (Daily Shadhin etc.) -->
+            <!-- Featured Image Settings -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">📷 ফিচার্ড ইমেজ সেটিংস</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="fi_object_fit">ইমেজ ফিট মোড</label></th>
+                        <td>
+                            <select name="pcd_settings[fi_object_fit]" id="fi_object_fit" class="regular-text">
+                                <option value="cover" <?php selected($options['fi_object_fit'], 'cover'); ?>>Cover (পুরো এরিয়া ভরাট — ডিফল্ট)</option>
+                                <option value="contain" <?php selected($options['fi_object_fit'], 'contain'); ?>>Contain (সম্পূর্ণ ইমেজ দেখাবে)</option>
+                                <option value="fill" <?php selected($options['fi_object_fit'], 'fill'); ?>>Fill (স্ট্রেচ করে ভরাট)</option>
+                                <option value="none" <?php selected($options['fi_object_fit'], 'none'); ?>>None (অরিজিনাল সাইজ)</option>
+                            </select>
+                            <p class="description">ফিচার্ড ইমেজ কিভাবে কার্ডের মধ্যে ফিট হবে তা নির্ধারণ করে।</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="fi_object_position">ইমেজ পজিশন</label></th>
+                        <td>
+                            <select name="pcd_settings[fi_object_position]" id="fi_object_position" class="regular-text">
+                                <option value="center top" <?php selected($options['fi_object_position'], 'center top'); ?>>উপরে মাঝখানে (ডিফল্ট)</option>
+                                <option value="center center" <?php selected($options['fi_object_position'], 'center center'); ?>>মাঝখানে</option>
+                                <option value="center bottom" <?php selected($options['fi_object_position'], 'center bottom'); ?>>নিচে মাঝখানে</option>
+                                <option value="left top" <?php selected($options['fi_object_position'], 'left top'); ?>>উপরে বামে</option>
+                                <option value="right top" <?php selected($options['fi_object_position'], 'right top'); ?>>উপরে ডানে</option>
+                                <option value="left center" <?php selected($options['fi_object_position'], 'left center'); ?>>মাঝখানে বামে</option>
+                                <option value="right center" <?php selected($options['fi_object_position'], 'right center'); ?>>মাঝখানে ডানে</option>
+                                <option value="left bottom" <?php selected($options['fi_object_position'], 'left bottom'); ?>>নিচে বামে</option>
+                                <option value="right bottom" <?php selected($options['fi_object_position'], 'right bottom'); ?>>নিচে ডানে</option>
+                            </select>
+                            <p class="description">ক্রপ হলে ইমেজের কোন অংশ প্রাধান্য পাবে।</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="fi_zoom">ইমেজ জুম (%)</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[fi_zoom]" id="fi_zoom" value="<?php echo esc_attr($options['fi_zoom']); ?>" min="50" max="200" class="small-text"> %
+                            <p class="description">100% = নরমাল, 150% = জুম ইন, 80% = জুম আউট</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Card Border & Spacing -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🔲 বর্ডার ও স্পেসিং</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="card_border_width">বর্ডার প্রস্থ (px)</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[card_border_width]" id="card_border_width" value="<?php echo esc_attr($options['card_border_width']); ?>" min="0" max="50" class="small-text"> px
+                            <p class="description">0 = কোনো বর্ডার নেই</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_border_color">বর্ডার কালার</label></th>
+                        <td><input type="text" name="pcd_settings[card_border_color]" id="card_border_color" value="<?php echo esc_attr($options['card_border_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_border_radius">বর্ডার রেডিয়াস (px)</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[card_border_radius]" id="card_border_radius" value="<?php echo esc_attr($options['card_border_radius']); ?>" min="0" max="100" class="small-text"> px
+                            <p class="description">কোণা গোল করতে। 0 = চারকোণা</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_border_image">বর্ডার ইমেজ (ঐচ্ছিক)</label></th>
+                        <td>
+                            <input type="text" name="pcd_settings[card_border_image]" id="card_border_image" value="<?php echo esc_url($options['card_border_image']); ?>" class="regular-text">
+                            <button type="button" class="button pcd-upload-border-image">ইমেজ আপলোড</button>
+                            <p class="description">বর্ডার হিসেবে একটি ইমেজ ব্যবহার করুন (1080x1080 PNG ট্রান্সপারেন্ট)</p>
+                            <?php if (!empty($options['card_border_image'])): ?>
+                                <div class="pcd-border-preview" style="margin-top:10px;"><img src="<?php echo esc_url($options['card_border_image']); ?>" alt="Border Preview" style="max-width:150px;border:1px solid #ddd;border-radius:4px;"></div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="card_padding">কার্ড প্যাডিং (px)</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[card_padding]" id="card_padding" value="<?php echo esc_attr($options['card_padding']); ?>" min="0" max="100" class="small-text"> px
+                            <p class="description">কন্টেন্টের চারপাশে অতিরিক্ত স্পেস</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Domain Name -->
             <div id="pcd-domain-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px; display: none;">
                 <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🌐 ডোমেইন/ব্র্যান্ড নাম</h2>
                 <table class="form-table">
@@ -277,7 +385,6 @@ function pcd_settings_page() {
                         <th scope="row"><label for="domain_text">ডোমেইন/ওয়েবসাইট নাম</label></th>
                         <td>
                             <input type="text" name="pcd_settings[domain_text]" id="domain_text" value="<?php echo esc_attr($options['domain_text']); ?>" class="regular-text" placeholder="example.com">
-                            <p class="description">Daily Shadhin টেমপ্লেটের বটম বারের মাঝখানে এই নাম দেখাবে।</p>
                         </td>
                     </tr>
                     <tr>
@@ -358,40 +465,39 @@ function pcd_settings_page() {
                                     <option value="Noto Sans Bengali" <?php selected($options['title_font_family'], 'Noto Sans Bengali'); ?>>Noto Sans Bengali (ডিফল্ট)</option>
                                     <option value="Hind Siliguri" <?php selected($options['title_font_family'], 'Hind Siliguri'); ?>>Hind Siliguri</option>
                                     <option value="Tiro Bangla" <?php selected($options['title_font_family'], 'Tiro Bangla'); ?>>Tiro Bangla</option>
-                                    <option value="Baloo Da 2" <?php selected($options['title_font_family'], 'Baloo Da 2'); ?>>Baloo Da 2 (রাউন্ড ও ফ্রেন্ডলি)</option>
-                                    <option value="Galada" <?php selected($options['title_font_family'], 'Galada'); ?>>Galada (ক্যালিগ্রাফি স্টাইল)</option>
-                                    <option value="Mina" <?php selected($options['title_font_family'], 'Mina'); ?>>Mina (ক্লিন ও মডার্ন)</option>
-                                    <option value="Atma" <?php selected($options['title_font_family'], 'Atma'); ?>>Atma (হ্যান্ডরিটেন স্টাইল)</option>
-                                    <option value="Anek Bangla" <?php selected($options['title_font_family'], 'Anek Bangla'); ?>>Anek Bangla (প্রফেশনাল)</option>
-                                    <option value="Noto Serif Bengali" <?php selected($options['title_font_family'], 'Noto Serif Bengali'); ?>>Noto Serif Bengali (সেরিফ/ক্লাসিক)</option>
-                                    <option value="Mukta" <?php selected($options['title_font_family'], 'Mukta'); ?>>Mukta (লাইটওয়েট)</option>
-                                    <option value="Charukola Ultra Light" <?php selected($options['title_font_family'], 'Charukola Ultra Light'); ?>>Charukola Ultra Light (ডেকোরেটিভ)</option>
+                                    <option value="Baloo Da 2" <?php selected($options['title_font_family'], 'Baloo Da 2'); ?>>Baloo Da 2</option>
+                                    <option value="Galada" <?php selected($options['title_font_family'], 'Galada'); ?>>Galada</option>
+                                    <option value="Mina" <?php selected($options['title_font_family'], 'Mina'); ?>>Mina</option>
+                                    <option value="Atma" <?php selected($options['title_font_family'], 'Atma'); ?>>Atma</option>
+                                    <option value="Anek Bangla" <?php selected($options['title_font_family'], 'Anek Bangla'); ?>>Anek Bangla</option>
+                                    <option value="Noto Serif Bengali" <?php selected($options['title_font_family'], 'Noto Serif Bengali'); ?>>Noto Serif Bengali</option>
+                                    <option value="Mukta" <?php selected($options['title_font_family'], 'Mukta'); ?>>Mukta</option>
+                                    <option value="Charukola Ultra Light" <?php selected($options['title_font_family'], 'Charukola Ultra Light'); ?>>Charukola Ultra Light</option>
                                 </optgroup>
-                                <optgroup label="🖥️ সিস্টেম ফন্ট — বাংলা (সার্ভারে ইনস্টল থাকলে কাজ করবে)">
-                                    <option value="SolaimanLipi" <?php selected($options['title_font_family'], 'SolaimanLipi'); ?>>SolaimanLipi (জনপ্রিয় বাংলা)</option>
-                                    <option value="Kalpurush" <?php selected($options['title_font_family'], 'Kalpurush'); ?>>Kalpurush (নিউজ স্টাইল)</option>
-                                    <option value="Vrinda" <?php selected($options['title_font_family'], 'Vrinda'); ?>>Vrinda (উইন্ডোজ ডিফল্ট বাংলা)</option>
-                                    <option value="Nikosh" <?php selected($options['title_font_family'], 'Nikosh'); ?>>Nikosh (সরকারি বাংলা ফন্ট)</option>
+                                <optgroup label="🖥️ সিস্টেম ফন্ট — বাংলা">
+                                    <option value="SolaimanLipi" <?php selected($options['title_font_family'], 'SolaimanLipi'); ?>>SolaimanLipi</option>
+                                    <option value="Kalpurush" <?php selected($options['title_font_family'], 'Kalpurush'); ?>>Kalpurush</option>
+                                    <option value="Vrinda" <?php selected($options['title_font_family'], 'Vrinda'); ?>>Vrinda</option>
+                                    <option value="Nikosh" <?php selected($options['title_font_family'], 'Nikosh'); ?>>Nikosh</option>
                                     <option value="Siyam Rupali" <?php selected($options['title_font_family'], 'Siyam Rupali'); ?>>Siyam Rupali</option>
                                     <option value="Shonar Bangla" <?php selected($options['title_font_family'], 'Shonar Bangla'); ?>>Shonar Bangla</option>
-                                    <option value="Bangla" <?php selected($options['title_font_family'], 'Bangla'); ?>>Bangla (macOS ডিফল্ট)</option>
+                                    <option value="Bangla" <?php selected($options['title_font_family'], 'Bangla'); ?>>Bangla</option>
                                     <option value="Li Ador Noirrit" <?php selected($options['title_font_family'], 'Li Ador Noirrit'); ?>>Li Ador Noirrit</option>
-                                    <option value="Mukti" <?php selected($options['title_font_family'], 'Mukti'); ?>>Mukti (ওপেন সোর্স বাংলা)</option>
+                                    <option value="Mukti" <?php selected($options['title_font_family'], 'Mukti'); ?>>Mukti</option>
                                     <option value="Ekushey Lohit" <?php selected($options['title_font_family'], 'Ekushey Lohit'); ?>>Ekushey Lohit</option>
                                     <option value="Apona Lohit" <?php selected($options['title_font_family'], 'Apona Lohit'); ?>>Apona Lohit</option>
                                     <option value="Akaash" <?php selected($options['title_font_family'], 'Akaash'); ?>>Akaash</option>
-                                    <option value="Lohit Bengali" <?php selected($options['title_font_family'], 'Lohit Bengali'); ?>>Lohit Bengali (Linux ডিফল্ট)</option>
+                                    <option value="Lohit Bengali" <?php selected($options['title_font_family'], 'Lohit Bengali'); ?>>Lohit Bengali</option>
                                 </optgroup>
                                 <optgroup label="🌐 English ফন্ট">
                                     <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial</option>
-                                    <option value="Georgia" <?php selected($options['title_font_family'], 'Georgia'); ?>>Georgia (Serif)</option>
-                                    <option value="Poetsen One" <?php selected($options['title_font_family'], 'Poetsen One'); ?>>Poetsen One (Bold Display)</option>
-                                    <option value="Josefin Sans" <?php selected($options['title_font_family'], 'Josefin Sans'); ?>>Josefin Sans (Elegant)</option>
-                                    <option value="Blinker" <?php selected($options['title_font_family'], 'Blinker'); ?>>Blinker (Modern)</option>
-                                    <option value="Times New Roman" <?php selected($options['title_font_family'], 'Times New Roman'); ?>>Times New Roman (Classic)</option>
+                                    <option value="Georgia" <?php selected($options['title_font_family'], 'Georgia'); ?>>Georgia</option>
+                                    <option value="Poetsen One" <?php selected($options['title_font_family'], 'Poetsen One'); ?>>Poetsen One</option>
+                                    <option value="Josefin Sans" <?php selected($options['title_font_family'], 'Josefin Sans'); ?>>Josefin Sans</option>
+                                    <option value="Blinker" <?php selected($options['title_font_family'], 'Blinker'); ?>>Blinker</option>
+                                    <option value="Times New Roman" <?php selected($options['title_font_family'], 'Times New Roman'); ?>>Times New Roman</option>
                                 </optgroup>
                             </select>
-                            <p class="description">বাংলা টাইটেলের জন্য সুন্দর ফন্ট সিলেক্ট করুন। সিস্টেম ফন্ট ব্যবহার করতে হলে সার্ভারে বা ইউজারের ডিভাইসে ফন্টটি ইনস্টল থাকতে হবে।</p>
                         </td>
                     </tr>
                     <tr>
@@ -401,6 +507,10 @@ function pcd_settings_page() {
                     <tr>
                         <th scope="row"><label for="default_line_height">লাইন হাইট</label></th>
                         <td><input type="number" name="pcd_settings[default_line_height]" id="default_line_height" value="<?php echo esc_attr($options['default_line_height']); ?>" min="0.8" max="2.5" step="0.1" class="small-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="title_text_color">টাইটেল কালার</label></th>
+                        <td><input type="text" name="pcd_settings[title_text_color]" id="title_text_color" value="<?php echo esc_attr($options['title_text_color']); ?>" class="pcd-color-picker"></td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="image_quality">ইমেজ কোয়ালিটি</label></th>
@@ -428,14 +538,13 @@ function pcd_settings_page() {
                         <th scope="row"><label for="title_top_offset">টাইটেল পজিশন অফসেট (px)</label></th>
                         <td>
                             <input type="number" name="pcd_settings[title_top_offset]" id="title_top_offset" value="<?php echo esc_attr($options['title_top_offset']); ?>" min="-200" max="200" class="small-text"> px
-                            <p class="description">ধনাত্মক মান = নিচে, ঋণাত্মক মান = উপরে। ডিফল্ট: 0</p>
+                            <p class="description">ধনাত্মক = নিচে, ঋণাত্মক = উপরে</p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="details_bottom_offset">বিস্তারিত পজিশন অফসেট (px)</label></th>
                         <td>
                             <input type="number" name="pcd_settings[details_bottom_offset]" id="details_bottom_offset" value="<?php echo esc_attr($options['details_bottom_offset']); ?>" min="-200" max="200" class="small-text"> px
-                            <p class="description">ধনাত্মক মান = নিচে, ঋণাত্মক মান = উপরে। ডিফল্ট: 0</p>
                         </td>
                     </tr>
                 </table>
@@ -482,11 +591,10 @@ function pcd_settings_page() {
                         <th scope="row"><label for="settings_access_role">সেটিংস অ্যাক্সেস রোল</label></th>
                         <td>
                             <select name="pcd_settings[settings_access_role]" id="settings_access_role" class="regular-text" <?php echo !current_user_can('manage_options') ? 'disabled' : ''; ?>>
-                                <option value="admin" <?php selected($options['settings_access_role'], 'admin'); ?>>Admin — শুধু অ্যাডমিন</option>
-                                <option value="editor" <?php selected($options['settings_access_role'], 'editor'); ?>>Editor+ — এডিটর ও তার উপরে</option>
-                                <option value="author" <?php selected($options['settings_access_role'], 'author'); ?>>Author+ — অথর ও তার উপরে</option>
+                                <option value="admin" <?php selected($options['settings_access_role'], 'admin'); ?>>Admin</option>
+                                <option value="editor" <?php selected($options['settings_access_role'], 'editor'); ?>>Editor+</option>
+                                <option value="author" <?php selected($options['settings_access_role'], 'author'); ?>>Author+</option>
                             </select>
-                            <p class="description">কোন রোলের ইউজাররা ফটোকার্ড সেটিংস পেজ অ্যাক্সেস করতে পারবে। শুধু Admin এই সেটিং পরিবর্তন করতে পারবে।</p>
                         </td>
                     </tr>
                 </table>
@@ -496,16 +604,12 @@ function pcd_settings_page() {
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
                 <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🎨 টেমপ্লেট কালার কাস্টমাইজ</h2>
                 <table class="form-table">
-                    <tr>
-                        <th scope="row" colspan="2"><strong>— কালবেলা টেমপ্লেট —</strong></th>
-                    </tr>
+                    <tr><th scope="row" colspan="2"><strong>— কালবেলা টেমপ্লেট —</strong></th></tr>
                     <tr>
                         <th scope="row"><label for="kalbela_bg_color">হেডার/ফুটার কালার</label></th>
                         <td><input type="text" name="pcd_settings[kalbela_bg_color]" id="kalbela_bg_color" value="<?php echo esc_attr($options['kalbela_bg_color']); ?>" class="pcd-color-picker"></td>
                     </tr>
-                    <tr>
-                        <th scope="row" colspan="2"><strong>— News24 টেমপ্লেট —</strong></th>
-                    </tr>
+                    <tr><th scope="row" colspan="2"><strong>— News24 টেমপ্লেট —</strong></th></tr>
                     <tr>
                         <th scope="row"><label for="news24_bg_color">টাইটেল বার কালার</label></th>
                         <td><input type="text" name="pcd_settings[news24_bg_color]" id="news24_bg_color" value="<?php echo esc_attr($options['news24_bg_color']); ?>" class="pcd-color-picker"></td>
@@ -577,10 +681,24 @@ function pcd_settings_page() {
             }
         });
 
-        // Template-specific sections visibility
+        // Border image uploader
+        var borderUploader;
+        $(document).on('click', '.pcd-upload-border-image', function(e) {
+            e.preventDefault();
+            if (borderUploader) { borderUploader.open(); return; }
+            borderUploader = wp.media({ title: 'বর্ডার ইমেজ সিলেক্ট করুন', multiple: false });
+            borderUploader.on('select', function() {
+                var attachment = borderUploader.state().get('selection').first().toJSON();
+                $('#card_border_image').val(attachment.url);
+                $('.pcd-border-preview').remove();
+                $('#card_border_image').after('<div class="pcd-border-preview" style="margin-top:10px;"><img src="' + attachment.url + '" alt="Border Preview" style="max-width:150px;border:1px solid #ddd;border-radius:4px;"></div>');
+            });
+            borderUploader.open();
+        });
+
+        // Template-specific sections
         function updateTemplateSections() {
             var tpl = $('#photocard_template').val();
-            // Show domain section only for dailyshadhin
             if (tpl === 'dailyshadhin') {
                 $('#pcd-domain-section').show();
             } else {

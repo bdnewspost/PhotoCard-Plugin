@@ -22,15 +22,39 @@
     updatePhotocardScale()
     $(window).on("resize", updatePhotocardScale)
 
+    // ===== Helper: get current styles =====
+    var isBold = false
+    var isItalic = false
+
+    function getCurrentTitleStyles() {
+      const $title = $("#pcd-adjustable-title")
+      return {
+        fontSize: $title.css("font-size"),
+        lineHeight: $title.css("line-height"),
+        fontFamily: $title.css("font-family"),
+        fontWeight: isBold ? "900" : ($title.css("font-weight") || "700"),
+        fontStyle: isItalic ? "italic" : ($title.css("font-style") || "normal"),
+        textShadow: $title.css("text-shadow") || "3px 3px 8px rgba(0,0,0,0.7)"
+      }
+    }
+
+    // ===== Helper: sync span styles =====
+    function syncSpanStyles(props) {
+      $("#pcd-adjustable-title span").each(function() {
+        const $s = $(this)
+        if (props.fontSize) $s.css("font-size", props.fontSize)
+        if (props.lineHeight) $s.css("line-height", props.lineHeight)
+        if (props.fontFamily) $s.css("font-family", props.fontFamily)
+        if (props.fontWeight) $s.css("font-weight", props.fontWeight)
+        if (props.fontStyle) $s.css("font-style", props.fontStyle)
+      })
+    }
+
     // ===== FONT SIZE SLIDER =====
     $("#pcd-font-size-slider").on("input", function () {
       const fontSize = $(this).val()
-      // Update the title container font-size
       $("#pcd-adjustable-title").css("font-size", fontSize + "px")
-      // Also update any colored spans inside
-      $("#pcd-adjustable-title span").each(function() {
-        $(this).css("font-size", fontSize + "px")
-      })
+      syncSpanStyles({ fontSize: fontSize + "px" })
       $("#pcd-font-size-value").text(fontSize + "px")
     })
 
@@ -38,9 +62,7 @@
     $("#pcd-line-height-slider").on("input", function () {
       const lineHeight = $(this).val()
       $("#pcd-adjustable-title").css("line-height", lineHeight)
-      $("#pcd-adjustable-title span").each(function() {
-        $(this).css("line-height", lineHeight)
-      })
+      syncSpanStyles({ lineHeight: lineHeight })
       $("#pcd-line-height-value").text(lineHeight)
     })
 
@@ -55,20 +77,14 @@
       return false
     })
 
-    // ===== BOLD / ITALIC =====
-    var isBold = false
-    var isItalic = false
-
+    // ===== BOLD / ITALIC (global) =====
     $("#pcd-bold-btn").on("click", function (e) {
       e.preventDefault()
       isBold = !isBold
       $(this).toggleClass("active", isBold)
       var weight = isBold ? "900" : "700"
       $("#pcd-adjustable-title").css("font-weight", weight)
-      // Also update spans inside
-      $("#pcd-adjustable-title span").each(function() {
-        $(this).css("font-weight", weight)
-      })
+      syncSpanStyles({ fontWeight: weight })
     })
 
     $("#pcd-italic-btn").on("click", function (e) {
@@ -77,10 +93,7 @@
       $(this).toggleClass("active", isItalic)
       var style = isItalic ? "italic" : "normal"
       $("#pcd-adjustable-title").css("font-style", style)
-      // Also update spans inside
-      $("#pcd-adjustable-title span").each(function() {
-        $(this).css("font-style", style)
-      })
+      syncSpanStyles({ fontStyle: style })
     })
 
     // ===== FONT SELECTOR =====
@@ -88,11 +101,8 @@
       const font = $(this).val()
       const fontStack = "'" + font + "', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif"
       $("#pcd-adjustable-title").css("font-family", fontStack)
-      // Also update spans inside
-      $("#pcd-adjustable-title span").each(function() {
-        $(this).css("font-family", fontStack)
-      })
-      // Also update date and other text elements on the card
+      syncSpanStyles({ fontFamily: fontStack })
+      // Also update other card text
       $(".pcd-photocard").find("[style*='font-family']").each(function() {
         if (!$(this).is("#pcd-adjustable-title") && !$(this).closest("#pcd-adjustable-title").length) {
           $(this).css("font-family", fontStack)
@@ -107,19 +117,6 @@
       updateLineColorInputs()
     })
 
-    // ===== Get current title styles =====
-    function getCurrentTitleStyles() {
-      const $title = $("#pcd-adjustable-title")
-      return {
-        fontSize: $title.css("font-size"),
-        lineHeight: $title.css("line-height"),
-        fontFamily: $title.css("font-family"),
-        fontWeight: isBold ? "900" : $title.css("font-weight"),
-        fontStyle: isItalic ? "italic" : $title.css("font-style"),
-        textShadow: $title.css("text-shadow") || "3px 3px 8px rgba(0,0,0,0.7)"
-      }
-    }
-
     // ===== LINE-WISE COLOR SYSTEM =====
     function updateLineColorInputs() {
       const titleText = $("#pcd-title-editor").val()
@@ -128,7 +125,6 @@
       container.empty()
 
       if (lines.length <= 1) {
-        // Single line - show a single color picker
         container.html(
           '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
             '<input type="color" class="pcd-line-color" data-line="0" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
@@ -159,7 +155,6 @@
       const styles = getCurrentTitleStyles()
 
       if (lines.length <= 1) {
-        // Single line - just change color, keep text as text node
         const colorInput = $(".pcd-line-color[data-line='0']")
         const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
         const text = lines.length === 1 ? lines[0] : $title.text().trim()
@@ -179,6 +174,95 @@
       })
 
       $title.html(html)
+    })
+
+    // ===== WORD-WISE COLOR =====
+    $("#pcd-apply-word-color").on("click", function () {
+      const textarea = document.getElementById("pcd-title-editor")
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      if (start === end) {
+        alert("প্রথমে টেক্সটএরিয়া থেকে ওয়ার্ড সিলেক্ট করুন।")
+        return
+      }
+
+      const fullText = textarea.value
+      const selectedText = fullText.substring(start, end)
+      const beforeText = fullText.substring(0, start)
+      const afterText = fullText.substring(end)
+      const color = $("#pcd-word-color-picker").val()
+      const styles = getCurrentTitleStyles()
+
+      // Build HTML from full text, wrapping selected portion
+      const $title = $("#pcd-adjustable-title")
+      let html = ""
+
+      // Escape helper
+      function esc(t) { return $("<span>").text(t).html() }
+
+      if (beforeText) {
+        html += '<span style="color: inherit; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
+      }
+      html += '<span style="color: ' + color + '; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(selectedText) + '</span>'
+      if (afterText) {
+        html += '<span style="color: inherit; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
+      }
+
+      $title.html(html)
+    })
+
+    // ===== WORD-WISE BOLD =====
+    $(".pcd-word-bold-btn").on("click", function () {
+      const textarea = document.getElementById("pcd-title-editor")
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      if (start === end) { alert("প্রথমে ওয়ার্ড সিলেক্ট করুন।"); return }
+
+      const fullText = textarea.value
+      const selectedText = fullText.substring(start, end)
+      const beforeText = fullText.substring(0, start)
+      const afterText = fullText.substring(end)
+      const styles = getCurrentTitleStyles()
+
+      function esc(t) { return $("<span>").text(t).html() }
+
+      let html = ""
+      if (beforeText) {
+        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
+      }
+      html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: 900; font-style: ' + styles.fontStyle + ';">' + esc(selectedText) + '</span>'
+      if (afterText) {
+        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
+      }
+
+      $("#pcd-adjustable-title").html(html)
+    })
+
+    // ===== WORD-WISE ITALIC =====
+    $(".pcd-word-italic-btn").on("click", function () {
+      const textarea = document.getElementById("pcd-title-editor")
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      if (start === end) { alert("প্রথমে ওয়ার্ড সিলেক্ট করুন।"); return }
+
+      const fullText = textarea.value
+      const selectedText = fullText.substring(start, end)
+      const beforeText = fullText.substring(0, start)
+      const afterText = fullText.substring(end)
+      const styles = getCurrentTitleStyles()
+
+      function esc(t) { return $("<span>").text(t).html() }
+
+      let html = ""
+      if (beforeText) {
+        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
+      }
+      html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: italic;">' + esc(selectedText) + '</span>'
+      if (afterText) {
+        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
+      }
+
+      $("#pcd-adjustable-title").html(html)
     })
 
     // ===== COPY LINK =====
@@ -229,11 +313,9 @@
       const el = $card[0]
       const quality = Number.parseInt($(".pcd-photocard").attr("data-quality")) || 4
 
-      // Save current scale state
       const currentScale = $card.css("--pcd-scale") || "0.55"
       const currentWrapperHeight = $wrapper.css("height")
 
-      // Reset to full size for capture
       $card.css({
         "--pcd-scale": "1",
         "transform": "scale(1)"
@@ -243,8 +325,7 @@
         "overflow": "visible"
       })
 
-      // Wait for reflow
-      await new Promise(r => setTimeout(r, 200))
+      await new Promise(r => setTimeout(r, 300))
 
       const canvas = await html2canvas(el, {
         scale: quality,
@@ -260,7 +341,6 @@
         windowHeight: 1080,
       })
 
-      // Restore scale
       $card.css({
         "--pcd-scale": currentScale,
         "transform": "scale(var(--pcd-scale, 0.55))"

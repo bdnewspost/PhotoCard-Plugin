@@ -1,8 +1,7 @@
 <?php
 /**
  * Daily Shadhin Template
- * Layout: Full image top with background overlay template,
- * title over gradient, bottom bar blended with background
+ * Layout: Full image with background overlay template
  */
 if (!defined('ABSPATH')) exit;
 
@@ -13,14 +12,35 @@ $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset
 $_domain_text = isset($domain_text) ? $domain_text : '';
 $_show_domain = isset($show_domain) ? $show_domain : true;
 $_content_top = 560 + $_title_offset;
+
+// Featured image settings
+$_fi_object_fit = isset($fi_object_fit) ? $fi_object_fit : 'cover';
+$_fi_object_position = isset($fi_object_position) ? $fi_object_position : 'center top';
+$_fi_zoom = isset($fi_zoom) ? intval($fi_zoom) : 100;
+$_fi_zoom_style = ($_fi_zoom != 100) ? 'transform: scale(' . ($_fi_zoom / 100) . ');' : '';
+
+// Border settings
+$_border_width = isset($card_border_width) ? intval($card_border_width) : 0;
+$_border_color = isset($card_border_color) ? $card_border_color : '#ffffff';
+$_border_radius = isset($card_border_radius) ? intval($card_border_radius) : 0;
+$_border_style = '';
+if ($_border_width > 0) {
+    $_border_style = 'border: ' . $_border_width . 'px solid ' . $_border_color . ';';
+}
+if ($_border_radius > 0) {
+    $_border_style .= 'border-radius: ' . $_border_radius . 'px;';
+}
+
+// Title color
+$_title_color = isset($title_text_color) ? $title_text_color : '#ffffff';
 ?>
-<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0a0a;">
+<div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a0a0a; <?php echo $_border_style; ?>">
     
     <!-- Post Featured Image -->
-    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 1;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($post_title); ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: <?php echo esc_attr($_fi_object_fit); ?>; object-position: <?php echo esc_attr($_fi_object_position); ?>; z-index: 1; <?php echo $_fi_zoom_style; ?>" crossorigin="anonymous">
 
     <!-- Background Template Image (full overlay) -->
-    <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;" crossorigin="anonymous">
+    <img src="<?php echo esc_url($bg_image_url); ?>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" crossorigin="anonymous">
 
     <!-- Logo -->
     <?php if ($enable_logo && !empty($watermark_logo)): ?>
@@ -34,7 +54,7 @@ $_content_top = 560 + $_title_offset;
 
         <!-- Title -->
         <div style="padding: 0 50px; flex-shrink: 0;">
-            <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 3px 3px 8px rgba(0,0,0,0.7);">
+            <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 3px 3px 8px rgba(0,0,0,0.7);">
                 <?php echo esc_html($post_title); ?>
             </div>
         </div>
@@ -42,7 +62,7 @@ $_content_top = 560 + $_title_offset;
         <!-- Spacer -->
         <div style="flex: 1;"></div>
 
-        <!-- Bottom Bar: Date (left) | Domain with Social Icons (center) | Details (right) -->
+        <!-- Bottom Bar -->
         <div style="display: flex; justify-content: space-between; align-items: center; padding: <?php echo (18 + $_details_offset); ?>px 45px;">
             
             <!-- Date - Left -->
@@ -54,10 +74,11 @@ $_content_top = 560 + $_title_offset;
             <div></div>
             <?php endif; ?>
 
-            <!-- Center: Domain + Social Icons together -->
+            <!-- Center: Domain + Social Icons -->
             <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
                 <?php if ($_show_domain && !empty($_domain_text)): ?>
-                <div style="color: #ffffff; font-size: 24px; font-weight: 800; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 0.5px; text-shadow: 2px 2px 6px rgba(0,0,0,0.8);">
+                <div style="display: flex; align-items: center; gap: 8px; color: #ffffff; font-size: 22px; font-weight: 800; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 2px 2px 6px rgba(0,0,0,0.8);">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                     <?php echo esc_html($_domain_text); ?>
                 </div>
                 <?php endif; ?>

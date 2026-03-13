@@ -48,6 +48,18 @@ function pcd_load_editor_template() {
     $custom_bg_image = isset($options['custom_bg_image']) ? $options['custom_bg_image'] : '';
     $domain_text = isset($options['domain_text']) ? $options['domain_text'] : '';
     $show_domain = isset($options['show_domain']) ? $options['show_domain'] : true;
+    $title_text_color = isset($options['title_text_color']) ? $options['title_text_color'] : '#ffffff';
+
+    // Featured image settings
+    $fi_object_fit = isset($options['fi_object_fit']) ? $options['fi_object_fit'] : 'cover';
+    $fi_object_position = isset($options['fi_object_position']) ? $options['fi_object_position'] : 'center top';
+    $fi_zoom = isset($options['fi_zoom']) ? intval($options['fi_zoom']) : 100;
+
+    // Border settings
+    $card_border_width = isset($options['card_border_width']) ? intval($options['card_border_width']) : 0;
+    $card_border_color = isset($options['card_border_color']) ? $options['card_border_color'] : '#ffffff';
+    $card_border_radius = isset($options['card_border_radius']) ? intval($options['card_border_radius']) : 0;
+    $card_padding = isset($options['card_padding']) ? intval($options['card_padding']) : 0;
 
     // Social
     $show_facebook = isset($options['show_facebook']) ? $options['show_facebook'] : false;
@@ -170,12 +182,8 @@ function pcd_load_editor_template() {
                     <div class="pcd-control-group">
                         <label>🎨 টেক্সট ফরম্যাটিং</label>
                         <div class="pcd-format-buttons">
-                            <button type="button" class="pcd-format-btn" id="pcd-bold-btn" title="বোল্ড">
-                                <strong>B</strong>
-                            </button>
-                            <button type="button" class="pcd-format-btn" id="pcd-italic-btn" title="ইটালিক">
-                                <em>I</em>
-                            </button>
+                            <button type="button" class="pcd-format-btn" id="pcd-bold-btn" title="বোল্ড"><strong>B</strong></button>
+                            <button type="button" class="pcd-format-btn" id="pcd-italic-btn" title="ইটালিক"><em>I</em></button>
                             <div class="pcd-align-buttons" style="display: inline-flex; gap: 4px; margin-left: 8px;">
                                 <button type="button" class="pcd-align-btn" data-align="left" title="বাম">
                                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg>
@@ -193,11 +201,23 @@ function pcd_load_editor_template() {
                         </div>
                     </div>
 
-                    <!-- Line Colors -->
+                    <!-- Word-wise Color -->
                     <div class="pcd-control-group">
-                        <label>🌈 লাইন কালার</label>
+                        <label>🌈 কালার (লাইন/ওয়ার্ড)</label>
                         <div id="pcd-line-colors-container"></div>
-                        <button id="pcd-apply-line-colors" type="button">কালার প্রয়োগ করুন</button>
+                        <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+                            <button id="pcd-apply-line-colors" type="button" style="flex:1; padding: 8px 12px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;">🎨 লাইন কালার প্রয়োগ</button>
+                            <button id="pcd-apply-word-color" type="button" style="flex:1; padding: 8px 12px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;">✨ সিলেক্টেড ওয়ার্ড কালার</button>
+                        </div>
+                        <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                            <input type="color" id="pcd-word-color-picker" value="#ffff00" style="width: 36px; height: 30px; padding: 0; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer;">
+                            <span style="font-size: 12px; color: #64748b;">ওয়ার্ড কালার পিকার — টেক্সটএরিয়ায় সিলেক্ট করে বাটনে ক্লিক করুন</span>
+                        </div>
+                        <div style="margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button type="button" class="pcd-word-bold-btn" style="padding: 4px 10px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: 900; font-size: 13px;">B</button>
+                            <button type="button" class="pcd-word-italic-btn" style="padding: 4px 10px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-style: italic; font-size: 13px;">I</button>
+                            <span style="font-size: 11px; color: #94a3b8; align-self: center;">সিলেক্টেড ওয়ার্ড Bold/Italic</span>
+                        </div>
                     </div>
 
                     <!-- Font Size -->
