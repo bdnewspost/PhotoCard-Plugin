@@ -552,6 +552,19 @@ function pcd_settings_page() {
                 $('#pcd-reset-form').submit();
             }
         });
+
+        // Template-specific sections visibility
+        function updateTemplateSections() {
+            var tpl = $('#photocard_template').val();
+            // Show domain section only for dailyshadhin
+            if (tpl === 'dailyshadhin') {
+                $('#pcd-domain-section').show();
+            } else {
+                $('#pcd-domain-section').hide();
+            }
+        }
+        updateTemplateSections();
+        $('#photocard_template').on('change', updateTemplateSections);
     });
     </script>
     <?php
