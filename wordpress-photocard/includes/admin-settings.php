@@ -96,6 +96,7 @@ function pcd_sanitize_settings($input) {
     $sanitized['show_instagram'] = !empty($input['show_instagram']) ? true : false;
     $sanitized['linkedin_text'] = isset($input['linkedin_text']) ? sanitize_text_field($input['linkedin_text']) : '';
     $sanitized['show_linkedin'] = !empty($input['show_linkedin']) ? true : false;
+    $sanitized['social_icon_font_size'] = isset($input['social_icon_font_size']) ? intval($input['social_icon_font_size']) : 14;
 
     // Custom background image
     $sanitized['custom_bg_image'] = isset($input['custom_bg_image']) && !empty($input['custom_bg_image']) ? esc_url_raw($input['custom_bg_image']) : '';
@@ -108,6 +109,25 @@ function pcd_sanitize_settings($input) {
     $sanitized['fi_object_fit'] = isset($input['fi_object_fit']) ? sanitize_text_field($input['fi_object_fit']) : 'cover';
     $sanitized['fi_object_position'] = isset($input['fi_object_position']) ? sanitize_text_field($input['fi_object_position']) : 'center top';
     $sanitized['fi_zoom'] = isset($input['fi_zoom']) ? intval($input['fi_zoom']) : 100;
+
+    // Featured Image padding per side
+    $sanitized['fi_padding_top'] = isset($input['fi_padding_top']) ? intval($input['fi_padding_top']) : 0;
+    $sanitized['fi_padding_right'] = isset($input['fi_padding_right']) ? intval($input['fi_padding_right']) : 0;
+    $sanitized['fi_padding_bottom'] = isset($input['fi_padding_bottom']) ? intval($input['fi_padding_bottom']) : 0;
+    $sanitized['fi_padding_left'] = isset($input['fi_padding_left']) ? intval($input['fi_padding_left']) : 0;
+
+    // Featured Image border per side
+    $sanitized['fi_border_top'] = isset($input['fi_border_top']) ? intval($input['fi_border_top']) : 0;
+    $sanitized['fi_border_right'] = isset($input['fi_border_right']) ? intval($input['fi_border_right']) : 0;
+    $sanitized['fi_border_bottom'] = isset($input['fi_border_bottom']) ? intval($input['fi_border_bottom']) : 0;
+    $sanitized['fi_border_left'] = isset($input['fi_border_left']) ? intval($input['fi_border_left']) : 0;
+    $sanitized['fi_border_color'] = isset($input['fi_border_color']) ? sanitize_hex_color($input['fi_border_color']) : '#ffffff';
+
+    // Featured Image border radius per corner
+    $sanitized['fi_radius_tl'] = isset($input['fi_radius_tl']) ? intval($input['fi_radius_tl']) : 0;
+    $sanitized['fi_radius_tr'] = isset($input['fi_radius_tr']) ? intval($input['fi_radius_tr']) : 0;
+    $sanitized['fi_radius_bl'] = isset($input['fi_radius_bl']) ? intval($input['fi_radius_bl']) : 0;
+    $sanitized['fi_radius_br'] = isset($input['fi_radius_br']) ? intval($input['fi_radius_br']) : 0;
 
     // Card Border settings
     $sanitized['card_border_width'] = isset($input['card_border_width']) ? intval($input['card_border_width']) : 0;
@@ -196,12 +216,26 @@ function pcd_settings_page() {
         'show_instagram' => false,
         'linkedin_text' => '',
         'show_linkedin' => false,
+        'social_icon_font_size' => 14,
         'custom_bg_image' => '',
         'domain_text' => '',
         'show_domain' => true,
         'fi_object_fit' => 'cover',
         'fi_object_position' => 'center top',
         'fi_zoom' => 100,
+        'fi_padding_top' => 0,
+        'fi_padding_right' => 0,
+        'fi_padding_bottom' => 0,
+        'fi_padding_left' => 0,
+        'fi_border_top' => 0,
+        'fi_border_right' => 0,
+        'fi_border_bottom' => 0,
+        'fi_border_left' => 0,
+        'fi_border_color' => '#ffffff',
+        'fi_radius_tl' => 0,
+        'fi_radius_tr' => 0,
+        'fi_radius_bl' => 0,
+        'fi_radius_br' => 0,
         'card_border_width' => 0,
         'card_border_color' => '#ffffff',
         'card_border_radius' => 0,
@@ -331,12 +365,93 @@ function pcd_settings_page() {
                             <p class="description">100% = নরমাল, 150% = জুম ইন, 80% = জুম আউট</p>
                         </td>
                     </tr>
+
+                    <!-- Featured Image Padding per side -->
+                    <tr>
+                        <th scope="row">ইমেজ প্যাডিং (px)</th>
+                        <td>
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 500px;">
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">উপরে</label>
+                                    <input type="number" name="pcd_settings[fi_padding_top]" value="<?php echo esc_attr($options['fi_padding_top']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">ডানে</label>
+                                    <input type="number" name="pcd_settings[fi_padding_right]" value="<?php echo esc_attr($options['fi_padding_right']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">নিচে</label>
+                                    <input type="number" name="pcd_settings[fi_padding_bottom]" value="<?php echo esc_attr($options['fi_padding_bottom']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">বামে</label>
+                                    <input type="number" name="pcd_settings[fi_padding_left]" value="<?php echo esc_attr($options['fi_padding_left']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                            </div>
+                            <p class="description">ফিচার্ড ইমেজের চারপাশে ফাঁকা জায়গা (প্রতিটি দিকে আলাদাভাবে)</p>
+                        </td>
+                    </tr>
+
+                    <!-- Featured Image Border per side -->
+                    <tr>
+                        <th scope="row">ইমেজ বর্ডার (px)</th>
+                        <td>
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 500px;">
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">উপরে</label>
+                                    <input type="number" name="pcd_settings[fi_border_top]" value="<?php echo esc_attr($options['fi_border_top']); ?>" min="0" max="50" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">ডানে</label>
+                                    <input type="number" name="pcd_settings[fi_border_right]" value="<?php echo esc_attr($options['fi_border_right']); ?>" min="0" max="50" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">নিচে</label>
+                                    <input type="number" name="pcd_settings[fi_border_bottom]" value="<?php echo esc_attr($options['fi_border_bottom']); ?>" min="0" max="50" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">বামে</label>
+                                    <input type="number" name="pcd_settings[fi_border_left]" value="<?php echo esc_attr($options['fi_border_left']); ?>" min="0" max="50" class="small-text" style="width: 100%;">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="fi_border_color">ইমেজ বর্ডার কালার</label></th>
+                        <td><input type="text" name="pcd_settings[fi_border_color]" id="fi_border_color" value="<?php echo esc_attr($options['fi_border_color']); ?>" class="pcd-color-picker"></td>
+                    </tr>
+
+                    <!-- Featured Image Border Radius per corner -->
+                    <tr>
+                        <th scope="row">ইমেজ রেডিয়াস (px)</th>
+                        <td>
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 500px;">
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">↖ উপর-বাম</label>
+                                    <input type="number" name="pcd_settings[fi_radius_tl]" value="<?php echo esc_attr($options['fi_radius_tl']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">↗ উপর-ডান</label>
+                                    <input type="number" name="pcd_settings[fi_radius_tr]" value="<?php echo esc_attr($options['fi_radius_tr']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">↙ নিচ-বাম</label>
+                                    <input type="number" name="pcd_settings[fi_radius_bl]" value="<?php echo esc_attr($options['fi_radius_bl']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #666;">↘ নিচ-ডান</label>
+                                    <input type="number" name="pcd_settings[fi_radius_br]" value="<?php echo esc_attr($options['fi_radius_br']); ?>" min="0" max="200" class="small-text" style="width: 100%;">
+                                </div>
+                            </div>
+                            <p class="description">প্রতিটি কোণা আলাদাভাবে গোল করুন। 0 = চারকোণা</p>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
             <!-- Card Border & Spacing -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🔲 বর্ডার ও স্পেসিং</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🔲 কার্ড বর্ডার ও স্পেসিং</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row"><label for="card_border_width">বর্ডার প্রস্থ (px)</label></th>
@@ -629,6 +744,13 @@ function pcd_settings_page() {
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
                 <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">📱 সোশ্যাল মিডিয়া</h2>
                 <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="social_icon_font_size">সোশ্যাল আইকন ফন্ট সাইজ</label></th>
+                        <td>
+                            <input type="number" name="pcd_settings[social_icon_font_size]" id="social_icon_font_size" value="<?php echo esc_attr($options['social_icon_font_size']); ?>" min="10" max="30" class="small-text"> px
+                            <p class="description">সোশ্যাল মিডিয়া আইকন ও টেক্সটের ফন্ট সাইজ</p>
+                        </td>
+                    </tr>
                     <?php foreach (array(
                         'facebook' => 'Facebook',
                         'instagram' => 'Instagram',

@@ -55,7 +55,26 @@ function pcd_load_editor_template() {
     $fi_object_position = isset($options['fi_object_position']) ? $options['fi_object_position'] : 'center top';
     $fi_zoom = isset($options['fi_zoom']) ? intval($options['fi_zoom']) : 100;
 
-    // Border settings
+    // Featured image padding
+    $fi_padding_top = isset($options['fi_padding_top']) ? intval($options['fi_padding_top']) : 0;
+    $fi_padding_right = isset($options['fi_padding_right']) ? intval($options['fi_padding_right']) : 0;
+    $fi_padding_bottom = isset($options['fi_padding_bottom']) ? intval($options['fi_padding_bottom']) : 0;
+    $fi_padding_left = isset($options['fi_padding_left']) ? intval($options['fi_padding_left']) : 0;
+
+    // Featured image border per side
+    $fi_border_top = isset($options['fi_border_top']) ? intval($options['fi_border_top']) : 0;
+    $fi_border_right = isset($options['fi_border_right']) ? intval($options['fi_border_right']) : 0;
+    $fi_border_bottom = isset($options['fi_border_bottom']) ? intval($options['fi_border_bottom']) : 0;
+    $fi_border_left = isset($options['fi_border_left']) ? intval($options['fi_border_left']) : 0;
+    $fi_border_color = isset($options['fi_border_color']) ? $options['fi_border_color'] : '#ffffff';
+
+    // Featured image radius per corner
+    $fi_radius_tl = isset($options['fi_radius_tl']) ? intval($options['fi_radius_tl']) : 0;
+    $fi_radius_tr = isset($options['fi_radius_tr']) ? intval($options['fi_radius_tr']) : 0;
+    $fi_radius_bl = isset($options['fi_radius_bl']) ? intval($options['fi_radius_bl']) : 0;
+    $fi_radius_br = isset($options['fi_radius_br']) ? intval($options['fi_radius_br']) : 0;
+
+    // Card border settings
     $card_border_width = isset($options['card_border_width']) ? intval($options['card_border_width']) : 0;
     $card_border_color = isset($options['card_border_color']) ? $options['card_border_color'] : '#ffffff';
     $card_border_radius = isset($options['card_border_radius']) ? intval($options['card_border_radius']) : 0;
@@ -72,6 +91,7 @@ function pcd_load_editor_template() {
     $instagram_text = isset($options['instagram_text']) ? $options['instagram_text'] : '';
     $show_linkedin = isset($options['show_linkedin']) ? $options['show_linkedin'] : false;
     $linkedin_text = isset($options['linkedin_text']) ? $options['linkedin_text'] : '';
+    $social_icon_font_size = isset($options['social_icon_font_size']) ? intval($options['social_icon_font_size']) : 14;
 
     // Template colors
     $kalbela_bg_color = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color'] : '#cc0000';

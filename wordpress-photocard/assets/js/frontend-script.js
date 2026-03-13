@@ -38,16 +38,101 @@
       }
     }
 
-    // ===== Helper: sync span styles =====
+    // ===== Helper: sync span styles (only specified props, preserve others) =====
     function syncSpanStyles(props) {
       $("#pcd-adjustable-title span").each(function() {
         const $s = $(this)
         if (props.fontSize) $s.css("font-size", props.fontSize)
         if (props.lineHeight) $s.css("line-height", props.lineHeight)
         if (props.fontFamily) $s.css("font-family", props.fontFamily)
-        if (props.fontWeight) $s.css("font-weight", props.fontWeight)
-        if (props.fontStyle) $s.css("font-style", props.fontStyle)
+        // Only sync weight/style if globally toggled (not per-span overrides)
+        if (props.fontWeight !== undefined) $s.css("font-weight", props.fontWeight)
+        if (props.fontStyle !== undefined) $s.css("font-style", props.fontStyle)
       })
+    }
+
+    // ===== Helper: get title's plain text content =====
+    function getTitlePlainText() {
+      var $title = $("#pcd-adjustable-title")
+      // If has spans, concatenate their text
+      if ($title.find("span").length > 0) {
+        var text = ""
+        $title.contents().each(function() {
+          if (this.nodeType === 3) {
+            text += this.textContent
+          } else if (this.nodeName === "SPAN") {
+            text += $(this).text()
+          } else if (this.nodeName === "BR") {
+            text += "\n"
+          }
+        })
+        return text
+      }
+      return $title.text()
+    }
+
+    // ===== Helper: rebuild HTML preserving existing span formatting =====
+    // This is the key function that handles word-wise formatting correctly
+    function applyFormattingToSelection(start, end, propName, propValue) {
+      var textarea = document.getElementById("pcd-title-editor")
+      var fullText = textarea.value
+      var $title = $("#pcd-adjustable-title")
+      var styles = getCurrentTitleStyles()
+
+      function esc(t) { return $("<span>").text(t).html() }
+
+      // Get existing spans and their styles
+      var existingSpans = []
+      $title.contents().each(function() {
+        if (this.nodeType === 3) {
+          // text node
+          existingSpans.push({
+            text: this.textContent,
+            styles: {}
+          })
+        } else if (this.nodeName === "SPAN") {
+          var $sp = $(this)
+          existingSpans.push({
+            text: $sp.text(),
+            styles: {
+              color: $sp[0].style.color || "",
+              fontWeight: $sp[0].style.fontWeight || "",
+              fontStyle: $sp[0].style.fontStyle || ""
+            }
+          })
+        }
+      })
+
+      // If no existing spans, treat whole title as one segment
+      if (existingSpans.length === 0) {
+        existingSpans = [{ text: fullText, styles: {} }]
+      }
+
+      // Now split the text into 3 parts: before selection, selection, after
+      var beforeText = fullText.substring(0, start)
+      var selectedText = fullText.substring(start, end)
+      var afterText = fullText.substring(end)
+
+      // Build new HTML with 3 segments, each inheriting base styles
+      var baseStyle = "font-size: " + styles.fontSize + "; line-height: " + styles.lineHeight + "; font-family: " + styles.fontFamily + ";"
+      var html = ""
+
+      if (beforeText) {
+        html += '<span style="' + baseStyle + ' font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
+      }
+
+      // Selected text with the new property applied
+      var selWeight = (propName === "fontWeight") ? propValue : styles.fontWeight
+      var selStyle = (propName === "fontStyle") ? propValue : styles.fontStyle
+      var selColor = (propName === "color") ? propValue : "inherit"
+
+      html += '<span style="' + baseStyle + ' font-weight: ' + selWeight + '; font-style: ' + selStyle + '; color: ' + selColor + ';">' + esc(selectedText) + '</span>'
+
+      if (afterText) {
+        html += '<span style="' + baseStyle + ' font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
+      }
+
+      $title.html(html)
     }
 
     // ===== FONT SIZE SLIDER =====
@@ -77,7 +162,7 @@
       return false
     })
 
-    // ===== BOLD / ITALIC (global) =====
+    // ===== BOLD / ITALIC (global — syncs ALL spans) =====
     $("#pcd-bold-btn").on("click", function (e) {
       e.preventDefault()
       isBold = !isBold
@@ -153,16 +238,15 @@
       const lines = titleText.split("\n").filter((l) => l.trim() !== "")
       const $title = $("#pcd-adjustable-title")
       const styles = getCurrentTitleStyles()
+      var baseStyle = "font-size: " + styles.fontSize + "; line-height: " + styles.lineHeight + "; font-family: " + styles.fontFamily + "; font-weight: " + styles.fontWeight + "; font-style: " + styles.fontStyle + ";"
+
+      function esc(t) { return $("<span>").text(t).html() }
 
       if (lines.length <= 1) {
         const colorInput = $(".pcd-line-color[data-line='0']")
         const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
         const text = lines.length === 1 ? lines[0] : $title.text().trim()
-        $title.html(
-          '<span style="color: ' + color + '; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' +
-          $("<span>").text(text).html() +
-          '</span>'
-        )
+        $title.html('<span style="color: ' + color + '; ' + baseStyle + '">' + esc(text) + '</span>')
         return
       }
 
@@ -170,7 +254,7 @@
       lines.forEach((line, index) => {
         const colorInput = $(`.pcd-line-color[data-line="${index}"]`)
         const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
-        html += '<span style="color: ' + color + '; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + '; display: block;">' + $("<span>").text(line).html() + "</span>"
+        html += '<span style="color: ' + color + '; ' + baseStyle + ' display: block;">' + esc(line) + "</span>"
       })
 
       $title.html(html)
@@ -185,30 +269,8 @@
         alert("প্রথমে টেক্সটএরিয়া থেকে ওয়ার্ড সিলেক্ট করুন।")
         return
       }
-
-      const fullText = textarea.value
-      const selectedText = fullText.substring(start, end)
-      const beforeText = fullText.substring(0, start)
-      const afterText = fullText.substring(end)
       const color = $("#pcd-word-color-picker").val()
-      const styles = getCurrentTitleStyles()
-
-      // Build HTML from full text, wrapping selected portion
-      const $title = $("#pcd-adjustable-title")
-      let html = ""
-
-      // Escape helper
-      function esc(t) { return $("<span>").text(t).html() }
-
-      if (beforeText) {
-        html += '<span style="color: inherit; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
-      }
-      html += '<span style="color: ' + color + '; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(selectedText) + '</span>'
-      if (afterText) {
-        html += '<span style="color: inherit; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
-      }
-
-      $title.html(html)
+      applyFormattingToSelection(start, end, "color", color)
     })
 
     // ===== WORD-WISE BOLD =====
@@ -217,25 +279,7 @@
       const start = textarea.selectionStart
       const end = textarea.selectionEnd
       if (start === end) { alert("প্রথমে ওয়ার্ড সিলেক্ট করুন।"); return }
-
-      const fullText = textarea.value
-      const selectedText = fullText.substring(start, end)
-      const beforeText = fullText.substring(0, start)
-      const afterText = fullText.substring(end)
-      const styles = getCurrentTitleStyles()
-
-      function esc(t) { return $("<span>").text(t).html() }
-
-      let html = ""
-      if (beforeText) {
-        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
-      }
-      html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: 900; font-style: ' + styles.fontStyle + ';">' + esc(selectedText) + '</span>'
-      if (afterText) {
-        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
-      }
-
-      $("#pcd-adjustable-title").html(html)
+      applyFormattingToSelection(start, end, "fontWeight", "900")
     })
 
     // ===== WORD-WISE ITALIC =====
@@ -244,25 +288,7 @@
       const start = textarea.selectionStart
       const end = textarea.selectionEnd
       if (start === end) { alert("প্রথমে ওয়ার্ড সিলেক্ট করুন।"); return }
-
-      const fullText = textarea.value
-      const selectedText = fullText.substring(start, end)
-      const beforeText = fullText.substring(0, start)
-      const afterText = fullText.substring(end)
-      const styles = getCurrentTitleStyles()
-
-      function esc(t) { return $("<span>").text(t).html() }
-
-      let html = ""
-      if (beforeText) {
-        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(beforeText) + '</span>'
-      }
-      html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: italic;">' + esc(selectedText) + '</span>'
-      if (afterText) {
-        html += '<span style="font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' + esc(afterText) + '</span>'
-      }
-
-      $("#pcd-adjustable-title").html(html)
+      applyFormattingToSelection(start, end, "fontStyle", "italic")
     })
 
     // ===== COPY LINK =====
