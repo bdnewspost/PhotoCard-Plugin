@@ -88,7 +88,10 @@ function pcd_load_editor_template() {
     </head>
     <body class="pcd-editor-page">
         <div class="pcd-editor-container">
-            <h1 class="pcd-editor-title">📸 Photocard Editor</h1>
+            <div class="pcd-editor-header">
+                <h1 class="pcd-editor-title">📸 ফটোকার্ড এডিটর</h1>
+                <p class="pcd-editor-subtitle">টাইটেল এডিট করুন, স্টাইল পরিবর্তন করুন এবং ডাউনলোড করুন</p>
+            </div>
 
             <div class="pcd-editor-content">
                 <div id="pcd-photocard-preview" class="pcd-photocard-wrapper">
@@ -101,7 +104,7 @@ function pcd_load_editor_template() {
                 <div class="pcd-editor-controls">
                     <!-- Share & Copy -->
                     <div class="pcd-control-group pcd-share-section">
-                        <label>শেয়ার এবং কপি করুন</label>
+                        <label>🔗 শেয়ার ও কপি</label>
                         <div class="pcd-share-buttons">
                             <button id="pcd-copy-link-button" class="pcd-btn pcd-btn-icon pcd-btn-sm" title="লিংক কপি">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
@@ -116,56 +119,68 @@ function pcd_load_editor_template() {
 
                     <!-- Title Editor -->
                     <div class="pcd-control-group">
-                        <label>টাইটেল এডিটর</label>
+                        <label>✏️ টাইটেল এডিটর</label>
                         <textarea id="pcd-title-editor" class="pcd-title-editor-textarea" rows="3"><?php echo esc_textarea($post_title); ?></textarea>
                     </div>
 
-                    <!-- Title Alignment -->
+                    <!-- Text Formatting -->
                     <div class="pcd-control-group">
-                        <label>টাইটেল এলাইনমেন্ট</label>
-                        <div class="pcd-align-buttons">
-                            <button type="button" class="pcd-align-btn" data-align="left" title="বাম">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+                        <label>🎨 টেক্সট ফরম্যাটিং</label>
+                        <div class="pcd-format-buttons">
+                            <button type="button" class="pcd-format-btn" id="pcd-bold-btn" title="বোল্ড">
+                                <strong>B</strong>
                             </button>
-                            <button type="button" class="pcd-align-btn active" data-align="center" title="মাঝখানে">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm-3 4h18v2H3v-2zm3 4h12v2H6v-2zm-3 4h18v2H3v-2z"/></svg>
+                            <button type="button" class="pcd-format-btn" id="pcd-italic-btn" title="ইটালিক">
+                                <em>I</em>
                             </button>
-                            <button type="button" class="pcd-align-btn" data-align="right" title="ডান">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm6 4h12v2H9V7zm-6 4h18v2H3v-2zm6 4h12v2H9v-2zm-6 4h18v2H3v-2z"/></svg>
-                            </button>
-                            <button type="button" class="pcd-align-btn" data-align="justify" title="জাস্টিফাই">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h18v2H3v-2z"/></svg>
-                            </button>
+                            <div class="pcd-align-buttons" style="display: inline-flex; gap: 4px; margin-left: 8px;">
+                                <button type="button" class="pcd-align-btn" data-align="left" title="বাম">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+                                </button>
+                                <button type="button" class="pcd-align-btn active" data-align="center" title="মাঝখানে">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm-3 4h18v2H3v-2zm3 4h12v2H6v-2zm-3 4h18v2H3v-2z"/></svg>
+                                </button>
+                                <button type="button" class="pcd-align-btn" data-align="right" title="ডান">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm6 4h12v2H9V7zm-6 4h18v2H3v-2zm6 4h12v2H9v-2zm-6 4h18v2H3v-2z"/></svg>
+                                </button>
+                                <button type="button" class="pcd-align-btn" data-align="justify" title="জাস্টিফাই">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Line Colors -->
                     <div class="pcd-control-group">
-                        <label>লাইন কালার</label>
+                        <label>🌈 লাইন কালার</label>
                         <div id="pcd-line-colors-container"></div>
                         <button id="pcd-apply-line-colors" type="button">কালার প্রয়োগ করুন</button>
                     </div>
 
                     <!-- Font Size -->
                     <div class="pcd-control-group">
-                        <label>ফন্ট সাইজ <span id="pcd-font-size-value" class="pcd-slider-value"><?php echo esc_html($default_font_size); ?>px</span></label>
+                        <label>📏 ফন্ট সাইজ <span id="pcd-font-size-value" class="pcd-slider-value"><?php echo esc_html($default_font_size); ?>px</span></label>
                         <input type="range" id="pcd-font-size-slider" min="20" max="80" value="<?php echo esc_attr($default_font_size); ?>">
                     </div>
 
                     <!-- Line Height -->
                     <div class="pcd-control-group">
-                        <label>লাইন হাইট <span id="pcd-line-height-value" class="pcd-slider-value"><?php echo esc_html($default_line_height); ?></span></label>
+                        <label>↕️ লাইন হাইট <span id="pcd-line-height-value" class="pcd-slider-value"><?php echo esc_html($default_line_height); ?></span></label>
                         <input type="range" id="pcd-line-height-slider" min="0.8" max="2.5" step="0.05" value="<?php echo esc_attr($default_line_height); ?>">
                     </div>
 
                     <!-- Actions -->
                     <div class="pcd-editor-actions">
-                        <button id="pcd-back-button" class="pcd-btn pcd-btn-secondary" onclick="window.history.back()">Back</button>
-                        <button id="pcd-download-button" class="pcd-btn pcd-btn-primary">Download</button>
+                        <button id="pcd-back-button" class="pcd-btn pcd-btn-secondary" onclick="window.history.back()">
+                            ← ফিরে যান
+                        </button>
+                        <button id="pcd-download-button" class="pcd-btn pcd-btn-primary">
+                            ⬇️ ডাউনলোড
+                        </button>
                     </div>
 
                     <div class="pcd-footer-credit">
-                        <a href="https://hostercube.com" target="_blank" style="color: #666; text-decoration: none;">
+                        <a href="https://hostercube.com" target="_blank">
                             Design & Development By HosterCube Ltd.
                         </a>
                     </div>
