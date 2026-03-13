@@ -91,6 +91,13 @@ function pcd_load_editor_template() {
     $linkedin_text = isset($options['linkedin_text']) ? $options['linkedin_text'] : '';
     $social_icon_font_size = isset($options['social_icon_font_size']) ? intval($options['social_icon_font_size']) : 14;
 
+    // Background color & gradient
+    $card_bg_color = isset($options['card_bg_color']) ? $options['card_bg_color'] : '';
+    $card_bg_gradient_enable = isset($options['card_bg_gradient_enable']) ? $options['card_bg_gradient_enable'] : false;
+    $card_bg_gradient_color1 = isset($options['card_bg_gradient_color1']) ? $options['card_bg_gradient_color1'] : '#667eea';
+    $card_bg_gradient_color2 = isset($options['card_bg_gradient_color2']) ? $options['card_bg_gradient_color2'] : '#764ba2';
+    $card_bg_gradient_direction = isset($options['card_bg_gradient_direction']) ? $options['card_bg_gradient_direction'] : '135deg';
+
     // Template colors
     $kalbela_bg_color = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color'] : '#cc0000';
     $news24_title_color = isset($options['news24_text_color']) ? $options['news24_text_color'] : '#FFD700';
