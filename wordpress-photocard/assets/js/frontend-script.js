@@ -25,7 +25,12 @@
     // ===== FONT SIZE SLIDER =====
     $("#pcd-font-size-slider").on("input", function () {
       const fontSize = $(this).val()
+      // Update the title container font-size
       $("#pcd-adjustable-title").css("font-size", fontSize + "px")
+      // Also update any colored spans inside
+      $("#pcd-adjustable-title span").each(function() {
+        $(this).css("font-size", fontSize + "px")
+      })
       $("#pcd-font-size-value").text(fontSize + "px")
     })
 
@@ -33,6 +38,9 @@
     $("#pcd-line-height-slider").on("input", function () {
       const lineHeight = $(this).val()
       $("#pcd-adjustable-title").css("line-height", lineHeight)
+      $("#pcd-adjustable-title span").each(function() {
+        $(this).css("line-height", lineHeight)
+      })
       $("#pcd-line-height-value").text(lineHeight)
     })
 
@@ -55,14 +63,24 @@
       e.preventDefault()
       isBold = !isBold
       $(this).toggleClass("active", isBold)
-      $("#pcd-adjustable-title").css("font-weight", isBold ? "900" : "700")
+      var weight = isBold ? "900" : "700"
+      $("#pcd-adjustable-title").css("font-weight", weight)
+      // Also update spans inside
+      $("#pcd-adjustable-title span").each(function() {
+        $(this).css("font-weight", weight)
+      })
     })
 
     $("#pcd-italic-btn").on("click", function (e) {
       e.preventDefault()
       isItalic = !isItalic
       $(this).toggleClass("active", isItalic)
-      $("#pcd-adjustable-title").css("font-style", isItalic ? "italic" : "normal")
+      var style = isItalic ? "italic" : "normal"
+      $("#pcd-adjustable-title").css("font-style", style)
+      // Also update spans inside
+      $("#pcd-adjustable-title span").each(function() {
+        $(this).css("font-style", style)
+      })
     })
 
     // ===== FONT SELECTOR =====
@@ -70,13 +88,14 @@
       const font = $(this).val()
       const fontStack = "'" + font + "', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif"
       $("#pcd-adjustable-title").css("font-family", fontStack)
+      // Also update spans inside
+      $("#pcd-adjustable-title span").each(function() {
+        $(this).css("font-family", fontStack)
+      })
       // Also update date and other text elements on the card
       $(".pcd-photocard").find("[style*='font-family']").each(function() {
-        if (!$(this).is("#pcd-adjustable-title")) {
-          const currentStyle = $(this).attr("style")
-          if (currentStyle) {
-            $(this).css("font-family", fontStack)
-          }
+        if (!$(this).is("#pcd-adjustable-title") && !$(this).closest("#pcd-adjustable-title").length) {
+          $(this).css("font-family", fontStack)
         }
       })
     })
@@ -88,6 +107,19 @@
       updateLineColorInputs()
     })
 
+    // ===== Get current title styles =====
+    function getCurrentTitleStyles() {
+      const $title = $("#pcd-adjustable-title")
+      return {
+        fontSize: $title.css("font-size"),
+        lineHeight: $title.css("line-height"),
+        fontFamily: $title.css("font-family"),
+        fontWeight: isBold ? "900" : $title.css("font-weight"),
+        fontStyle: isItalic ? "italic" : $title.css("font-style"),
+        textShadow: $title.css("text-shadow") || "3px 3px 8px rgba(0,0,0,0.7)"
+      }
+    }
+
     // ===== LINE-WISE COLOR SYSTEM =====
     function updateLineColorInputs() {
       const titleText = $("#pcd-title-editor").val()
@@ -96,8 +128,12 @@
       container.empty()
 
       if (lines.length <= 1) {
+        // Single line - show a single color picker
         container.html(
-          '<p style="font-size: 12px; color: #94a3b8; margin: 0;">একাধিক লাইন লিখলে প্রতিটি লাইনের জন্য আলাদা কালার সেট করতে পারবেন।</p>'
+          '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
+            '<input type="color" class="pcd-line-color" data-line="0" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
+            '<span style="font-size: 12px; color: #64748b;">টাইটেল কালার পরিবর্তন করুন</span>' +
+          '</div>'
         )
         return
       }
@@ -106,7 +142,7 @@
         const shortLine = line.length > 20 ? line.substring(0, 20) + "..." : line
         container.append(
           '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
-            '<input type="color" class="pcd-line-color" data-line="' + index + '" value="#FFD700" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
+            '<input type="color" class="pcd-line-color" data-line="' + index + '" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
             '<span style="font-size: 12px; color: #64748b; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">লাইন ' + (index + 1) + ': ' + shortLine + '</span>' +
           '</div>'
         )
@@ -120,16 +156,26 @@
       const titleText = $("#pcd-title-editor").val()
       const lines = titleText.split("\n").filter((l) => l.trim() !== "")
       const $title = $("#pcd-adjustable-title")
+      const styles = getCurrentTitleStyles()
 
-      if (lines.length <= 1) return
+      if (lines.length <= 1) {
+        // Single line - just change color, keep text as text node
+        const colorInput = $(".pcd-line-color[data-line='0']")
+        const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
+        const text = lines.length === 1 ? lines[0] : $title.text().trim()
+        $title.html(
+          '<span style="color: ' + color + '; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + ';">' +
+          $("<span>").text(text).html() +
+          '</span>'
+        )
+        return
+      }
 
       let html = ""
       lines.forEach((line, index) => {
         const colorInput = $(`.pcd-line-color[data-line="${index}"]`)
         const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
-        const fontWeight = isBold ? "font-weight: 900;" : ""
-        const fontStyle = isItalic ? "font-style: italic;" : ""
-        html += '<span style="color: ' + color + '; ' + fontWeight + fontStyle + '">' + $("<span>").text(line).html() + "</span><br>"
+        html += '<span style="color: ' + color + '; font-size: ' + styles.fontSize + '; line-height: ' + styles.lineHeight + '; font-family: ' + styles.fontFamily + '; font-weight: ' + styles.fontWeight + '; font-style: ' + styles.fontStyle + '; display: block;">' + $("<span>").text(line).html() + "</span>"
       })
 
       $title.html(html)
@@ -198,7 +244,7 @@
       })
 
       // Wait for reflow
-      await new Promise(r => setTimeout(r, 150))
+      await new Promise(r => setTimeout(r, 200))
 
       const canvas = await html2canvas(el, {
         scale: quality,
