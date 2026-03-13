@@ -69,6 +69,9 @@ if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !emp
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 15;
 $_social_icon_size = max(12, $_social_font_size + 1);
+
+// Title color - jugantor uses green by default but respect custom setting
+$_title_color = isset($title_text_color) && $title_text_color !== '#ffffff' ? $title_text_color : $jg_green;
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; <?php echo $_bg_style; ?> padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; <?php echo $_border_style; ?>">
     
@@ -115,7 +118,7 @@ $_social_icon_size = max(12, $_social_font_size + 1);
 
     <!-- Title on off-white bg with green top border -->
     <div style="background: #f0efe8; padding: <?php echo (18 - $_title_offset); ?>px 35px <?php echo (8 + $_details_offset); ?>px; flex-shrink: 0; border-top: 5px solid <?php echo esc_attr($jg_green); ?>;">
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($jg_green); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
             <?php echo esc_html($post_title); ?>
         </div>
         <?php if ($show_details_button): ?>

@@ -10,6 +10,9 @@ $bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : $plugin_url . 'ass
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 
+// Title color
+$_title_color = isset($title_text_color) ? $title_text_color : '#ffffff';
+
 // Background color
 $_kb_bg = '#6b0000';
 if (!empty($card_bg_color)) $_kb_bg = $card_bg_color;
@@ -69,6 +72,9 @@ if ($_border_radius > 0) {
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 16;
 $_social_icon_size = max(14, $_social_font_size + 2);
+
+// Date position
+$_date_position = isset($date_position) ? $date_position : 'right';
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; <?php echo $_bg_style; ?> <?php echo $_border_style; ?>">
     
@@ -93,7 +99,7 @@ $_social_icon_size = max(14, $_social_font_size + 2);
 
     <!-- Date -->
     <?php if ($enable_date): ?>
-    <div style="position: absolute; top: 25px; <?php echo ($date_position === 'right') ? 'right: 30px;' : (($date_position === 'center') ? 'left: 50%; transform: translateX(-50%);' : 'left: 30px;'); ?> z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+    <div style="position: absolute; top: 25px; <?php echo ($_date_position === 'right') ? 'right: 30px;' : (($_date_position === 'center') ? 'left: 50%; transform: translateX(-50%);' : 'left: 30px;'); ?> z-index: 10; color: #ffffff; font-size: 34px; font-weight: 700; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
         <?php echo esc_html($formatted_date); ?>
     </div>
     <?php endif; ?>
@@ -103,7 +109,7 @@ $_social_icon_size = max(14, $_social_font_size + 2);
 
         <!-- Title -->
         <div style="padding: <?php echo (10 - $_title_offset); ?>px 40px 0;">
-            <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.4);">
+            <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.4);">
                 <?php echo esc_html($post_title); ?>
             </div>
         </div>

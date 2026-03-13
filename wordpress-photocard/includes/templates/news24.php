@@ -12,6 +12,12 @@ $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_content_top = 540 + $_title_offset;
 
+// Title color - use settings title_text_color if news24_text_color not explicitly set
+$_title_color = $news24_title_color;
+if (isset($title_text_color) && $title_text_color !== '#ffffff') {
+    $_title_color = $title_text_color;
+}
+
 // Background color
 $_n24_bg = '#1a0505';
 if (!empty($card_bg_color)) $_n24_bg = $card_bg_color;
@@ -71,6 +77,9 @@ if ($_border_radius > 0) {
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 17;
 $_social_icon_size = max(14, $_social_font_size + 3);
+
+// Date position
+$_date_position = isset($date_position) ? $date_position : 'right';
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; <?php echo $_bg_style; ?> <?php echo $_border_style; ?>">
     
@@ -95,8 +104,8 @@ $_social_icon_size = max(14, $_social_font_size + 3);
 
     <!-- Date Badge -->
     <?php if ($enable_date): ?>
-    <div style="position: absolute; right: 0px; bottom: 350px; z-index: 10;">
-        <span style="display: inline-block; color: #ffffff; font-size: 28px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 14px 50px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px; clip-path: polygon(60px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 60px);">
+    <div style="position: absolute; <?php echo ($_date_position === 'left') ? 'left: 0px;' : 'right: 0px;'; ?> bottom: 350px; z-index: 10;">
+        <span style="display: inline-block; color: #ffffff; font-size: 28px; font-weight: 700; background: <?php echo esc_attr($news24_date_bg); ?>; padding: 14px 50px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px; <?php echo ($_date_position === 'left') ? 'clip-path: polygon(0% 0%, calc(100% - 60px) 0%, 100% 100%, 0% 100%);' : 'clip-path: polygon(60px 0%, 100% 0%, 100% 100%, 0% 100%);'; ?>">
             <?php echo esc_html($formatted_date); ?>
         </span>
     </div>
@@ -106,7 +115,7 @@ $_social_icon_size = max(14, $_social_font_size + 3);
     <div style="position: absolute; top: <?php echo $_content_top; ?>px; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 30px;">
 
         <!-- Title -->
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($news24_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 50px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 50px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; overflow-wrap: break-word; text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
             <?php echo esc_html($post_title); ?>
         </div>
 

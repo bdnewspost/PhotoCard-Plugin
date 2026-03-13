@@ -69,6 +69,12 @@ if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !emp
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 15;
 $_social_icon_size = max(12, $_social_font_size + 1);
+
+// Title color
+$_title_color = isset($title_text_color) ? $title_text_color : '#ffffff';
+
+// Date position
+$_date_position = isset($date_position) ? $date_position : 'right';
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; <?php echo $_bg_style; ?> padding: 0; position: relative; overflow: hidden; box-sizing: border-box; <?php echo $_border_style; ?>">
     
@@ -111,7 +117,7 @@ $_social_icon_size = max(12, $_social_font_size + 1);
     <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; flex-direction: column; padding-bottom: <?php echo ($show_facebook || $show_youtube || $show_website || $show_instagram || $show_linkedin) ? '0' : (20 + $_details_offset) . 'px'; ?>;">
         
         <!-- Title -->
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 35px; margin-top: <?php echo -$_title_offset; ?>px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; padding: 0 35px; margin-top: <?php echo -$_title_offset; ?>px; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">
             <?php echo esc_html($post_title); ?>
         </div>
 
