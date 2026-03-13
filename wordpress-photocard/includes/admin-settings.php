@@ -101,6 +101,7 @@ function pcd_sanitize_settings($input) {
 
     // Domain text for templates
     $sanitized['domain_text'] = isset($input['domain_text']) ? sanitize_text_field($input['domain_text']) : '';
+    $sanitized['show_domain'] = !empty($input['show_domain']) ? true : false;
 
     // Kalbela
     $sanitized['kalbela_bg_color'] = isset($input['kalbela_bg_color']) ? sanitize_hex_color($input['kalbela_bg_color']) : '#cc0000';
