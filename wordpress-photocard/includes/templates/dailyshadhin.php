@@ -8,7 +8,7 @@
 if (!defined('ABSPATH')) exit;
 
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
-$bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : '';
+$bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : $plugin_url . 'assets/images/dailyshadhin-bg.png';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_domain_text = isset($domain_text) ? $domain_text : '';
