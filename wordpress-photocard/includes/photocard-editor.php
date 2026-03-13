@@ -47,6 +47,7 @@ function pcd_load_editor_template() {
     $details_bottom_offset = isset($options['details_bottom_offset']) ? intval($options['details_bottom_offset']) : 0;
     $custom_bg_image = isset($options['custom_bg_image']) ? $options['custom_bg_image'] : '';
     $domain_text = isset($options['domain_text']) ? $options['domain_text'] : '';
+    $show_domain = isset($options['show_domain']) ? $options['show_domain'] : true;
 
     // Social
     $show_facebook = isset($options['show_facebook']) ? $options['show_facebook'] : false;
@@ -82,7 +83,7 @@ function pcd_load_editor_template() {
         <title>Photocard - <?php echo esc_html($post_title); ?></title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=Tiro+Bangla&family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Mina:wght@400;700&family=Atma:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700;800;900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
         <?php wp_head(); ?>
     </head>
     <body class="pcd-editor-page">

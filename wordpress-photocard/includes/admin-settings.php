@@ -101,6 +101,7 @@ function pcd_sanitize_settings($input) {
 
     // Domain text for templates
     $sanitized['domain_text'] = isset($input['domain_text']) ? sanitize_text_field($input['domain_text']) : '';
+    $sanitized['show_domain'] = !empty($input['show_domain']) ? true : false;
 
     // Kalbela
     $sanitized['kalbela_bg_color'] = isset($input['kalbela_bg_color']) ? sanitize_hex_color($input['kalbela_bg_color']) : '#cc0000';
@@ -181,6 +182,7 @@ function pcd_settings_page() {
         'show_linkedin' => false,
         'custom_bg_image' => '',
         'domain_text' => '',
+        'show_domain' => true,
         'kalbela_bg_color' => '#cc0000',
         'news24_bg_color' => '#FFD700',
         'news24_text_color' => '#000000',
@@ -264,11 +266,27 @@ function pcd_settings_page() {
                             <?php endif; ?>
                         </td>
                     </tr>
+                </table>
+            </div>
+
+            <!-- Domain Name (Daily Shadhin etc.) -->
+            <div id="pcd-domain-section" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px; display: none;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🌐 ডোমেইন/ব্র্যান্ড নাম</h2>
+                <table class="form-table">
                     <tr>
                         <th scope="row"><label for="domain_text">ডোমেইন/ওয়েবসাইট নাম</label></th>
                         <td>
                             <input type="text" name="pcd_settings[domain_text]" id="domain_text" value="<?php echo esc_attr($options['domain_text']); ?>" class="regular-text" placeholder="example.com">
-                            <p class="description">Daily Shadhin সহ কিছু টেমপ্লেটে বটমে ডোমেইন নাম দেখাবে।</p>
+                            <p class="description">Daily Shadhin টেমপ্লেটের বটম বারের মাঝখানে এই নাম দেখাবে।</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">ডোমেইন দেখান</th>
+                        <td>
+                            <label class="pcd-toggle-label">
+                                <input type="checkbox" name="pcd_settings[show_domain]" value="1" <?php checked(isset($options['show_domain']) ? $options['show_domain'] : true, true); ?>>
+                                <strong>ডোমেইন নাম দেখান</strong>
+                            </label>
                         </td>
                     </tr>
                 </table>
@@ -335,12 +353,21 @@ function pcd_settings_page() {
                     <tr>
                         <th scope="row"><label for="title_font_family">টাইটেল ফন্ট</label></th>
                         <td>
-                            <select name="pcd_settings[title_font_family]" id="title_font_family" class="regular-text">
+                            <select name="pcd_settings[title_font_family]" id="title_font_family" class="regular-text" style="font-size: 15px;">
                                 <option value="Noto Sans Bengali" <?php selected($options['title_font_family'], 'Noto Sans Bengali'); ?>>Noto Sans Bengali</option>
                                 <option value="Hind Siliguri" <?php selected($options['title_font_family'], 'Hind Siliguri'); ?>>Hind Siliguri</option>
                                 <option value="Tiro Bangla" <?php selected($options['title_font_family'], 'Tiro Bangla'); ?>>Tiro Bangla</option>
-                                <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial</option>
+                                <option value="Baloo Da 2" <?php selected($options['title_font_family'], 'Baloo Da 2'); ?>>Baloo Da 2 (রাউন্ড ও ফ্রেন্ডলি)</option>
+                                <option value="Galada" <?php selected($options['title_font_family'], 'Galada'); ?>>Galada (ক্যালিগ্রাফি স্টাইল)</option>
+                                <option value="Mina" <?php selected($options['title_font_family'], 'Mina'); ?>>Mina (ক্লিন ও মডার্ন)</option>
+                                <option value="Atma" <?php selected($options['title_font_family'], 'Atma'); ?>>Atma (হ্যান্ডরিটেন স্টাইল)</option>
+                                <option value="Anek Bangla" <?php selected($options['title_font_family'], 'Anek Bangla'); ?>>Anek Bangla (প্রফেশনাল)</option>
+                                <option value="Noto Serif Bengali" <?php selected($options['title_font_family'], 'Noto Serif Bengali'); ?>>Noto Serif Bengali (সেরিফ/ক্লাসিক)</option>
+                                <option value="Mukta" <?php selected($options['title_font_family'], 'Mukta'); ?>>Mukta (লাইটওয়েট)</option>
+                                <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial (English)</option>
+                                <option value="Georgia" <?php selected($options['title_font_family'], 'Georgia'); ?>>Georgia (English Serif)</option>
                             </select>
+                            <p class="description">বাংলা টাইটেলের জন্য সুন্দর ফন্ট সিলেক্ট করুন। সেভ করলে ফটোকার্ডে এই ফন্ট ব্যবহৃত হবে।</p>
                         </td>
                     </tr>
                     <tr>
@@ -525,6 +552,19 @@ function pcd_settings_page() {
                 $('#pcd-reset-form').submit();
             }
         });
+
+        // Template-specific sections visibility
+        function updateTemplateSections() {
+            var tpl = $('#photocard_template').val();
+            // Show domain section only for dailyshadhin
+            if (tpl === 'dailyshadhin') {
+                $('#pcd-domain-section').show();
+            } else {
+                $('#pcd-domain-section').hide();
+            }
+        }
+        updateTemplateSections();
+        $('#photocard_template').on('change', updateTemplateSections);
     });
     </script>
     <?php

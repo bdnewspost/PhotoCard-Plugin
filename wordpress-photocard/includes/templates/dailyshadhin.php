@@ -10,6 +10,7 @@ $bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : '';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 $_domain_text = isset($domain_text) ? $domain_text : '';
+$_show_domain = isset($show_domain) ? $show_domain : true;
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; padding: 0; position: relative; overflow: hidden; box-sizing: border-box; background: #1a1a2e;">
     
@@ -54,7 +55,7 @@ $_domain_text = isset($domain_text) ? $domain_text : '';
             <?php endif; ?>
 
             <!-- Domain - Center -->
-            <?php if (!empty($_domain_text)): ?>
+            <?php if ($_show_domain && !empty($_domain_text)): ?>
             <div style="color: #FFD700; font-size: 26px; font-weight: 800; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
                 <?php echo esc_html($_domain_text); ?>
             </div>
