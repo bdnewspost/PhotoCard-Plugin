@@ -249,9 +249,34 @@ function pcd_settings_page() {
                 </table>
             </div>
 
+            <!-- Background Image Upload -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🖼️ ব্যাকগ্রাউন্ড ইমেজ</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="custom_bg_image">কাস্টম ব্যাকগ্রাউন্ড ইমেজ</label></th>
+                        <td>
+                            <input type="text" name="pcd_settings[custom_bg_image]" id="custom_bg_image" value="<?php echo esc_url($options['custom_bg_image']); ?>" class="regular-text">
+                            <button type="button" class="button pcd-upload-background">ইমেজ আপলোড করুন</button>
+                            <p class="description">একটি কাস্টম ব্যাকগ্রাউন্ড/বর্ডার ইমেজ আপলোড করুন। এটি সিলেক্ট করা টেমপ্লেটের ডিফল্ট ব্যাকগ্রাউন্ড ইমেজ রিপ্লেস করবে। (1080x1080 PNG রেকমেন্ডেড)</p>
+                            <?php if (!empty($options['custom_bg_image'])): ?>
+                                <div class="pcd-background-preview"><img src="<?php echo esc_url($options['custom_bg_image']); ?>" alt="Background Preview"></div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="domain_text">ডোমেইন/ওয়েবসাইট নাম</label></th>
+                        <td>
+                            <input type="text" name="pcd_settings[domain_text]" id="domain_text" value="<?php echo esc_attr($options['domain_text']); ?>" class="regular-text" placeholder="example.com">
+                            <p class="description">Daily Shadhin সহ কিছু টেমপ্লেটে বটমে ডোমেইন নাম দেখাবে।</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
             <!-- Logo & Date -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🖼️ লোগো ও তারিখ</h2>
+                <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🏷️ লোগো ও তারিখ</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row"><label for="watermark_logo">লোগো আপলোড</label></th>

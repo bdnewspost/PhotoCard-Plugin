@@ -61,7 +61,12 @@
       backgroundUploader.on("select", () => {
         var attachment = backgroundUploader.state().get("selection").first().toJSON()
 
-        $("#background_image").val(attachment.url)
+        // Support both old background_image and new custom_bg_image fields
+        if ($("#custom_bg_image").length > 0) {
+          $("#custom_bg_image").val(attachment.url)
+        } else {
+          $("#background_image").val(attachment.url)
+        }
 
         var $preview = $(".pcd-background-preview")
         if ($preview.length === 0) {

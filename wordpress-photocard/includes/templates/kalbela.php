@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) exit;
 
 $kalbela_bg = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color'] : '#cc0000';
 $plugin_url = plugin_dir_url(dirname(dirname(__FILE__)));
-$bg_image_url = $plugin_url . 'assets/images/kalbela-bg.png';
+$bg_image_url = !empty($custom_bg_image) ? $custom_bg_image : $plugin_url . 'assets/images/kalbela-bg.png';
 $_title_offset = isset($title_top_offset) ? intval($title_top_offset) : 0;
 $_details_offset = isset($details_bottom_offset) ? intval($details_bottom_offset) : 0;
 ?>
