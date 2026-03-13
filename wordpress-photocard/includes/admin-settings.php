@@ -790,17 +790,6 @@ function pcd_settings_page() {
             borderUploader.open();
         });
 
-        // Template-specific sections
-        function updateTemplateSections() {
-            var tpl = $('#photocard_template').val();
-            if (tpl === 'dailyshadhin') {
-                $('#pcd-domain-section').show();
-            } else {
-                $('#pcd-domain-section').hide();
-            }
-        }
-        updateTemplateSections();
-        $('#photocard_template').on('change', updateTemplateSections);
     });
     </script>
     <?php
