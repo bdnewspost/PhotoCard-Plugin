@@ -55,7 +55,7 @@ $_show_domain = isset($show_domain) ? $show_domain : true;
             <?php endif; ?>
 
             <!-- Domain - Center -->
-            <?php if (!empty($_domain_text)): ?>
+            <?php if ($_show_domain && !empty($_domain_text)): ?>
             <div style="color: #FFD700; font-size: 26px; font-weight: 800; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
                 <?php echo esc_html($_domain_text); ?>
             </div>
