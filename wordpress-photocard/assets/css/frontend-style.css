@@ -370,6 +370,53 @@
   background: white;
 }
 
+/* Format Buttons (Bold/Italic) */
+.pcd-format-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.pcd-format-btn {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.pcd-format-btn:hover {
+  border-color: #667eea;
+  background: #eef2ff;
+}
+
+.pcd-format-btn.active {
+  border-color: #667eea;
+  background: #667eea;
+  color: white;
+}
+
+/* Editor Header */
+.pcd-editor-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pcd-editor-subtitle {
+  color: #64748b;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
 /* Line Colors */
 #pcd-line-colors-container {
   display: flex;
