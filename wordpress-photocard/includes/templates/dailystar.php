@@ -121,7 +121,7 @@ $_title_color = isset($title_text_color) ? $title_text_color : '#ffffff';
 
     <!-- Navy Title Footer -->
     <div style="background: <?php echo esc_attr($ds_navy); ?>; padding: <?php echo (22 - $_title_offset); ?>px 35px <?php echo (10 + $_details_offset); ?>px; flex-shrink: 0;">
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: #ffffff; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 800; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 800; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
             <?php echo esc_html($post_title); ?>
         </div>
 

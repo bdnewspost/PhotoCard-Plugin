@@ -118,7 +118,7 @@ $_title_color = isset($title_text_color) && $title_text_color !== '#ffffff' ? $t
 
     <!-- Title on off-white bg with green top border -->
     <div style="background: #f0efe8; padding: <?php echo (18 - $_title_offset); ?>px 35px <?php echo (8 + $_details_offset); ?>px; flex-shrink: 0; border-top: 5px solid <?php echo esc_attr($jg_green); ?>;">
-        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($jg_green); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
+        <div id="pcd-adjustable-title" class="pcd-title" style="color: <?php echo esc_attr($_title_color); ?>; font-size: <?php echo esc_attr($default_font_size); ?>px; line-height: <?php echo esc_attr($default_line_height); ?>; font-weight: 900; text-align: <?php echo esc_attr($title_alignment); ?>; font-family: '<?php echo esc_attr($title_font_family); ?>', 'Noto Sans Bengali', sans-serif; word-wrap: break-word;">
             <?php echo esc_html($post_title); ?>
         </div>
         <?php if ($show_details_button): ?>
