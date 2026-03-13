@@ -69,6 +69,11 @@ if (!empty($card_bg_gradient_enable) && !empty($card_bg_gradient_color1) && !emp
 // Social icon font size
 $_social_font_size = isset($social_icon_font_size) ? intval($social_icon_font_size) : 15;
 $_social_icon_size = max(12, $_social_font_size + 1);
+
+// Title color
+$_title_color = isset($title_text_color) ? $title_text_color : '#ffffff';
+
+// Date position - dailystar uses header layout, but respect logo_position for date side
 ?>
 <div class="pcd-photocard" data-language="<?php echo esc_attr($language); ?>" data-quality="<?php echo esc_attr($image_quality); ?>" style="width: 1080px; height: 1080px; <?php echo $_bg_style; ?> padding: 0; position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; <?php echo $_border_style; ?>">
     
