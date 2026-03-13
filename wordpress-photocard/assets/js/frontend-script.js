@@ -22,48 +22,155 @@
     updatePhotocardScale()
     $(window).on("resize", updatePhotocardScale)
 
-    // ===== Helper: get current styles =====
-    var isBold = false
-    var isItalic = false
+    // ===== TITLE STYLE STATE =====
+    const $title = $("#pcd-adjustable-title")
+    const baseFontWeight = $title.css("font-weight") || "700"
+    const baseFontStyle = $title.css("font-style") || "normal"
+
+    let isBold = false
+    let isItalic = false
+    let lineStyleState = []
+
+    function normalizeColor(color) {
+      if (!color) return "#ffffff"
+      const value = String(color).trim()
+
+      if (/^#([0-9a-f]{3})$/i.test(value)) {
+        return "#" + value.substring(1).split("").map((c) => c + c).join("").toLowerCase()
+      }
+
+      if (/^#([0-9a-f]{6})$/i.test(value)) {
+        return value.toLowerCase()
+      }
+
+      const rgbMatch = value.match(/^rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i)
+      if (rgbMatch) {
+        const toHex = (num) => {
+          const clamped = Math.max(0, Math.min(255, Number.parseInt(num, 10) || 0))
+          return clamped.toString(16).padStart(2, "0")
+        }
+        return `#${toHex(rgbMatch[1])}${toHex(rgbMatch[2])}${toHex(rgbMatch[3])}`
+      }
+
+      return "#ffffff"
+    }
+
+    function getTitleLines() {
+      const raw = ($("#pcd-title-editor").val() || "").replace(/\r/g, "")
+      const lines = raw.split("\n")
+      return lines.length ? lines : [""]
+    }
 
     function getCurrentTitleStyles() {
-      const $title = $("#pcd-adjustable-title")
       return {
         fontSize: $title.css("font-size"),
         lineHeight: $title.css("line-height"),
         fontFamily: $title.css("font-family"),
-        fontWeight: isBold ? "900" : ($title.css("font-weight") || "700"),
-        fontStyle: isItalic ? "italic" : ($title.css("font-style") || "normal"),
-        textShadow: $title.css("text-shadow") || "3px 3px 8px rgba(0,0,0,0.7)"
+        fontWeight: isBold ? "900" : baseFontWeight,
+        fontStyle: isItalic ? "italic" : baseFontStyle,
       }
     }
 
-    // ===== Helper: sync span styles =====
-    function syncSpanStyles(props) {
-      $("#pcd-adjustable-title span").each(function() {
-        const $s = $(this)
-        if (props.fontSize) $s.css("font-size", props.fontSize)
-        if (props.lineHeight) $s.css("line-height", props.lineHeight)
-        if (props.fontFamily) $s.css("font-family", props.fontFamily)
-        if (props.fontWeight !== undefined) $s.css("font-weight", props.fontWeight)
-        if (props.fontStyle !== undefined) $s.css("font-style", props.fontStyle)
+    function ensureLineState(lines) {
+      const defaultColor = normalizeColor($title.css("color"))
+      lineStyleState = lines.map((_, index) => {
+        const previous = lineStyleState[index] || {}
+        return {
+          color: normalizeColor(previous.color || defaultColor),
+          bold: !!previous.bold,
+          italic: !!previous.italic,
+        }
+      })
+    }
+
+    function setLineButtonState($button, isActive) {
+      $button.toggleClass("active", isActive)
+      $button.css({
+        background: isActive ? "#667eea" : "#f1f5f9",
+        color: isActive ? "#fff" : "#000",
+      })
+    }
+
+    function renderTitleFromLineState() {
+      const lines = getTitleLines()
+      ensureLineState(lines)
+      const styles = getCurrentTitleStyles()
+
+      let html = ""
+      lines.forEach((line, index) => {
+        const lineState = lineStyleState[index]
+        const text = line.length ? $("<span>").text(line).html() : "&nbsp;"
+        html +=
+          '<span data-line="' +
+          index +
+          '" style="display:block;color:' +
+          lineState.color +
+          ';' +
+          (lineState.bold ? "font-weight:900;" : "") +
+          (lineState.italic ? "font-style:italic;" : "") +
+          '">' +
+          text +
+          "</span>"
+      })
+
+      $title.css({
+        "white-space": "pre-line",
+        "font-size": styles.fontSize,
+        "line-height": styles.lineHeight,
+        "font-family": styles.fontFamily,
+        "font-weight": styles.fontWeight,
+        "font-style": styles.fontStyle,
+      })
+
+      $title.html(html)
+    }
+
+    function updateLineColorInputs() {
+      const lines = getTitleLines()
+      ensureLineState(lines)
+      const $container = $("#pcd-line-colors-container")
+      $container.empty()
+
+      lines.forEach((line, index) => {
+        const state = lineStyleState[index]
+        const shortLine = line.trim().length === 0 ? "(খালি লাইন)" : (line.length > 22 ? line.substring(0, 22) + "..." : line)
+
+        const $row = $('<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"></div>')
+        const $color = $('<input type="color" class="pcd-line-color" style="width:30px;height:26px;padding:0;border:1px solid #e2e8f0;border-radius:4px;cursor:pointer;">')
+          .attr("data-line", index)
+          .val(state.color)
+
+        const $bold = $('<button type="button" class="pcd-line-bold-btn" style="padding:2px 8px;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;font-weight:900;font-size:12px;" title="Bold">B</button>')
+          .attr("data-line", index)
+
+        const $italic = $('<button type="button" class="pcd-line-italic-btn" style="padding:2px 8px;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;font-style:italic;font-size:12px;" title="Italic">I</button>')
+          .attr("data-line", index)
+
+        const $label = $('<span style="font-size:11px;color:#64748b;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>')
+          .text(`লাইন ${index + 1}: ${shortLine}`)
+
+        setLineButtonState($bold, state.bold)
+        setLineButtonState($italic, state.italic)
+
+        $row.append($color, $bold, $italic, $label)
+        $container.append($row)
       })
     }
 
     // ===== FONT SIZE SLIDER =====
     $("#pcd-font-size-slider").on("input", function () {
       const fontSize = $(this).val()
-      $("#pcd-adjustable-title").css("font-size", fontSize + "px")
-      syncSpanStyles({ fontSize: fontSize + "px" })
+      $title.css("font-size", fontSize + "px")
       $("#pcd-font-size-value").text(fontSize + "px")
+      renderTitleFromLineState()
     })
 
     // ===== LINE HEIGHT SLIDER =====
     $("#pcd-line-height-slider").on("input", function () {
       const lineHeight = $(this).val()
-      $("#pcd-adjustable-title").css("line-height", lineHeight)
-      syncSpanStyles({ lineHeight: lineHeight })
+      $title.css("line-height", lineHeight)
       $("#pcd-line-height-value").text(lineHeight)
+      renderTitleFromLineState()
     })
 
     // ===== TITLE ALIGNMENT =====
@@ -73,7 +180,7 @@
       const align = $(this).data("align")
       $(".pcd-align-btn").removeClass("active")
       $(this).addClass("active")
-      $("#pcd-adjustable-title").css("text-align", align)
+      $title.css("text-align", align)
       return false
     })
 
@@ -82,124 +189,72 @@
       e.preventDefault()
       isBold = !isBold
       $(this).toggleClass("active", isBold)
-      var weight = isBold ? "900" : "700"
-      $("#pcd-adjustable-title").css("font-weight", weight)
-      syncSpanStyles({ fontWeight: weight })
+      $title.css("font-weight", isBold ? "900" : baseFontWeight)
+      renderTitleFromLineState()
     })
 
     $("#pcd-italic-btn").on("click", function (e) {
       e.preventDefault()
       isItalic = !isItalic
       $(this).toggleClass("active", isItalic)
-      var style = isItalic ? "italic" : "normal"
-      $("#pcd-adjustable-title").css("font-style", style)
-      syncSpanStyles({ fontStyle: style })
+      $title.css("font-style", isItalic ? "italic" : baseFontStyle)
+      renderTitleFromLineState()
     })
 
     // ===== FONT SELECTOR =====
     $("#pcd-font-selector").on("change", function () {
       const font = $(this).val()
       const fontStack = "'" + font + "', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif"
-      $("#pcd-adjustable-title").css("font-family", fontStack)
-      syncSpanStyles({ fontFamily: fontStack })
+      $title.css("font-family", fontStack)
+
       $(".pcd-photocard").find("[style*='font-family']").each(function() {
         if (!$(this).is("#pcd-adjustable-title") && !$(this).closest("#pcd-adjustable-title").length) {
           $(this).css("font-family", fontStack)
         }
       })
+
+      renderTitleFromLineState()
     })
 
     // ===== TITLE TEXT EDITOR =====
     $("#pcd-title-editor").on("input", function () {
-      const newTitle = $(this).val()
-      $("#pcd-adjustable-title").text(newTitle)
       updateLineColorInputs()
+      renderTitleFromLineState()
     })
 
     // ===== LINE-WISE COLOR + BOLD/ITALIC SYSTEM =====
-    function updateLineColorInputs() {
-      const titleText = $("#pcd-title-editor").val()
-      const lines = titleText.split("\n").filter((l) => l.trim() !== "")
-      const container = $("#pcd-line-colors-container")
-      container.empty()
+    $(document).on("input change", ".pcd-line-color", function() {
+      const lineIndex = Number.parseInt($(this).attr("data-line"), 10)
+      if (Number.isNaN(lineIndex) || !lineStyleState[lineIndex]) return
+      lineStyleState[lineIndex].color = normalizeColor($(this).val())
+      renderTitleFromLineState()
+    })
 
-      if (lines.length <= 1) {
-        container.html(
-          '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
-            '<input type="color" class="pcd-line-color" data-line="0" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
-            '<button type="button" class="pcd-line-bold-btn" data-line="0" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 900; font-size: 13px;" title="Bold">B</button>' +
-            '<button type="button" class="pcd-line-italic-btn" data-line="0" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-style: italic; font-size: 13px;" title="Italic">I</button>' +
-            '<span style="font-size: 12px; color: #64748b;">টাইটেল কালার পরিবর্তন করুন</span>' +
-          '</div>'
-        )
-        return
-      }
-
-      lines.forEach((line, index) => {
-        const shortLine = line.length > 20 ? line.substring(0, 20) + "..." : line
-        container.append(
-          '<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">' +
-            '<input type="color" class="pcd-line-color" data-line="' + index + '" value="#ffffff" style="width: 30px; height: 26px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">' +
-            '<button type="button" class="pcd-line-bold-btn" data-line="' + index + '" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-weight: 900; font-size: 12px;" title="Bold">B</button>' +
-            '<button type="button" class="pcd-line-italic-btn" data-line="' + index + '" style="padding: 2px 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-style: italic; font-size: 12px;" title="Italic">I</button>' +
-            '<span style="font-size: 11px; color: #64748b; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">লাইন ' + (index + 1) + ': ' + shortLine + '</span>' +
-          '</div>'
-        )
-      })
-    }
-
-    updateLineColorInputs()
-
-    // Toggle active state for line bold/italic buttons
     $(document).on("click", ".pcd-line-bold-btn", function(e) {
       e.preventDefault()
-      $(this).toggleClass("active")
-      $(this).css("background", $(this).hasClass("active") ? "#667eea" : "#f1f5f9")
-      $(this).css("color", $(this).hasClass("active") ? "#fff" : "#000")
+      const lineIndex = Number.parseInt($(this).attr("data-line"), 10)
+      if (Number.isNaN(lineIndex) || !lineStyleState[lineIndex]) return
+      lineStyleState[lineIndex].bold = !lineStyleState[lineIndex].bold
+      setLineButtonState($(this), lineStyleState[lineIndex].bold)
+      renderTitleFromLineState()
     })
 
     $(document).on("click", ".pcd-line-italic-btn", function(e) {
       e.preventDefault()
-      $(this).toggleClass("active")
-      $(this).css("background", $(this).hasClass("active") ? "#667eea" : "#f1f5f9")
-      $(this).css("color", $(this).hasClass("active") ? "#fff" : "#000")
+      const lineIndex = Number.parseInt($(this).attr("data-line"), 10)
+      if (Number.isNaN(lineIndex) || !lineStyleState[lineIndex]) return
+      lineStyleState[lineIndex].italic = !lineStyleState[lineIndex].italic
+      setLineButtonState($(this), lineStyleState[lineIndex].italic)
+      renderTitleFromLineState()
     })
 
-    // ===== APPLY LINE COLORS + BOLD/ITALIC =====
-    $("#pcd-apply-line-colors").on("click", function () {
-      const titleText = $("#pcd-title-editor").val()
-      const lines = titleText.split("\n").filter((l) => l.trim() !== "")
-      const $title = $("#pcd-adjustable-title")
-      const styles = getCurrentTitleStyles()
-      var baseStyle = "font-size: " + styles.fontSize + "; line-height: " + styles.lineHeight + "; font-family: " + styles.fontFamily + ";"
-
-      function esc(t) { return $("<span>").text(t).html() }
-
-      if (lines.length <= 1) {
-        const colorInput = $(".pcd-line-color[data-line='0']")
-        const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
-        const isBoldLine = $(".pcd-line-bold-btn[data-line='0']").hasClass("active")
-        const isItalicLine = $(".pcd-line-italic-btn[data-line='0']").hasClass("active")
-        const weight = isBoldLine ? "900" : styles.fontWeight
-        const fStyle = isItalicLine ? "italic" : styles.fontStyle
-        const text = lines.length === 1 ? lines[0] : $title.text().trim()
-        $title.html('<span style="color: ' + color + '; ' + baseStyle + ' font-weight: ' + weight + '; font-style: ' + fStyle + ';">' + esc(text) + '</span>')
-        return
-      }
-
-      let html = ""
-      lines.forEach((line, index) => {
-        const colorInput = $(`.pcd-line-color[data-line="${index}"]`)
-        const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
-        const isBoldLine = $(`.pcd-line-bold-btn[data-line="${index}"]`).hasClass("active")
-        const isItalicLine = $(`.pcd-line-italic-btn[data-line="${index}"]`).hasClass("active")
-        const weight = isBoldLine ? "900" : styles.fontWeight
-        const fStyle = isItalicLine ? "italic" : styles.fontStyle
-        html += '<span style="color: ' + color + '; ' + baseStyle + ' font-weight: ' + weight + '; font-style: ' + fStyle + '; display: block;">' + esc(line) + "</span>"
-      })
-
-      $title.html(html)
+    $("#pcd-apply-line-colors").on("click", function (e) {
+      e.preventDefault()
+      renderTitleFromLineState()
     })
+
+    updateLineColorInputs()
+    renderTitleFromLineState()
 
     // ===== COPY LINK =====
     $("#pcd-copy-link-button").on("click", function (e) {

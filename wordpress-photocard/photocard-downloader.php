@@ -82,6 +82,7 @@ function pcd_activate_plugin() {
         'watermark_logo' => $default_logo,
         'logo_position' => 'left',
         'enable_date' => true,
+        'show_weekday' => true,
         'date_position' => 'right',
         'enable_logo' => true,
         'show_details_button' => true,

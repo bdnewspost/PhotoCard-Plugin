@@ -610,6 +610,15 @@ function pcd_settings_page() {
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row">বার দেখান</th>
+                        <td>
+                            <label class="pcd-toggle-label">
+                                <input type="checkbox" name="pcd_settings[show_weekday]" value="1" <?php checked($options['show_weekday'], true); ?>>
+                                <strong>তারিখের সাথে সপ্তাহের বার দেখান</strong>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><label for="date_position">তারিখ পজিশন</label></th>
                         <td>
                             <select name="pcd_settings[date_position]" id="date_position" class="regular-text">
