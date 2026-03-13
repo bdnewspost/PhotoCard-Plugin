@@ -33,6 +33,7 @@ function pcd_load_editor_template() {
 
     $watermark_logo = isset($options['watermark_logo']) ? $options['watermark_logo'] : '';
     $enable_date = isset($options['enable_date']) ? $options['enable_date'] : true;
+    $show_weekday = isset($options['show_weekday']) ? $options['show_weekday'] : true;
     $enable_logo = isset($options['enable_logo']) ? $options['enable_logo'] : true;
     $show_details_button = isset($options['show_details_button']) ? $options['show_details_button'] : true;
     $details_button_text = isset($options['details_button_text']) ? $options['details_button_text'] : 'বিস্তারিত কমেন্টে';
@@ -102,7 +103,7 @@ function pcd_load_editor_template() {
     $kalbela_bg_color = isset($options['kalbela_bg_color']) ? $options['kalbela_bg_color'] : '#cc0000';
     $news24_title_color = isset($options['news24_text_color']) ? $options['news24_text_color'] : '#FFD700';
 
-    $formatted_date = pcd_format_date_by_language($current_date, $day_of_week, $language);
+    $formatted_date = pcd_format_date_by_language($current_date, $day_of_week, $language, $show_weekday);
 
     // Template file path
     $template_file = plugin_dir_path(dirname(__FILE__)) . 'includes/templates/' . $template . '.php';
@@ -278,7 +279,7 @@ function pcd_load_editor_template() {
     <?php
 }
 
-function pcd_format_date_by_language($date_string, $day_of_week, $language) {
+function pcd_format_date_by_language($date_string, $day_of_week, $language, $show_weekday = true) {
     $date_parts = explode(' ', $date_string);
 
     if (count($date_parts) < 3) {
@@ -298,12 +299,18 @@ function pcd_format_date_by_language($date_string, $day_of_week, $language) {
                 'October' => 'অক্টোবর', 'November' => 'নভেম্বর', 'December' => 'ডিসেম্বর'
             );
             $bengali_numbers = array('0' => '০', '1' => '১', '2' => '২', '3' => '৩', '4' => '৪', '5' => '৫', '6' => '৬', '7' => '৭', '8' => '৮', '9' => '৯');
+            $bengali_weekdays = array(
+                'Saturday' => 'শনিবার', 'Sunday' => 'রবিবার', 'Monday' => 'সোমবার',
+                'Tuesday' => 'মঙ্গলবার', 'Wednesday' => 'বুধবার', 'Thursday' => 'বৃহস্পতিবার', 'Friday' => 'শুক্রবার'
+            );
 
             $bn_day = strtr($day, $bengali_numbers);
             $bn_month = isset($bengali_months[$month]) ? $bengali_months[$month] : $month;
             $bn_year = strtr($year, $bengali_numbers);
+            $bn_weekday = isset($bengali_weekdays[$day_of_week]) ? $bengali_weekdays[$day_of_week] : $day_of_week;
 
-            return $bn_day . ' ' . $bn_month . ', ' . $bn_year;
+            $bn_date = $bn_day . ' ' . $bn_month . ', ' . $bn_year;
+            return $show_weekday ? $bn_date . ', ' . $bn_weekday : $bn_date;
 
         case 'hindi':
             $hindi_months = array(
@@ -313,15 +320,21 @@ function pcd_format_date_by_language($date_string, $day_of_week, $language) {
                 'October' => 'अक्टूबर', 'November' => 'नवम्बर', 'December' => 'दिसम्बर'
             );
             $hindi_numbers = array('0' => '०', '1' => '१', '2' => '२', '3' => '३', '4' => '४', '5' => '५', '6' => '६', '7' => '७', '8' => '८', '9' => '९');
+            $hindi_weekdays = array(
+                'Saturday' => 'शनिवार', 'Sunday' => 'रविवार', 'Monday' => 'सोमवार',
+                'Tuesday' => 'मंगलवार', 'Wednesday' => 'बुधवार', 'Thursday' => 'गुरुवार', 'Friday' => 'शुक्रवार'
+            );
 
             $hi_day = strtr($day, $hindi_numbers);
             $hi_month = isset($hindi_months[$month]) ? $hindi_months[$month] : $month;
             $hi_year = strtr($year, $hindi_numbers);
+            $hi_weekday = isset($hindi_weekdays[$day_of_week]) ? $hindi_weekdays[$day_of_week] : $day_of_week;
 
-            return $hi_day . ' ' . $hi_month . ' ' . $hi_year;
+            $hi_date = $hi_day . ' ' . $hi_month . ' ' . $hi_year;
+            return $show_weekday ? $hi_date . ', ' . $hi_weekday : $hi_date;
 
         default:
-            return $date_string;
+            return $show_weekday ? $date_string . ', ' . $day_of_week : $date_string;
     }
 }
 ?>

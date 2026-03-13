@@ -69,6 +69,7 @@ function pcd_sanitize_settings($input) {
 
     // Date
     $sanitized['enable_date'] = !empty($input['enable_date']) ? true : false;
+    $sanitized['show_weekday'] = !empty($input['show_weekday']) ? true : false;
     $sanitized['date_position'] = isset($input['date_position']) ? sanitize_text_field($input['date_position']) : 'right';
 
     // Display
@@ -217,6 +218,7 @@ function pcd_settings_page() {
         'watermark_logo' => '',
         'logo_position' => 'left',
         'enable_date' => true,
+        'show_weekday' => true,
         'date_position' => 'right',
         'enable_logo' => true,
         'show_details_button' => true,
@@ -604,6 +606,15 @@ function pcd_settings_page() {
                             <label class="pcd-toggle-label">
                                 <input type="checkbox" name="pcd_settings[enable_date]" value="1" <?php checked($options['enable_date'], true); ?>>
                                 <strong>তারিখ দেখান</strong>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">বার দেখান</th>
+                        <td>
+                            <label class="pcd-toggle-label">
+                                <input type="checkbox" name="pcd_settings[show_weekday]" value="1" <?php checked($options['show_weekday'], true); ?>>
+                                <strong>তারিখের সাথে সপ্তাহের বার দেখান</strong>
                             </label>
                         </td>
                     </tr>

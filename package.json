@@ -6,6 +6,6 @@
   "scripts": {
     "build": "mkdir -p dist && cp index.html dist/index.html",
     "build:dev": "mkdir -p dist && cp index.html dist/index.html",
-    "dev": "echo 'WordPress plugin - open in WordPress admin'"
+    "dev": "sh -c 'python3 -m http.server \"${npm_config_port:-8080}\"'"
   }
 }
