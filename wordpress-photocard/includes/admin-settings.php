@@ -222,6 +222,7 @@ function pcd_settings_page() {
                                 <option value="dailystar" <?php selected($options['photocard_template'], 'dailystar'); ?>>Daily Star - ডার্ক নেভি প্রফেশনাল স্টাইল</option>
                                 <option value="jugantor" <?php selected($options['photocard_template'], 'jugantor'); ?>>যুগান্তর - গ্রিন অ্যাকসেন্ট স্টাইল</option>
                                 <option value="samakal" <?php selected($options['photocard_template'], 'samakal'); ?>>সমকাল - মেরুন এলিগ্যান্ট স্টাইল</option>
+                                <option value="dailyshadhin" <?php selected($options['photocard_template'], 'dailyshadhin'); ?>>Daily Shadhin - মডার্ন বটম বার স্টাইল</option>
                                 <?php
                                 // Auto-detect any additional templates
                                 $known = array('news24', 'kalbela', 'prothomalo', 'dailystar', 'jugantor', 'samakal');
