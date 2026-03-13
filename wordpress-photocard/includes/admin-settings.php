@@ -218,6 +218,7 @@ function pcd_settings_page() {
         'watermark_logo' => '',
         'logo_position' => 'left',
         'enable_date' => true,
+        'show_weekday' => true,
         'date_position' => 'right',
         'enable_logo' => true,
         'show_details_button' => true,
