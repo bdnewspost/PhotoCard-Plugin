@@ -16,7 +16,6 @@
       const scaledHeight = cardWidth * scale
 
       $card.css("--pcd-scale", scale)
-      // Set wrapper height to match scaled card
       $wrapper.css("height", scaledHeight + "px")
     }
 
@@ -46,6 +45,24 @@
       $(this).addClass("active")
       $("#pcd-adjustable-title").css("text-align", align)
       return false
+    })
+
+    // ===== BOLD / ITALIC =====
+    var isBold = false
+    var isItalic = false
+
+    $("#pcd-bold-btn").on("click", function (e) {
+      e.preventDefault()
+      isBold = !isBold
+      $(this).toggleClass("active", isBold)
+      $("#pcd-adjustable-title").css("font-weight", isBold ? "900" : "700")
+    })
+
+    $("#pcd-italic-btn").on("click", function (e) {
+      e.preventDefault()
+      isItalic = !isItalic
+      $(this).toggleClass("active", isItalic)
+      $("#pcd-adjustable-title").css("font-style", isItalic ? "italic" : "normal")
     })
 
     // ===== TITLE TEXT EDITOR =====
@@ -93,8 +110,10 @@
       let html = ""
       lines.forEach((line, index) => {
         const colorInput = $(`.pcd-line-color[data-line="${index}"]`)
-        const color = colorInput.length > 0 ? colorInput.val() : "#000000"
-        html += '<span style="color: ' + color + ';">' + $("<span>").text(line).html() + "</span><br>"
+        const color = colorInput.length > 0 ? colorInput.val() : "#ffffff"
+        const fontWeight = isBold ? "font-weight: 900;" : ""
+        const fontStyle = isItalic ? "font-style: italic;" : ""
+        html += '<span style="color: ' + color + '; ' + fontWeight + fontStyle + '">' + $("<span>").text(line).html() + "</span><br>"
       })
 
       $title.html(html)
@@ -163,7 +182,7 @@
       })
 
       // Wait for reflow
-      await new Promise(r => setTimeout(r, 100))
+      await new Promise(r => setTimeout(r, 150))
 
       const canvas = await html2canvas(el, {
         scale: quality,
@@ -256,10 +275,10 @@
     $("#pcd-download-button").on("click", function (e) {
       e.preventDefault()
       const $button = $(this)
-      const originalText = $button.text()
+      const originalText = $button.html()
 
       $button.prop("disabled", true)
-      $button.html('ডাউনলোড হচ্ছে... <span class="pcd-loading"></span>')
+      $button.html('⬇️ ডাউনলোড হচ্ছে... <span class="pcd-loading"></span>')
 
       const $credit = $(".pcd-footer-credit")
       const creditDisplay = $credit.css("display")
@@ -279,7 +298,7 @@
             URL.revokeObjectURL(url)
 
             $button.prop("disabled", false)
-            $button.text(originalText)
+            $button.html(originalText)
             alert("ফটোকার্ড সফলভাবে ডাউনলোড হয়েছে!")
           }, "image/png")
         })
@@ -287,7 +306,7 @@
           console.error("Error:", error)
           $credit.css("display", creditDisplay)
           $button.prop("disabled", false)
-          $button.text(originalText)
+          $button.html(originalText)
           alert("ফটোকার্ড তৈরি করতে সমস্যা হয়েছে।")
         })
     })
