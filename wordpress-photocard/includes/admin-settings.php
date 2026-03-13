@@ -766,72 +766,148 @@ function pcd_settings_page() {
                 </table>
             </div>
 
-            <!-- Template Colors -->
+            <!-- Template Colors (conditional) -->
             <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
                 <h2 class="pcd-section-title" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">🎨 টেমপ্লেট কালার কাস্টমাইজ</h2>
-                <table class="form-table">
-                    <tr><th scope="row" colspan="2"><strong>— কালবেলা টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="kalbela_bg_color">হেডার/ফুটার কালার</label></th>
-                        <td><input type="text" name="pcd_settings[kalbela_bg_color]" id="kalbela_bg_color" value="<?php echo esc_attr($options['kalbela_bg_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
+                <p class="description" style="margin-bottom: 15px;">শুধুমাত্র সিলেক্ট করা টেমপ্লেটের কালার সেটিংস দেখানো হচ্ছে। খালি রাখলে ডিফল্ট কালার ব্যবহার হবে।</p>
 
-                    <tr><th scope="row" colspan="2"><strong>— News24 টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="news24_bg_color">টাইটেল বার কালার</label></th>
-                        <td><input type="text" name="pcd_settings[news24_bg_color]" id="news24_bg_color" value="<?php echo esc_attr($options['news24_bg_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="news24_text_color">টাইটেল টেক্সট কালার</label></th>
-                        <td><input type="text" name="pcd_settings[news24_text_color]" id="news24_text_color" value="<?php echo esc_attr($options['news24_text_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="news24_date_bg">তারিখ ব্যাজ কালার</label></th>
-                        <td><input type="text" name="pcd_settings[news24_date_bg]" id="news24_date_bg" value="<?php echo esc_attr($options['news24_date_bg']); ?>" class="pcd-color-picker"></td>
-                    </tr>
+                <!-- Kalbela -->
+                <div class="pcd-template-colors" data-template="kalbela" style="display:none;">
+                    <h3 style="color:#cc0000; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">🔴 কালবেলা টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="kalbela_bg_color">হেডার/ফুটার কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[kalbela_bg_color]" id="kalbela_bg_color" value="<?php echo esc_attr($options['kalbela_bg_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #cc0000</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                    <tr><th scope="row" colspan="2"><strong>— Daily Star টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="dailystar_navy_color">নেভি কালার</label></th>
-                        <td><input type="text" name="pcd_settings[dailystar_navy_color]" id="dailystar_navy_color" value="<?php echo esc_attr($options['dailystar_navy_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="dailystar_accent_color">অ্যাকসেন্ট কালার</label></th>
-                        <td><input type="text" name="pcd_settings[dailystar_accent_color]" id="dailystar_accent_color" value="<?php echo esc_attr($options['dailystar_accent_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
+                <!-- News24 -->
+                <div class="pcd-template-colors" data-template="news24" style="display:none;">
+                    <h3 style="color:#d4a000; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">🟡 News24 টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="news24_bg_color">টাইটেল বার কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[news24_bg_color]" id="news24_bg_color" value="<?php echo esc_attr($options['news24_bg_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #FFD700</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="news24_text_color">টাইটেল টেক্সট কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[news24_text_color]" id="news24_text_color" value="<?php echo esc_attr($options['news24_text_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #000000</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="news24_date_bg">তারিখ ব্যাজ কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[news24_date_bg]" id="news24_date_bg" value="<?php echo esc_attr($options['news24_date_bg']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #1a5fb4</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                    <tr><th scope="row" colspan="2"><strong>— প্রথম আলো টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="prothomalo_primary_color">প্রাইমারি কালার</label></th>
-                        <td><input type="text" name="pcd_settings[prothomalo_primary_color]" id="prothomalo_primary_color" value="<?php echo esc_attr($options['prothomalo_primary_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
+                <!-- Daily Star -->
+                <div class="pcd-template-colors" data-template="dailystar" style="display:none;">
+                    <h3 style="color:#003366; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">🔵 Daily Star টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="dailystar_navy_color">নেভি কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[dailystar_navy_color]" id="dailystar_navy_color" value="<?php echo esc_attr($options['dailystar_navy_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #003366</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="dailystar_accent_color">অ্যাকসেন্ট কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[dailystar_accent_color]" id="dailystar_accent_color" value="<?php echo esc_attr($options['dailystar_accent_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #cc0000</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                    <tr><th scope="row" colspan="2"><strong>— যুগান্তর টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="jugantor_green_color">গ্রিন কালার</label></th>
-                        <td><input type="text" name="pcd_settings[jugantor_green_color]" id="jugantor_green_color" value="<?php echo esc_attr($options['jugantor_green_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="jugantor_gold_color">গোল্ড কালার</label></th>
-                        <td><input type="text" name="pcd_settings[jugantor_gold_color]" id="jugantor_gold_color" value="<?php echo esc_attr($options['jugantor_gold_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
+                <!-- Prothom Alo -->
+                <div class="pcd-template-colors" data-template="prothomalo" style="display:none;">
+                    <h3 style="color:#e42313; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">🔴 প্রথম আলো টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="prothomalo_primary_color">প্রাইমারি কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[prothomalo_primary_color]" id="prothomalo_primary_color" value="<?php echo esc_attr($options['prothomalo_primary_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #e42313</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                    <tr><th scope="row" colspan="2"><strong>— সমকাল টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="samakal_primary_color">প্রাইমারি কালার</label></th>
-                        <td><input type="text" name="pcd_settings[samakal_primary_color]" id="samakal_primary_color" value="<?php echo esc_attr($options['samakal_primary_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="samakal_dark_color">ডার্ক কালার</label></th>
-                        <td><input type="text" name="pcd_settings[samakal_dark_color]" id="samakal_dark_color" value="<?php echo esc_attr($options['samakal_dark_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
+                <!-- Jugantor -->
+                <div class="pcd-template-colors" data-template="jugantor" style="display:none;">
+                    <h3 style="color:#006838; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">🟢 যুগান্তর টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="jugantor_green_color">গ্রিন কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[jugantor_green_color]" id="jugantor_green_color" value="<?php echo esc_attr($options['jugantor_green_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #006838</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="jugantor_gold_color">গোল্ড কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[jugantor_gold_color]" id="jugantor_gold_color" value="<?php echo esc_attr($options['jugantor_gold_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #d4a827</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                    <tr><th scope="row" colspan="2"><strong>— Daily Shadhin টেমপ্লেট —</strong></th></tr>
-                    <tr>
-                        <th scope="row"><label for="dailyshadhin_bg_color">ব্যাকগ্রাউন্ড কালার</label></th>
-                        <td><input type="text" name="pcd_settings[dailyshadhin_bg_color]" id="dailyshadhin_bg_color" value="<?php echo esc_attr($options['dailyshadhin_bg_color']); ?>" class="pcd-color-picker"></td>
-                    </tr>
-                </table>
+                <!-- Samakal -->
+                <div class="pcd-template-colors" data-template="samakal" style="display:none;">
+                    <h3 style="color:#FF6600; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">🟠 সমকাল টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="samakal_primary_color">প্রাইমারি কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[samakal_primary_color]" id="samakal_primary_color" value="<?php echo esc_attr($options['samakal_primary_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #FF6600</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="samakal_dark_color">ডার্ক কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[samakal_dark_color]" id="samakal_dark_color" value="<?php echo esc_attr($options['samakal_dark_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #1a1a1a</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Daily Shadhin -->
+                <div class="pcd-template-colors" data-template="dailyshadhin" style="display:none;">
+                    <h3 style="color:#8B0000; margin: 15px 0 10px; padding-top:10px; border-top: 1px solid #eee;">⬛ Daily Shadhin টেমপ্লেট কালার</h3>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><label for="dailyshadhin_bg_color">ব্যাকগ্রাউন্ড কালার</label></th>
+                            <td>
+                                <input type="text" name="pcd_settings[dailyshadhin_bg_color]" id="dailyshadhin_bg_color" value="<?php echo esc_attr($options['dailyshadhin_bg_color']); ?>" class="pcd-color-picker">
+                                <p class="description">ডিফল্ট: #1a0a0a</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- No template-specific colors message -->
+                <div class="pcd-template-colors-none" style="display:none; padding: 20px; text-align: center; color: #888; font-style: italic;">
+                    এই টেমপ্লেটের জন্য কোনো কাস্টম কালার সেটিংস নেই।
+                </div>
             </div>
 
             <!-- Social Media -->
@@ -911,6 +987,26 @@ function pcd_settings_page() {
             });
             borderUploader.open();
         });
+
+        // Template-specific color show/hide
+        function showTemplateColors() {
+            var selected = $('#photocard_template').val();
+            var knownTemplates = ['kalbela','news24','dailystar','prothomalo','jugantor','samakal','dailyshadhin'];
+            
+            $('.pcd-template-colors').hide();
+            $('.pcd-template-colors-none').hide();
+            
+            var $target = $('.pcd-template-colors[data-template="' + selected + '"]');
+            if ($target.length) {
+                $target.show();
+            } else {
+                $('.pcd-template-colors-none').show();
+            }
+        }
+        
+        // Run on load and on change
+        showTemplateColors();
+        $('#photocard_template').on('change', showTemplateColors);
 
     });
     </script>
