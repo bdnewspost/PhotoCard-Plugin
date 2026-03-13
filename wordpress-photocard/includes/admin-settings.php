@@ -335,12 +335,21 @@ function pcd_settings_page() {
                     <tr>
                         <th scope="row"><label for="title_font_family">টাইটেল ফন্ট</label></th>
                         <td>
-                            <select name="pcd_settings[title_font_family]" id="title_font_family" class="regular-text">
+                            <select name="pcd_settings[title_font_family]" id="title_font_family" class="regular-text" style="font-size: 15px;">
                                 <option value="Noto Sans Bengali" <?php selected($options['title_font_family'], 'Noto Sans Bengali'); ?>>Noto Sans Bengali</option>
                                 <option value="Hind Siliguri" <?php selected($options['title_font_family'], 'Hind Siliguri'); ?>>Hind Siliguri</option>
                                 <option value="Tiro Bangla" <?php selected($options['title_font_family'], 'Tiro Bangla'); ?>>Tiro Bangla</option>
-                                <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial</option>
+                                <option value="Baloo Da 2" <?php selected($options['title_font_family'], 'Baloo Da 2'); ?>>Baloo Da 2 (রাউন্ড ও ফ্রেন্ডলি)</option>
+                                <option value="Galada" <?php selected($options['title_font_family'], 'Galada'); ?>>Galada (ক্যালিগ্রাফি স্টাইল)</option>
+                                <option value="Mina" <?php selected($options['title_font_family'], 'Mina'); ?>>Mina (ক্লিন ও মডার্ন)</option>
+                                <option value="Atma" <?php selected($options['title_font_family'], 'Atma'); ?>>Atma (হ্যান্ডরিটেন স্টাইল)</option>
+                                <option value="Anek Bangla" <?php selected($options['title_font_family'], 'Anek Bangla'); ?>>Anek Bangla (প্রফেশনাল)</option>
+                                <option value="Noto Serif Bengali" <?php selected($options['title_font_family'], 'Noto Serif Bengali'); ?>>Noto Serif Bengali (সেরিফ/ক্লাসিক)</option>
+                                <option value="Mukta" <?php selected($options['title_font_family'], 'Mukta'); ?>>Mukta (লাইটওয়েট)</option>
+                                <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial (English)</option>
+                                <option value="Georgia" <?php selected($options['title_font_family'], 'Georgia'); ?>>Georgia (English Serif)</option>
                             </select>
+                            <p class="description">বাংলা টাইটেলের জন্য সুন্দর ফন্ট সিলেক্ট করুন। সেভ করলে ফটোকার্ডে এই ফন্ট ব্যবহৃত হবে।</p>
                         </td>
                     </tr>
                     <tr>
