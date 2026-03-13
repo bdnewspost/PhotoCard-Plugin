@@ -101,10 +101,6 @@ function pcd_sanitize_settings($input) {
     // Custom background image
     $sanitized['custom_bg_image'] = isset($input['custom_bg_image']) && !empty($input['custom_bg_image']) ? esc_url_raw($input['custom_bg_image']) : '';
 
-    // Domain text
-    $sanitized['domain_text'] = isset($input['domain_text']) ? sanitize_text_field($input['domain_text']) : '';
-    $sanitized['show_domain'] = !empty($input['show_domain']) ? true : false;
-
     // Featured Image settings
     $sanitized['fi_object_fit'] = isset($input['fi_object_fit']) ? sanitize_text_field($input['fi_object_fit']) : 'cover';
     $sanitized['fi_object_position'] = isset($input['fi_object_position']) ? sanitize_text_field($input['fi_object_position']) : 'center top';
