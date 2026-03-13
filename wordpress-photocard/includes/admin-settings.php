@@ -354,20 +354,44 @@ function pcd_settings_page() {
                         <th scope="row"><label for="title_font_family">টাইটেল ফন্ট</label></th>
                         <td>
                             <select name="pcd_settings[title_font_family]" id="title_font_family" class="regular-text" style="font-size: 15px;">
-                                <option value="Noto Sans Bengali" <?php selected($options['title_font_family'], 'Noto Sans Bengali'); ?>>Noto Sans Bengali</option>
-                                <option value="Hind Siliguri" <?php selected($options['title_font_family'], 'Hind Siliguri'); ?>>Hind Siliguri</option>
-                                <option value="Tiro Bangla" <?php selected($options['title_font_family'], 'Tiro Bangla'); ?>>Tiro Bangla</option>
-                                <option value="Baloo Da 2" <?php selected($options['title_font_family'], 'Baloo Da 2'); ?>>Baloo Da 2 (রাউন্ড ও ফ্রেন্ডলি)</option>
-                                <option value="Galada" <?php selected($options['title_font_family'], 'Galada'); ?>>Galada (ক্যালিগ্রাফি স্টাইল)</option>
-                                <option value="Mina" <?php selected($options['title_font_family'], 'Mina'); ?>>Mina (ক্লিন ও মডার্ন)</option>
-                                <option value="Atma" <?php selected($options['title_font_family'], 'Atma'); ?>>Atma (হ্যান্ডরিটেন স্টাইল)</option>
-                                <option value="Anek Bangla" <?php selected($options['title_font_family'], 'Anek Bangla'); ?>>Anek Bangla (প্রফেশনাল)</option>
-                                <option value="Noto Serif Bengali" <?php selected($options['title_font_family'], 'Noto Serif Bengali'); ?>>Noto Serif Bengali (সেরিফ/ক্লাসিক)</option>
-                                <option value="Mukta" <?php selected($options['title_font_family'], 'Mukta'); ?>>Mukta (লাইটওয়েট)</option>
-                                <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial (English)</option>
-                                <option value="Georgia" <?php selected($options['title_font_family'], 'Georgia'); ?>>Georgia (English Serif)</option>
+                                <optgroup label="🔤 Google Fonts — বাংলা">
+                                    <option value="Noto Sans Bengali" <?php selected($options['title_font_family'], 'Noto Sans Bengali'); ?>>Noto Sans Bengali (ডিফল্ট)</option>
+                                    <option value="Hind Siliguri" <?php selected($options['title_font_family'], 'Hind Siliguri'); ?>>Hind Siliguri</option>
+                                    <option value="Tiro Bangla" <?php selected($options['title_font_family'], 'Tiro Bangla'); ?>>Tiro Bangla</option>
+                                    <option value="Baloo Da 2" <?php selected($options['title_font_family'], 'Baloo Da 2'); ?>>Baloo Da 2 (রাউন্ড ও ফ্রেন্ডলি)</option>
+                                    <option value="Galada" <?php selected($options['title_font_family'], 'Galada'); ?>>Galada (ক্যালিগ্রাফি স্টাইল)</option>
+                                    <option value="Mina" <?php selected($options['title_font_family'], 'Mina'); ?>>Mina (ক্লিন ও মডার্ন)</option>
+                                    <option value="Atma" <?php selected($options['title_font_family'], 'Atma'); ?>>Atma (হ্যান্ডরিটেন স্টাইল)</option>
+                                    <option value="Anek Bangla" <?php selected($options['title_font_family'], 'Anek Bangla'); ?>>Anek Bangla (প্রফেশনাল)</option>
+                                    <option value="Noto Serif Bengali" <?php selected($options['title_font_family'], 'Noto Serif Bengali'); ?>>Noto Serif Bengali (সেরিফ/ক্লাসিক)</option>
+                                    <option value="Mukta" <?php selected($options['title_font_family'], 'Mukta'); ?>>Mukta (লাইটওয়েট)</option>
+                                    <option value="Charukola Ultra Light" <?php selected($options['title_font_family'], 'Charukola Ultra Light'); ?>>Charukola Ultra Light (ডেকোরেটিভ)</option>
+                                </optgroup>
+                                <optgroup label="🖥️ সিস্টেম ফন্ট — বাংলা (সার্ভারে ইনস্টল থাকলে কাজ করবে)">
+                                    <option value="SolaimanLipi" <?php selected($options['title_font_family'], 'SolaimanLipi'); ?>>SolaimanLipi (জনপ্রিয় বাংলা)</option>
+                                    <option value="Kalpurush" <?php selected($options['title_font_family'], 'Kalpurush'); ?>>Kalpurush (নিউজ স্টাইল)</option>
+                                    <option value="Vrinda" <?php selected($options['title_font_family'], 'Vrinda'); ?>>Vrinda (উইন্ডোজ ডিফল্ট বাংলা)</option>
+                                    <option value="Nikosh" <?php selected($options['title_font_family'], 'Nikosh'); ?>>Nikosh (সরকারি বাংলা ফন্ট)</option>
+                                    <option value="Siyam Rupali" <?php selected($options['title_font_family'], 'Siyam Rupali'); ?>>Siyam Rupali</option>
+                                    <option value="Shonar Bangla" <?php selected($options['title_font_family'], 'Shonar Bangla'); ?>>Shonar Bangla</option>
+                                    <option value="Bangla" <?php selected($options['title_font_family'], 'Bangla'); ?>>Bangla (macOS ডিফল্ট)</option>
+                                    <option value="Li Ador Noirrit" <?php selected($options['title_font_family'], 'Li Ador Noirrit'); ?>>Li Ador Noirrit</option>
+                                    <option value="Mukti" <?php selected($options['title_font_family'], 'Mukti'); ?>>Mukti (ওপেন সোর্স বাংলা)</option>
+                                    <option value="Ekushey Lohit" <?php selected($options['title_font_family'], 'Ekushey Lohit'); ?>>Ekushey Lohit</option>
+                                    <option value="Apona Lohit" <?php selected($options['title_font_family'], 'Apona Lohit'); ?>>Apona Lohit</option>
+                                    <option value="Akaash" <?php selected($options['title_font_family'], 'Akaash'); ?>>Akaash</option>
+                                    <option value="Lohit Bengali" <?php selected($options['title_font_family'], 'Lohit Bengali'); ?>>Lohit Bengali (Linux ডিফল্ট)</option>
+                                </optgroup>
+                                <optgroup label="🌐 English ফন্ট">
+                                    <option value="Arial" <?php selected($options['title_font_family'], 'Arial'); ?>>Arial</option>
+                                    <option value="Georgia" <?php selected($options['title_font_family'], 'Georgia'); ?>>Georgia (Serif)</option>
+                                    <option value="Poetsen One" <?php selected($options['title_font_family'], 'Poetsen One'); ?>>Poetsen One (Bold Display)</option>
+                                    <option value="Josefin Sans" <?php selected($options['title_font_family'], 'Josefin Sans'); ?>>Josefin Sans (Elegant)</option>
+                                    <option value="Blinker" <?php selected($options['title_font_family'], 'Blinker'); ?>>Blinker (Modern)</option>
+                                    <option value="Times New Roman" <?php selected($options['title_font_family'], 'Times New Roman'); ?>>Times New Roman (Classic)</option>
+                                </optgroup>
                             </select>
-                            <p class="description">বাংলা টাইটেলের জন্য সুন্দর ফন্ট সিলেক্ট করুন। সেভ করলে ফটোকার্ডে এই ফন্ট ব্যবহৃত হবে।</p>
+                            <p class="description">বাংলা টাইটেলের জন্য সুন্দর ফন্ট সিলেক্ট করুন। সিস্টেম ফন্ট ব্যবহার করতে হলে সার্ভারে বা ইউজারের ডিভাইসে ফন্টটি ইনস্টল থাকতে হবে।</p>
                         </td>
                     </tr>
                     <tr>

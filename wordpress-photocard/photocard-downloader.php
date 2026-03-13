@@ -185,7 +185,7 @@ add_action('wp_enqueue_scripts', 'pcd_frontend_enqueue_scripts');
 
 function pcd_frontend_enqueue_scripts() {
     if (is_single() || (isset($_GET['pcd_editor']) && $_GET['pcd_editor'] == '1')) {
-        wp_enqueue_style('pcd-google-fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=Tiro+Bangla&family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Mina:wght@400;700&family=Atma:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700;800;900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap', array(), PCD_VERSION);
+        wp_enqueue_style('pcd-google-fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=Tiro+Bangla&family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Mina:wght@400;700&family=Atma:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700;800;900&family=Mukta:wght@200;300;400;500;600;700;800&family=Charukola+Ultra+Light&family=Poetsen+One&family=Blinker:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&display=swap', array(), PCD_VERSION);
 
         wp_enqueue_style('pcd-frontend-style', PCD_PLUGIN_URL . 'assets/css/frontend-style.css', array(), PCD_VERSION);
         wp_enqueue_script('html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', array(), '1.4.1', true);
