@@ -65,6 +65,22 @@
       $("#pcd-adjustable-title").css("font-style", isItalic ? "italic" : "normal")
     })
 
+    // ===== FONT SELECTOR =====
+    $("#pcd-font-selector").on("change", function () {
+      const font = $(this).val()
+      const fontStack = "'" + font + "', 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif"
+      $("#pcd-adjustable-title").css("font-family", fontStack)
+      // Also update date and other text elements on the card
+      $(".pcd-photocard").find("[style*='font-family']").each(function() {
+        if (!$(this).is("#pcd-adjustable-title")) {
+          const currentStyle = $(this).attr("style")
+          if (currentStyle) {
+            $(this).css("font-family", fontStack)
+          }
+        }
+      })
+    })
+
     // ===== TITLE TEXT EDITOR =====
     $("#pcd-title-editor").on("input", function () {
       const newTitle = $(this).val()
